@@ -7,6 +7,110 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="img/logo horizontal.png" alt="logoweb" width="" height="30">
+            </a>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Buscar en la web" aria-label="Search">
+                <button type="submit" class="boton_busqueda">Buscar</button>
+            </form>
+            <div>
+                 <a class="navbar-brand" href="./feed.html">
+                      <img src="img/bell.png" alt="Bootstrap" width="" height="30">
+                </a>
+                <a class="navbar-brand" href="#">
+                    <img src="img/chat.png" alt="Bootstrap" width="" height="30">
+                </a>
+                <a class="navbar-brand" href="#">
+                    <img src="img/gear.png" alt="Bootstrap" width="" height="30">
+                </a>
+                <a class="navbar-brand" href="./index.html">
+                     <img src="img/user.png" alt="user" width="" height="30">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col_1">
+            <div class="sub_col"> 
+                <div class="sub_title">Titulo de opciones
+                    <ul>
+                        <p>
+                        <li>Opcion 1</li>
+                        <li>Opcion 2</li>
+                        <li>Opcion 3</li>
+                        <li>Opcion 4</li>
+                        </p>
+                    </ul>
+                </div>
+            </div>
+            <div class="sub_col"> 
+                <div class="sub_title">Opciones 2</div>
+            </div>
+        </div>
+        <div class="col_2">
+            <div class="sub_col"> 
+                <div class="sub_title">Post nuevo</div>
+                <div class="new_post">
+                    <div class="form-floating">
+                        <textarea cols="10" rows="10"
+                         class="form-control" placeholder="¿Que hay de nuevo viejo?" id="floatingTextarea"></textarea>
+                      </div>
+                    <button type="button" class="btn btn-primary">Publicar</button>
+                </div>
+            </div>
+            <div class="sub_col"> 
+                <div class="sub_title">Post Publicado</div>
+            </div>
+        </div>
+        <div class="col_3">
+             <!-- Amistades -->
+             <div class="sub_col">
+                <div class="sub_title">Peticiones de amistad</div>
+                <div class="friend_request">
+                    <div>
+                        <img class="icon_request" src="img/cara-hombre-sonriendo.webp" alt="icono usuario">
+                        <strong>José García</strong>
+                    </div>
+                    <button type="button" class="btn btn-success">Aceptar</button>
+                    <button type="button" class="btn btn-danger">Rechazar</button>
+                </div>
+                <div class="friend_request">
+                    <div>
+                        <img class="icon_request" src="img/mujer-rubia.webp" alt="icono usuario">
+                        <strong>Lucía Fernández</strong>
+                    </div>
+                    <button type="button" class="btn btn-success">Aceptar</button>
+                    <button type="button" class="btn btn-danger">Rechazar</button>
+                </div>
+                <div class="friend_request">
+                    <div>
+                        <img class="icon_request" src="img/rostro-mujer-adulta.webp" alt="icono usuario">
+                        <strong>María López</strong>
+                    </div>
+                    <button type="button" class="btn btn-success">Aceptar</button>
+                    <button type="button" class="btn btn-danger">Rechazar</button>
+                </div>
+            
+            </div>
+            <div class="sub_col">
+                <div class="sub_title">Solicitar amistad</div>
+                <div class="friend_request">
+                    <div>
+                        <img class="icon_request" src="img//hombre-maduro-guapo.webp" alt="icono usuario">
+                        <strong>Jesús M. González</strong>
+                    </div>
+                    <button type="button" class="btn btn-success">Enviar</button>
+                    <button type="button" class="btn btn-secondary">Descartar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+
 </body>
 </html>
