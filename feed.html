@@ -15,7 +15,7 @@
 <body>
     <nav class="navbar">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="./index.html">
                 <img src="img/logo horizontal.png" alt="logoweb" width="" height="30">
             </a>
             <form class="d-flex" role="search">
@@ -23,32 +23,41 @@
                 <button type="submit" class="boton_busqueda">Buscar</button>
             </form>
             <div>
-                <a class="navbar-brand" href="./feed.html">
-                    <img src="img/bell.png" alt="Bootstrap" width="" height="30">
+                 <a class="navbar-brand" href="./feed.html">
+                      <img src="img/bell.png" alt="Bootstrap" width="" height="30">
                 </a>
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="/amigos.html">
                     <img src="img/chat.png" alt="Bootstrap" width="" height="30">
                 </a>
                 <a class="navbar-brand" href="#">
                     <img src="img/gear.png" alt="Bootstrap" width="" height="30">
                 </a>
-                <a class="navbar-brand" href="./index.html">
-                    <img src="img/user.png" alt="user" width="" height="30">
+                <a class="navbar-brand" href="./perfil.html">
+                     <img src="img/user.png" alt="user" width="" height="30">
                 </a>
             </div>
         </div>
-    </nav>
 
     <div class="row">
         <div class="col_1">
             <div class="sub_col"> 
-                <div class="sub_title">Titulo de opciones
+                
+                <div class="sub_title"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                  </svg> Eventos
                     <ul>
                         <p>
-                        <li>Opcion 1</li>
-                        <li>Opcion 2</li>
-                        <li>Opcion 3</li>
-                        <li>Opcion 4</li>
+                            <li>Lorem ipsum </li>
+                            <p class="horario">mié., 15 de mar de 2023, 17:30 </p>  
+                       
+                            <li>Lorem ipsum </li>
+                            <p class="horario">jue., 16 de mar de 2023, 18:30 </p> 
+
+                            <li>Lorem ipsum </li>
+                            <p class="horario" >vie., 17 de mar de 2023, 19:30 </p> 
+
+                            <li>Lorem ipsum </li>
+                            <p class="horario">lun., 20 de mar de 2023, 17:30 </p> 
                         </p>
                     </ul>
                 </div>
@@ -58,18 +67,46 @@
             </div>
         </div>
         <div class="col_2">
+            <!-- Post -->
             <div class="sub_col"> 
                 <div class="sub_title">Post nuevo</div>
                 <div class="new_post">
                     <div class="form-floating">
-                        <textarea cols="10" rows="10" class="form-control" placeholder="¿Que hay de nuevo viejo?" id="floatingTextarea"></textarea>
+                        <textarea cols="8" rows="8" class="form-control" placeholder="¿Que hay de nuevo viejo?" id="floatingTextarea"></textarea>
                     </div>
                     <button type="button" class="btn btn-primary">Publicar</button>
                 </div>
             </div>
             <div class="sub_col"> 
-                <div class="sub_title">Post Publicado</div>
+                <div class="sub_title">Últimos Post publicados:</div>
+                <div class="card" style="width: 70rem;">
+                    <img class="card-img-top" src="./img/retrato-joven-rubio-mujer_273609-12060.avif" alt="Card image cap">
+                    <div class="card-body">
+                    <h5 class="card-title">Gema Fernández</h5>
+                    <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi quos iste adipisci eos. Quasi totam voluptas eum tenetur, optio est. Quo ex molestias laborum pariatur veritatis nulla asperiores minus? Nostrum. </p>
+                    <a href="#" class="btn btn-primary">Ir a su perfil</a>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 70rem;">
+                    <img class="card-img-top" src="./img/photo-1547425260-76bcadfb4f2c.jfif" alt="Card image cap">
+                    <div class="card-body">
+                    <h5 class="card-title">Luis Díaz</h5>
+                    <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi quos iste adipisci eos. Quasi totam voluptas eum tenetur, optio est. Quo ex molestias laborum pariatur veritatis nulla asperiores minus? Nostrum. </p>
+                    <a href="#" class="btn btn-primary">Ir a su perfil</a>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 70rem;">
+                    <img class="card-img-top" src="./img/las-10-cualidades-de-una-persona-mas-valoradas-0_ai1.webp" alt="Card image cap">
+                    <div class="card-body">
+                    <h5 class="card-title">Patricia Sánchez</h5>
+                    <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi quos iste adipisci eos. Quasi totam voluptas eum tenetur, optio est. Quo ex molestias laborum pariatur veritatis nulla asperiores minus? Nostrum. </p>
+                    <a href="#" class="btn btn-primary">Ir a su perfil</a>
+                    </div>
+                </div>
             </div>
+
         </div>
         <div class="col_3">
             <!-- Amistades -->
