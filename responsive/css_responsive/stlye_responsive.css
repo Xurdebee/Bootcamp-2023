@@ -1,0 +1,6 @@
+/* Navbar responsive */
+.nav-item a:hover{  
+    color: rgb(52, 112, 242);
+    font-weight: bold;
+    font-size: 20px;
+}
