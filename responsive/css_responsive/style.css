@@ -30,9 +30,11 @@
     border-radius: 50%;
 }
 
-/* prueba login */
+/*  login */
 .logo_login img {
     margin: auto;
     width: 80%;
     margin-bottom: 10%;
 }
+
+/* No responsive */
