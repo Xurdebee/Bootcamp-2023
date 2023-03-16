@@ -20,8 +20,8 @@
             <a class="navbar-brand" href="#"><img src="img/logo horizontal.png" alt="" height="40"></a>
             <form class="d-flex" role="search">
               <!-- Se muestra la barra en cualquier tamaño menos sm o xs -->
-                <input class="form-control ms d-none d-sm-block busqueda"" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-primary d-none d-sm-block"" type="submit">Search</button>
+                <input class="form-control ms d-none d-sm-block"" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-primary d-none d-sm-block" type="submit">Search</button>
             </form>
             <!-- boton colapsable -->
         <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,14 +61,34 @@
       </nav>
 
 
-    <h1>Probando la cabecera</h1>
-    <main class="container-fluid">
+    <h1>Probando LogIn</h1>
+    <main>
+      <div class="container-fluid">
         <div class="row">
-          <!-- d-none d-sm-block oculta el bloque/columna cuando la web está en tamaño sm o xs -->
-            <div class="col-3 color1 d-none d-sm-block">1</div>
-            <div class="col-6 color2">2</div>
-            <div class="col-3 color1">3</div>
+          <div class="col">
+            Column
+          </div>
+          <div class="col text-center">
+            <form>
+              <div class="mb-3">
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Usuario" aria-describedby="emailHelp">
+              </div>
+              <div class="mb-3">
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Recordarme en este equipo</label>
+              </div>
+              <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
+          </div>
+          <div class="col">
+            Column
+          </div>
         </div>
+      </div>     
+
     </main>
 
     <footer></footer>
