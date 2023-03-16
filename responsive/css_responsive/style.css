@@ -1,9 +1,16 @@
-/* Navbar responsive */
+*{
+    padding: 0px;
+    margin: 0px;
+}
+/* Navbar responsive Xurde */
 .nav-item a:hover{  
     color: rgb(52, 112, 242);
     font-weight: bold;
-    font-size: 20px;
+    font-size: 16px;
+    
 }
+
+/* Cambios de color para pruebas */
 .color1{
     background-color: aquamarine;
     height: 600px;
@@ -12,4 +19,20 @@
 .color2{
     background-color: whitesmoke;
     height: 600px;
+}
+
+.imagen_perfil{
+    width: 40%;
+    position: relative;
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border-radius: 50%;
+}
+
+/* prueba login */
+.logo_login img {
+    margin: auto;
+    width: 80%;
+    margin-bottom: 10%;
 }
