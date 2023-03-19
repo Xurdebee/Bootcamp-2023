@@ -13,12 +13,12 @@
 /* Cambios de color para pruebas */
 .color1{
     background-color: aquamarine;
-    height: 600px;
+    height: 700px;
 }
 
 .color2{
-    background-color: whitesmoke;
-    height: 600px;
+    background-color:lightblue;
+    height: 700px;
 }
 
 .imagen_perfil{
@@ -36,5 +36,3 @@
     width: 80%;
     margin-bottom: 10%;
 }
-
-/* No responsive */
