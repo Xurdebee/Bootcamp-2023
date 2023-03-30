@@ -1,3 +1,44 @@
+function fetchData(route) {
+  return fetch(`https://jsonplaceholder.typicode.com${route}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .catch(error => {
+      console.error('There was a problem with the API:', error);
+    });
+}
+
+fetchData('/todos')
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // const likeBtn = document.getElementById("boton_likes");
 // const likeCountElement = document.getElementById("like-count");
 // let likeCount = parseInt(likeCountElement.textContent);
