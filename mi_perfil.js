@@ -3,7 +3,7 @@
     //Usaremos un array de usuarios para comprobar la eliminación de uno
 
     
-// Creación de un array de usuarios y un usuario ficticio
+// Creación de un array de usuarios y un usuario nuevo
 let usuariosArray = [1, 2, 3, 4, 5, 6];
 const usuario = {
     id: 7,
@@ -20,7 +20,7 @@ botonBorrarCuenta.addEventListener("click", confirmarEliminarCuenta);
 
 function confirmarEliminarCuenta() {
     const confirmacion = confirm(
-        "¿Estás seguro de eliminar su cuenta?"
+        "¿Está seguro de eliminar su cuenta?"
     );
     if (confirmacion) {
         eliminarCuenta();
@@ -43,7 +43,6 @@ async function eliminarCuenta() {
         // En ese tiempo se verá los console.log del array
         await new Promise((resolve) => setTimeout(resolve, 5000));
         // Redireccionamos al usuario a la página de inicio de sesión
-
         window.location.href = "./index-responsive.html";
     } catch (error) {
         console.error(error);
