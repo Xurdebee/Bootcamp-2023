@@ -43,7 +43,7 @@ async function eliminarCuenta() {
         // En ese tiempo se verá los console.log del array
         await new Promise((resolve) => setTimeout(resolve, 5000));
         // Redireccionamos al usuario a la página de inicio de sesión
-        window.location.href = "./index-responsive.html";
+        window.location.href = 'https://www.uniovi.es/'
     } catch (error) {
         console.error(error);
     }
