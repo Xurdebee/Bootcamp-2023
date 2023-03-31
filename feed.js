@@ -1,17 +1,8 @@
 
-// const likeBtn = document.getElementById("boton_likes");
-// const likeCountElement = document.getElementById("like-count");
-// let likeCount = parseInt(likeCountElement.textContent);
-// likeBtn.addEventListener("click", function() {
-//   likeCount++;
-//   likeCountElement.textContent = likeCount.toString();
-// });
 
-// - Refactorizamos: 
-// accedemos al botón del HTML y al contador con el método getElementById y añadimos un escuchador de eventos 
-
+/*
   const likeBoton = document.getElementById("boton_likes");
-  const likeCountElement = document.getElementById("contador-likes");
+  const likeCountElement = document.getElementById("total-likes");
 // variable para almacenar la cantidad de likes:
  let likeCount = parseInt(likeCountElement.textContent); //Parseamos el contador de likes 
 
@@ -38,17 +29,17 @@
 //   likeBoton, likeCountElement, likeCount
 // }
 
+*/
 
 
 
 
-// codigo like Xurde
 
-/*
+
 var botonLikes = document.getElementById ("boton_likes");
 var totalLikes = document.getElementById ("total_likes");
 
-let cuentaLikes = 2; //likes ya acumulados en la publicación
+let cuentaLikes = 158; //likes ya acumulados en la publicación
 
 function actualizaLikes(){
     totalLikes.innerHTML = cuentaLikes + " Me gusta";
@@ -63,12 +54,14 @@ botonLikes.addEventListener("click", () => {
     if (interaccion == 0) { 
     interaccion++;
     cuentaLikes++;
-    botonLikes.style.backgroundColor = "#3FBEE7";
+    botonLikes.style.color = "white";
+    botonLikes.style.background = "red";
     }
     else{
         interaccion--;
         cuentaLikes--;
-        botonLikes.style.backgroundColor = "";
+        botonLikes.style.color = "";
+        botonLikes.style.background = ""
     }
     actualizaLikes();
 //////////////////////////////////
@@ -89,4 +82,3 @@ function getTotalLikes() {
         resolve(cuentaLikes)
     })
 }
-*/
