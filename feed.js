@@ -11,14 +11,17 @@ botonLikes.addEventListener("click", () => {
   if (interaccion == 0) { 
   interaccion++;
   cuentaLikes++;
-  botonLikes.style.color= "red";
+  botonLikes.style.backgroundColor = "red"
+  botonLikes.style.color ="white"
   }
   else{
       interaccion--;
       cuentaLikes--;
-      
+  botonLikes.style.backgroundColor = ""
+  botonLikes.style.color =""
   }
   totalLikes.innerHTML = cuentaLikes + " Me gusta";
+  
 
 //////////////////////////////////
   getTotalLikes(cuentaLikes)
