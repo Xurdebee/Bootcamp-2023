@@ -1,4 +1,3 @@
-// 
 
 // const likeBtn = document.getElementById("boton_likes");
 // const likeCountElement = document.getElementById("like-count");
@@ -11,12 +10,12 @@
 // - Refactorizamos: 
 // accedemos al botón del HTML y al contador con el método getElementById y añadimos un escuchador de eventos 
 
-const likeBoton = document.getElementById("boton_likes");
-const likeCountElement = document.getElementById("contador-likes");
+  const likeBoton = document.getElementById("boton_likes");
+  const likeCountElement = document.getElementById("contador-likes");
 // variable para almacenar la cantidad de likes:
-let likeCount = parseInt(likeCountElement.textContent); //Parseamos el contador de likes 
+ let likeCount = parseInt(likeCountElement.textContent); //Parseamos el contador de likes 
 
-likeBoton.addEventListener("click", () => { //escuchador para q se ejecute la función cuando se hace clic en el botón de likes
+ likeBoton.addEventListener("click", () => { //escuchador para q se ejecute la función cuando se hace clic en el botón de likes
   new Promise((resolve, reject) => {  //creamos promesa resolve-> éxito/ reject-> error 
     likeCount++; //se incrementa el nº likes de uno en uno 
     likeCountElement.textContent = likeCount.toString();
@@ -34,3 +33,7 @@ likeBoton.addEventListener("click", () => { //escuchador para q se ejecute la fu
     console.error(error);
   });
 });
+
+// export default {
+//   likeBoton, likeCountElement, likeCount
+// }

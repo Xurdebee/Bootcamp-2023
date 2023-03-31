@@ -1,30 +1,37 @@
-// ---------------- API 1
-const aplicacion = document.querySelector ('.container-API')
+const aplicacion = document.querySelector('.container-API');
 
-const url = 'https://jsonplaceholder.typicode.com/users'
+fetch('https://jsonplaceholder.typicode.com/comments')
+  .then((response) => response.json())
+  .then((data) => {
+    data.forEach((comment) => {
+      const card = document.createElement('div');
+      card.classList.add('card', 'h-100');
 
-fetch (url)
-.then(res => res.json())
-.then(data => {
-  data.forEach(usuario => {
-      console.log(usuario.name)
-      const p = document.createElement ('p') 
-      p.setAttribute('id', usuario.id)
-      p.innerHTML = usuario.name
-      p.addEventListener('click', function(){
-        window.location.href = `./index-responsive.html?id=${usuario.id}`
-      })
-      aplicacion.appendChild (p)
-  });
-      // console.log (data)
-})
-.catch(err => console.log(err))
+      const cardBody = document.createElement('div');
+      cardBody.classList.add('card-body', 'd-flex', 'flex-column', 'justify-content-center', 'align-items-center');
 
-// -------------API 2
-const aplicacion2 = document.querySelector ('.container-API-2')
-const getUrl = URLSearchParams(window.location.search)
-id = getUrl.get('id') 
-console.log(id)
+      const cardTitle = document.createElement('h5');
+      cardTitle.classList.add('card-title');
+      cardTitle.textContent = comment.name;
 
+      const cardText = document.createElement('p');
+      cardText.classList.add('card-text');
+      cardText.textContent = comment.body;
 
-  
+      const cardImg = document.createElement('img');
+      cardImg.classList.add('card-img-top');
+      cardImg.src = 'https://random.imagecdn.app/500/150';
+
+      cardBody.appendChild(cardTitle);
+      cardBody.appendChild(cardText);
+      card.appendChild(cardImg);
+      card.appendChild(cardBody);
+
+      card.addEventListener('click', () => {
+        window.location.href = `./index-responsive.html?id=${comment.id}`;
+      });
+
+      aplicacion.appendChild(card);
+    });
+  })
+  .catch((err) => console.log(err));
