@@ -1,88 +1,84 @@
-//Boton Like
+
+
+/*
+  const likeBoton = document.getElementById("boton_likes");
+  const likeCountElement = document.getElementById("total-likes");
+// variable para almacenar la cantidad de likes:
+ let likeCount = parseInt(likeCountElement.textContent); //Parseamos el contador de likes 
+
+ likeBoton.addEventListener("click", () => { //escuchador para q se ejecute la función cuando se hace clic en el botón de likes
+  new Promise((resolve, reject) => {  //creamos promesa resolve-> éxito/ reject-> error 
+    likeCount++; //se incrementa el nº likes de uno en uno 
+    likeCountElement.textContent = likeCount.toString();
+    if (likeCount) {
+      resolve("Like correctamente añadido"); // mensaje si se resuelve bien
+    } else {
+      reject("Error al añadir like"); // mensaje si se resuelve mal 
+    }
+  })
+//invocamos la función .addEventListener mediante los métodos Then y Catch
+  .then((message) => { // se ejecuta cuando la promesa sale bien 
+    console.log(message);
+  })
+  .catch((error) => { // se ejecuta cuando la promesa sale mal
+    console.error(error);
+  });
+});
+
+// export default {
+//   likeBoton, likeCountElement, likeCount
+// }
+
+*/
+
+
+
+
+
+
 var botonLikes = document.getElementById ("boton_likes");
 var totalLikes = document.getElementById ("total_likes");
 
-let cuentaLikes = 3; //likes ya acumulados en la publicación
+let cuentaLikes = 158; //likes ya acumulados en la publicación
 
-totalLikes.innerHTML = cuentaLikes + " Me gusta";
+function actualizaLikes(){
+    totalLikes.innerHTML = cuentaLikes + " Me gusta";
+    console.log (totalLikes.innerHTML)
+}
+
 let interaccion= 0
+actualizaLikes();
+
 
 botonLikes.addEventListener("click", () => {
-  if (interaccion == 0) { 
-  interaccion++;
-  cuentaLikes++;
-  botonLikes.style.backgroundColor = "red"
-  botonLikes.style.color ="white"
-  }
-  else{
-      interaccion--;
-      cuentaLikes--;
-  botonLikes.style.backgroundColor = ""
-  botonLikes.style.color =""
-  }
-  totalLikes.innerHTML = cuentaLikes + " Me gusta";
-  
-
+    if (interaccion == 0) { 
+    interaccion++;
+    cuentaLikes++;
+    botonLikes.style.color = "white";
+    botonLikes.style.background = "red";
+    }
+    else{
+        interaccion--;
+        cuentaLikes--;
+        botonLikes.style.color = "";
+        botonLikes.style.background = ""
+    }
+    actualizaLikes();
 //////////////////////////////////
-  getTotalLikes(cuentaLikes)
-      .then((response) => 
-          console.log(`La publicación tiene ${response} me gusta`))
-      .catch((error) => 
-          console.log("error"));
+    getTotalLikes(cuentaLikes)
+        .then((response) => 
+            console.log(`La publicación tiene ${response} me gusta`))
+        .catch((error) => 
+            console.log("error"));
 
 });
 
+
 function getTotalLikes() {
-  return new Promise((resolve, reject) => {
-      if (cuentaLikes == null) {
-          reject ("Error")
-      }
-      resolve(cuentaLikes)
-  })
+    return new Promise((resolve, reject) => {
+        if (cuentaLikes == null) {
+            reject ("Error")
+        }
+        resolve(cuentaLikes)
+    })
 }
-
-
-
-// // Solicitar amistad
-// function getCharacter(done){
-//   const results = fetch("https://rickandmortyapi.com/api/character/?page=1");
-//   results
-//       .then(response => response.json())
-//       .then(data=>{
-//           done(data)
-//       });
-//   }
-
-// getCharacter(data=>{
-
-// data.results.forEach(personaje=>{
-//   const amistades = document.createRange().createContextualFragment(` 
- 
-//       <div class="hstack gap-2 mt-2 mb-3">
-
-//           <div class="me-2">
-//               <a href="#"><img class="rounded-circle" src="${personaje.image}" height="50" alt=""></img></a>
-//           </div>
-          
-//           <div class="overflow-hidden">
-//               <a class="h6 mb-0" href="#!">${personaje.name}</a>
-//               <p class="mb-0 small text-truncate">${personaje.species}</p>
-//           </div>
-          
-//           <a class="btn btn-outline-primary ms-auto btn-sm" href="#">
-//               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-//                   <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-//               </svg>
-//           </a>
-//       </div>
-
-//       `);
-
-      
-//       const main =document.querySelector("article");
-//       main.append(amistades);
-
-// });
-
-//   });
-
