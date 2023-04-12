@@ -3,7 +3,7 @@ const aplicacion = document.querySelector('.container-API');
 fetch('https://jsonplaceholder.typicode.com/comments')
   .then((response) => response.json())
   .then((data) => {
-    data.forEach((comment) => {
+    data.slice(0, 3)/*muestra 3 primeros resultados del array data*/.forEach((comment) => {
       const card = document.createElement('div');
       card.classList.add("bg-light", "p-4", "rounded-3", "border", "border-1", "mb-4");
 
