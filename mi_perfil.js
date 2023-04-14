@@ -1,9 +1,12 @@
 //BOTÓN PARA ELIMINAR CUENTA
+//Tenemos un problema al implementar el botón que al implementarlo en este html no se ejecuta
+    //Por lo que creamos un pseudobotón a partir de un hipervínculo que redirija a la pantalla de login
+
 //Simulación de la eliminación del usuario al no poder usar fetch de momento
     //Usaremos un array de usuarios para comprobar la eliminación de uno
 
     
-// Creación de un array de usuarios y un usuario nuevo
+/*// Creación de un array de usuarios y un usuario nuevo
 let usuariosArray = [1, 2, 3, 4, 5, 6];
 const usuario = {
     id: 7,
@@ -47,6 +50,6 @@ async function eliminarCuenta() {
     } catch (error) {
         console.error(error);
     }
-}
+}*/
 
 
