@@ -24,7 +24,6 @@ card.setAttribute("id",comment.id)
       cardImg.classList.add('card-img-top');
       cardImg.src = 'https://random.imagecdn.app/500/250';
       cardImg.classList.add ("rounded-3", "d-flex");
-
       const buttons = document.createRange().createContextualFragment(` 
       
       
