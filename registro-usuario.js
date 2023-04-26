@@ -148,9 +148,9 @@ app.use(session({
 }));
 const connection1 = mysql.createConnection({
     host: 'localhost',
-    user: 'frank',
-    password: 'grupo13',
-    database: 'grupo13'
+    user: 'grupo6',
+    password: 'grupo6canva',
+    database: 'bd_short.sql'
 });
 connection1.connect();
 if (connection) { console.log('base de datos a perfil establecido') }
