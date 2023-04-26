@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const sequelize = require('./conexion_bd.js');
+const sequelize = require('../conexion_bd.js');
 
 async function findAllRows(){
 		sequelize.query("Select * from users", {type: sequelize.QueryTypes.SELECT})

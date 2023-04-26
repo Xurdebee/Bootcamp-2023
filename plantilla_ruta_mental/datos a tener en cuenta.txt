@@ -1,3 +1,10 @@
+para hacer funcionar esto en la ruta de vuestro sistema
+( C:\Users\xurde\Documents\GitHub\Red-social-grupo-6\plantilla_ruta_mental\back)
+escribir por terminal: npm i
+(tienen que estar el archivo package.json que idica las librerias que instala)
+
+
+
 front llama a una url del back. (carpeta routes)
 utilizar estructura users.js para llamar "amigos" o para modificarlos modificanto el metodo.
 
