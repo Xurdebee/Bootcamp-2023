@@ -9,7 +9,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'grupo6',
     password: 'canva',
-    database: ' '      // --> FALTA
+    database: 'bd_short.sql'     
 });
 // Conexión a la base de datos
 db.connect((err) => {
@@ -73,7 +73,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'grupo6',
     password: 'canva',
-    database: ''  // --> FALTA
+    database: 'bd_short.sql' 
 });
 connection.connect();
 if (connection) { console.log('base de datos a login establecido') }
