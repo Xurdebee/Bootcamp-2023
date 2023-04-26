@@ -1,27 +1,33 @@
-let users = [
-	{id:1, nombre: "Danilo", email: "danilo@tecla.academy" },
-	{id:2, nombre: "Hugo", email: "hugo@tecla.academy"},
-	{id:3, nombre: "Juan", email: "juan@tecla.academy"},
-	]
+const express = require('express');
+const app = express();
+const sequelize = require('../conexion_bd.js');
+var cors = require('cors')
+app.use(cors());
 
-app.get("/user/:id",(req,res)=>{
-	const user = user.find(data=>data.id === req.params.id);
-	if(!user){
-		return res.status(404).send("Id no encontrada");
+
+async function findAllRows(){
+		return await sequelize.query("Select * from users", {type: sequelize.QueryTypes.SELECT})
+		.then(function(personas){
+			// console.log(personas);
+			
+		});
+}
+
+findAllRows();
+
+app.get('/users', async function(req, res) {
+	console.log("instance")
+	try {
+	  const personas = await sequelize.query("SELECT * FROM users", {type: sequelize.QueryTypes.SELECT});
+	  console.log(personas);
+	  res.send(personas);
+	  
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).send('Error interno del servidor');
 	}
-	res.send(user)
-})
+  });
 
-app.get("/user/name/:nombre",(req,res)=>{
-	const user = user.find(data=>data.nombre === req.params.nombre);
-	if(!user){
-		return res.status(404).send("Id no encontrada");
-	}
-	res.send(user)
-})
-
-app.use(function(err,req,res,next){
-	if(!err) return next();
-	console.log ("Algo no ha funcionado", err);
-	res.status(500).send("Error");
+app.listen(3000,function(){
+	console.log ("Sistema funcionando en el puerto 3000");
 });
