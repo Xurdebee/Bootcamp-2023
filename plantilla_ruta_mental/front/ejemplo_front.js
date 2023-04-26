@@ -51,7 +51,7 @@ async function getUsers(done){
 				<a href="#"><img class="rounded-circle" src="${user.image}" height="50" alt=""></img></a>
 			  </div>
 			  <div class="overflow-hidden">
-				<a class="h6 mb-0" href="#!">${user.name}</a>
+				<a class="h6 mb-0" href="#!">${user.name} ${user.surname}</a>
 				<p class="mb-0 small text-truncate">${user.alias}</p>
 			  </div>
 			  <a class="btn btn-outline-primary ms-auto btn-sm" href="#">
