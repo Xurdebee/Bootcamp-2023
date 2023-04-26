@@ -8,7 +8,7 @@ app.use('/css', express.static(__dirname + '/css'));
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'grupo6',
-    password: 'canva',
+    password: 'grupo6canva',
     database: 'bd_short.sql'     
 });
 // Conexión a la base de datos
@@ -72,7 +72,7 @@ app.post('/registro', (req, res) => {
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'grupo6',
-    password: 'canva',
+    password: 'grupo6canva',
     database: 'bd_short.sql' 
 });
 connection.connect();
