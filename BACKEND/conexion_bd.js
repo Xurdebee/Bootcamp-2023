@@ -1,6 +1,6 @@
 const Sequelize = require ("sequelize");
 //ruta de nuestra base de datos
-const path = "mysql://root@localhost:3306/curso_tecla";
+const path = "mysql://root@localhost:3306/bd_short";
 const sequelize = new Sequelize(path, {operatorAliases: false});
 
 sequelize.authenticate()
