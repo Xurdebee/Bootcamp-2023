@@ -5,6 +5,10 @@ const app = express();
 //Importanción del módulo de conexión a nuestra base de datos
 const sequelize = require('./conexion_bd.js');
 
+//Necesario libería cors para que funcione
+var cors = require('cors')
+app.use(cors());
+
 //Creación de la f(x) con la consulta SQL que hacer a la petición
 async function findEmailPassword(){
 		sequelize.query("SELECT email, password FROM users WHERE user_id = 1", {type: sequelize.QueryTypes.SELECT})
