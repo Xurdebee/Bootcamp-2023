@@ -5,13 +5,13 @@ var cors = require('cors')
 app.use(cors());
 
 
-// async function findAllRows(){
-// 		return await sequelize.query("Select * from users", {type: sequelize.QueryTypes.SELECT})
-// 		.then(function(personas){
-// 			// console.log(personas);
+async function findAllRows(){
+		return await sequelize.query("Select * from users", {type: sequelize.QueryTypes.SELECT})
+		.then(function(personas){
+			// console.log(personas);
 			
-// 		});
-// }
+		});
+}
 
 // findAllRows();
 
