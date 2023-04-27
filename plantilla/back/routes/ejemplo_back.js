@@ -13,7 +13,7 @@ async function findAllRows(){
 		});
 }
 
-findAllRows();
+// findAllRows();
 
 app.get('/users', async function(req, res) {
 	console.log("instance")

@@ -1,5 +1,4 @@
-para hacer funcionar esto en la ruta de vuestro sistema
-( C:\Users\xurde\Documents\GitHub\Red-social-grupo-6\plantilla_ruta_mental\back)
+para hacer funcionar esto en la ruta de vuestra carpeta back
 escribir por terminal: npm i
 (tienen que estar el archivo package.json que idica las librerias que instala)
 
@@ -10,6 +9,7 @@ utilizar estructura users.js para llamar "amigos" o para modificarlos modificant
 
 
 login se hace metodo post.
+
 En el html el formulario puede tener una estructura similar a la siguiente para que funcione
 <form action="http://localhost:3000/newUser" method="post">
 	<...>
@@ -17,11 +17,10 @@ En el html el formulario puede tener una estructura similar a la siguiente para 
 </form>
 Este input con aspecto de botón hace directamente un post al pulsarlo
 
-if usuario no valido. err
-
-else trae feed usurio requerido.
-
 
 
 en el backend definimos metodo get para traer datos
 que se leen los datos con fecht. en un js relaccionado con un html.
+
+
+feed.js lo he metido para que no salte un error.
