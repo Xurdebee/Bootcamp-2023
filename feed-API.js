@@ -4,7 +4,9 @@ const aplicacion = document.querySelector('.container-API');
 fetch('https://jsonplaceholder.typicode.com/comments')
   .then((response) => response.json())
   .then((data) => {
+    // console.log ("data", data)
     data.slice(0, 3)/*muestra 3 primeros resultados del array data*/.forEach((comment) => {
+      // console.log("comment",comment)
       const card = document.createElement('div');
       card.classList.add("bg-light", "p-4", "rounded-3", "border", "border-1", "mb-4");
       card.setAttribute("id",comment.id)
@@ -18,6 +20,7 @@ fetch('https://jsonplaceholder.typicode.com/comments')
 
       const cardText = document.createElement('p');
       cardText.classList.add('card-text');
+      // console.log (post.body)
       cardText.textContent = comment.body;
 
       const cardImg = document.createElement('img');
