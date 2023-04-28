@@ -46,7 +46,7 @@
         <div class="m-3 col">
           
             <div class="me-2">
-              <a href="#"><img class="rounded-circle" src="img/user.png" width="100" alt=""></img></a>
+              <a href="#"><img class="rounded-circle" src="${user.image}" width="100" alt=""></img></a>
             </div>
       
             <div class="overflow-hidden ">

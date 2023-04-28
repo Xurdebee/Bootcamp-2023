@@ -130,6 +130,6 @@ app.get('/user/:user_id', async function(req, res) {
 
 
 
-  app.listen(3000,function(){
+  app.listen(3000,function(){ 
 	console.log ("Sistema funcionando en el puerto 3000");
 });

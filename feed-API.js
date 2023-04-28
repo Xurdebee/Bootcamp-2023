@@ -106,14 +106,9 @@ getCharacter(data=>{
   });
 });
 
-
-
-
-
   
 */
 
-// prueba base de datos propia
 // Usuarios
 
 async function getUsers(done){
@@ -126,7 +121,7 @@ async function getUsers(done){
 		  const follow = document.createRange().createContextualFragment(`
 			<div class="hstack gap-2 mt-2 mb-3">
 			  <div class="me-2">
-				<a href="#"><img class="rounded-circle" src="img/user.png"" height="50" alt=""></img></a>
+				<a href="#"><img class="rounded-circle" src="${user.image}" height="50" alt=""></img></a>
 			  </div>
 			  <div class="overflow-hidden">
 				<a class="h6 mb-0" href="#!">${user.name} ${user.surname}</a>
