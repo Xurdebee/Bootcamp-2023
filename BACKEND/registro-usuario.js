@@ -16,7 +16,8 @@ database: 'bd_short'
 });
 
 db.connect((err) => {
-if (err) {
+if (err) { 
+    console.error('Error al conectarse a la Base de Datos: ' + err.message);
     throw err;
 }
 console.log('Conectado a la base de datos MySQL');
@@ -36,7 +37,7 @@ res.send(`
     <input type="text" name="city" placeholder="city">
     <input type="text" name="linkedIn" placeholder="linkedIn">
     <input type="text" name="education" placeholder="education">
-    <button type="submit">Guardar</button>
+    <button type="submit">Enviar</button>
     </form>
 `);
 });
@@ -47,11 +48,12 @@ const { alias, name, surname, email, password, birthday, country, city, linkedIn
 const sql = 'INSERT INTO users (alias, name, surname, email, password, birthday, country, city, linkedIn, education ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 db.query(sql, [alias, name, surname, email, password, birthday, country, city, linkedIn, education ], (err, result) => {
     if (err) {
-    throw err;
-    }
+        console.error(err);
+        res.send('Error al guardar los datos en la base de datos');
+    } else {
     res.send('Datos guardados en la base de datos');
+    }  
 });
-
 });
 
 // iniciar el servidor
