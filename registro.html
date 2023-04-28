@@ -10,9 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
   </head>
 <body>
-
- <!-- barra nav colapsa en -lg fondo claro -->
- <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+<!-- barra nav colapsa en -lg fondo claro -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
   <!-- ocupa la linea -->
   <div class="container-fluid">
   <!-- logo -->
@@ -32,10 +31,11 @@
       <ul class="navbar-nav ms-auto">
         <!-- si a clase añadimos d-md-none (display) no se verá en tamaños mayores de md/ ms-x x=margen entre elementos -->
         <li class="nav-item">
+          <!-- provisional mandamos a perfil de ejemplo -->
           <a class="nav-link" href="perfil_ejemplo-responsive.html">Mensajes</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="feed-responsive.html">Feed</a>
+          <a class="nav-link active" aria-current="page" href="feed-responsive.html">Feed</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="amigos-responsive.html">Amigos</a>
@@ -44,7 +44,7 @@
           <a class="nav-link" href="index-responsive.html">LogIn</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="mi_perfil-responsive.html">Mi Perfil</a>
+          <a class="nav-link" href="mi_perfil-responsive.html">Mi Perfil</a>
         </li>
         <li>
           <!-- solo se muestra cuando la barra es sm o menor -->
@@ -58,9 +58,6 @@
     </div>
   </div>
 </nav>
-
-
-<h1>Cabecera</h1>
 
 <div class="container formulario mb-2">
   <div class="row">
@@ -118,9 +115,9 @@
               <div class="success"></div>
               <div class="error"></div>
               <div class="btn-container d-flex justify-content-evenly mb-1">
-                  <button type="reset" class="btn btn-secondary w-25 mb-2">Limpiar</button>
-                  <button type="submit" class="btn btn-primary w-25 mb-2" id="submit-button">Enviar</button>
-                  <a href="./index-responsive.html" class="btn btn-danger w-25 mb-2">Cancelar</a>
+                  <button type="reset" class="btn btn-secondary m-2">Limpiar</button>
+                  <a href="feed-responsive.html" id="submit-button" class="btn btn-primary m-2" role="button">Enviar</a>
+                  <a href="index-responsive.html" class="btn btn-danger  m-2">Cancelar</a>
               </div>
           </form>
       </div>

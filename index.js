@@ -25,7 +25,7 @@ function validateLogin() {
         }
       })
       .catch(error => {
-        alert("Ha ocurrido un error al validar el inicio de sesión.");
+        // alert("Ha ocurrido un error al validar el inicio de sesión.");
         console.error(error);
       }); 
     }
