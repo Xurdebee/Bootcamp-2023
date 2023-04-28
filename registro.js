@@ -1,32 +1,27 @@
-const registroForm = document.querySelector('#form-registro');
-const errorDiv = document.querySelector('.error');
-const successDiv = document.querySelector('.success');
+const form = document.getElementById('form-registro');
+form.addEventListener('submit', (event) => {
+event.preventDefault();
+
+const alias = document.getElementById('alias').value;
+const name = document.getElementById('name').value;
+const surname = document.getElementById('surname').value;
+const email = document.getElementById('email').value;
+const password = document.getElementById('password').value;
+const birthday = document.getElementById('birthday').value;
+const country = document.getElementById('country').value;
+const city = document.getElementById('city').value;
+const linkedIn = document.getElementById('linkedIn').value;
+const education = document.getElementById('education').value;
+
+console.log(alias, name, surname, email, password, birthday, country, city, linkedIn, education);
+});
+
 const regexEmail = /^\S+@\S+\.\S+$/; // Expresión regular para validar el formato de email
-const regexLinkedIn = /^(https?:\/\/)?([\w\d]+\.)?linkedin\.com\/.+$/; // Expresión regular para validar el formato de LinkedIn URL
 registroForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    // Get form data
-const formData = new FormData(registroForm);
-const username = formData.get('username');
-const password = formData.get('password');
-const confirmPassword = formData.get('confirm-password');
-const email = formData.get('email');
-const fullname = formData.get('fullname');
-const city = formData.get('city');
-const country = formData.get('country');
-const age = formData.get('age');
-const university = formData.get('university');
-const languages = formData.get('languages');
-const linkedin = formData.get('linkedin');
-const hobbies = formData.get('hobbies');
-const terms = formData.get('terms');
+    
     // Validations
-if (password !== confirmPassword) {
-    errorDiv.innerHTML = 'Las contraseñas no coinciden';
-    successDiv.style.display = 'none';
-    errorDiv.style.display = 'block';
-    return;
-}
+
 if (password.length < 6 || password.length > 16) {
     errorDiv.innerHTML = 'La contraseña debe tener entre 6 y 16 caracteres';
     successDiv.style.display = 'none';
@@ -39,37 +34,28 @@ if (!regexEmail.test(email)) {
     errorDiv.style.display = 'block';
     return;
 }
-if (linkedin && !regexLinkedIn.test(linkedin)) {
-    errorDiv.innerHTML = 'Ingrese una URL de LinkedIn válida';
-    successDiv.style.display = 'none';
-    errorDiv.style.display = 'block';
-    return;
-}
+
 if (!terms) {
     errorDiv.innerHTML = 'Debe aceptar los términos y condiciones';
     successDiv.style.display = 'none';
     errorDiv.style.display = 'block';
     return;
 }
-if (!/^[a-zA-Z\s]+$/.test(fullname)) {
-    errorDiv.innerHTML = 'Ingrese un nombre válido (solo letras)';
-    successDiv.style.display = 'none';
-    errorDiv.style.display = 'block';
-    return;
-}
+
 const data = {
-        username,
-        password,
-        email,
-        fullname,
-        city,
-        country,
-        age,
-        university,
-        languages,
-        linkedin,
-        hobbies,
+    alias,
+    name, 
+    surname, 
+    email, 
+    password, 
+    birthday, 
+    country, 
+    city, 
+    linkedIn, 
+    education
 };
+
+console.log(data.alias)
 try {
     const response = await fetch('/registro', {
         method: 'POST',
