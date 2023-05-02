@@ -115,7 +115,8 @@ getCharacter(data=>{
 // Usuarios
 
 async function getUsers(done){
-	fetch('http://localhost:3000/suggested')
+  //let userId = window.location.querystring["userId"];
+	fetch(`http://localhost:3000/suggested`)
 
 	  .then(response => response.json())
 	  .then(data => {

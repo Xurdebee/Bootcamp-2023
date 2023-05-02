@@ -15,11 +15,14 @@ function validateLogin() {
     } else {
 
      // Realizar petición fetch a la base de datos
-    fetch(`https://localhost:3000/users?user_id=1&email=${email}&password=${password}`)
-      .then(response => {
+    fetch(`http://localhost:3000/login?email=${email}&password=${password}`)
+      .then(function(response) {
         if (response.ok) {
           // Redirigir a la página de destino
-          window.location.href = "feed-responsive.html";
+          response.json()
+          .then(function(json){
+            window.location.href = `feed-responsive.html?userId=${json.user_id}`;
+          });
         } else {
           alert("Nombre de usuario o contraseña incorrectos.");
         }

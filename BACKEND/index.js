@@ -8,6 +8,9 @@ const sequelize = require('./conexion_bd.js');
 //Necesario libería cors para que funcione
 var cors = require('cors')
 app.use(cors());
+app.options("*", cors()); 	
+app.use(express.json());
+
 
 /*//Creación de la f(x) con la consulta SQL que hacer a la petición
 async function findEmailPassword(){
@@ -43,7 +46,22 @@ findEmailPassword();*/
       console.error(error);
       res.status(500).send('Error interno del servidor');
     }
-  }); 
+  });
+  
+  app.get('/login', async function(req, res) {
+	let email = req.query.email;  //Sacar datos de la queryString (lo que va despues de la interrogacion en la url)
+	let password = req.query.password;
+
+	await sequelize.query("SELECT * FROM users WHERE email=? AND password=?", {type: sequelize.QueryTypes.SELECT, replacements: [email, password]})
+	.then(function(response) {
+        if(response.length > 0) {
+			res.json({'user_id': response[0].user_id}).end();
+		} else {
+			res.status(401);
+		}
+	});
+
+  });
 
 
 
@@ -111,8 +129,8 @@ app.get('/user/:user_id', async function(req, res) {
 	}
   });
 
-
-  app.get('/login', async function (req, res){ 
+/*
+  app.get('/logins', async function (req, res){ 
     console.log ("instance");
 
     try {
@@ -125,7 +143,7 @@ app.get('/user/:user_id', async function(req, res) {
     }
   });
 
-
+*/
 
 
 //Inicio del servidor
