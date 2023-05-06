@@ -30,6 +30,11 @@ form.addEventListener('submit', async (event) => {
         alert('La contraseña debe tener entre 6 y 16 caracteres');
         return;
     }
+
+    if (!alias || !name || !surname || !email || !password || !birthday || !country || !city || !education) {
+        alert('Debe completar todos los campos.');
+        return;
+    }
     
     try {
     const response = await fetch("http://localhost:3000/newregister", {
