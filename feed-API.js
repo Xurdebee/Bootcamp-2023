@@ -156,7 +156,7 @@ function getUsers(done){
 
 // post generados
 
-async function getPost(done){
+function getPost(done){
 	fetch('http://localhost:3000/allpost')
 
 .then(response => response.json())

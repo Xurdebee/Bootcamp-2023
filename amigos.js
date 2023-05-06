@@ -34,9 +34,10 @@
 //     });
 //   });
 
+const user_id = JSON.parse(localStorage.getItem("user_id_login"));
 
-  async function getFollowed(done){
-    fetch('http://localhost:3000/followed')
+function getFollowed(done){
+    fetch(`http://localhost:3000/followed/${user_id}`)
   
       .then(response => response.json())
       .then(data => {
@@ -64,6 +65,6 @@
       .catch((err) => console.log(err));
     }
     
-    getFollowed(() => {
-    console.log('Datos de usuario cargados');
-    });
+getFollowed(() => {
+  console.log('Datos de usuario cargados');
+});

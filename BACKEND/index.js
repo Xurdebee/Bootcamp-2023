@@ -36,6 +36,8 @@ findEmailPassword();*/
     }
   });*/
 
+//Trae todos los ususarios
+
  app.get('/users', async function(req, res) {
     try {
       const all_users = await sequelize.query("SELECT * FROM users", {type: sequelize.QueryTypes.SELECT});
@@ -48,8 +50,10 @@ findEmailPassword();*/
     }
   });
   
+
+  //Lee el mail y la contraseña del body (datos del front) y trae como respuesta user_id
   app.post('/login', async function(req, res) {
-	let email = req.body.email;  //Sacar datos de la queryString (lo que va despues de la interrogacion en la url)
+	let email = req.body.email;  
 	let password = req.body.password;
 
 	await sequelize.query("SELECT * FROM users WHERE email=? AND password=?", {type: sequelize.QueryTypes.SELECT, replacements: [email, password]})
@@ -68,9 +72,10 @@ findEmailPassword();*/
 
   // Las personas que sigue el usuario 1
   
-app.get('/followed', async function(req, res) {
+app.get('/followed/:user_id', async function(req, res) {
+	const user_id = req.params.user_id
 	try {
-	  const followers = await sequelize.query("Select * from `users` INNER JOIN `follow` ON follow.follow_user_id = users.user_id WHERE follow.user_id = 1;", {type: sequelize.QueryTypes.SELECT});
+	  const followers = await sequelize.query(`SELECT * from users INNER JOIN follow ON follow.follow_user_id = users.user_id WHERE follow.user_id = "${user_id}"`, {type: sequelize.QueryTypes.SELECT});
 	//   console.log(personas);
 	  res.send(followers);
 	  
