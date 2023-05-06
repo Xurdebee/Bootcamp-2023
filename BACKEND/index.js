@@ -12,31 +12,6 @@ app.options("*", cors());
 app.use(express.json());
 
 
-/*//Creación de la f(x) con la consulta SQL que hacer a la petición
-async function findEmailPassword(){
-		sequelize.query("SELECT email, password FROM users WHERE user_id = 1", {type: sequelize.QueryTypes.SELECT})
-		.then(function(personas){
-			console.log(personas);
-		});
-}
-
-findEmailPassword();*/
-
-//Creación del endpoint que usaremos en la petición fetch en el js de frontend
-/*app.get('/login', async function (req, res){ 
-    console.log ("instance");
-    
-    try {
-      const login = await sequelize.query("SELECT email, password FROM users WHERE user_id = 1", {type: sequelize.QueryTypes.SELECT });
-      console.log(login);
-      res.send(login);
-    } catch(error) {
-      console.error(error);
-      res.status(500).send("Error interno del servidor:"); 
-    }
-  });*/
-
-//Trae todos los ususarios
 
  app.get('/users', async function(req, res) {
     try {
@@ -69,8 +44,49 @@ findEmailPassword();*/
 
 
 
+// Registro
+app.post('/newregister', async (req, res) => {
+	const { alias, name, surname, email, password, birthday, country, city, linkedIn, education } = req.body;
+  
+	// Verificar si el alias ya existe en la base de datos
+	const aliasExists = await sequelize.query(`SELECT * FROM users WHERE alias = ?`, {
+	  replacements: [alias],
+	  type: sequelize.QueryTypes.SELECT
+	});
+  
+	// Verificar si el correo electrónico ya existe en la base de datos
+	const emailExists = await sequelize.query(`SELECT * FROM users WHERE email = ?`, {
+	  replacements: [email],
+	  type: sequelize.QueryTypes.SELECT
+	});
+  
+	if (aliasExists.length > 0 && emailExists.length > 0) {
+	  // Si ya existe un usuario con el mismo alias y correo electrónico, enviar un mensaje de error
+	  res.status(400).json({ message: 'Ya existe un usuario con el mismo alias y correo electrónico.' });
+	} else if (aliasExists.length > 0) {
+	  // Si ya existe un usuario con el mismo alias, enviar un mensaje de error
+	  res.status(400).json({ message: 'Ya existe un usuario con el mismo alias.' });
+	} else if (emailExists.length > 0) {
+	  // Si ya existe un usuario con el mismo correo electrónico, enviar un mensaje de error
+	  res.status(400).json({ message: 'Ya existe un usuario con el mismo correo electrónico.' });
+	} else {
+	  // Si el alias y correo electrónico no están en uso, crear un nuevo usuario en la base de datos
+	  const newUser = await sequelize.query(`INSERT INTO users (alias, name, surname, email, password, birthday, country, city, linkedIn, education) 
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, {
+		replacements: [alias, name, surname, email, password, birthday, country, city, linkedIn, education],
+		type: sequelize.QueryTypes.INSERT
+	  });
+	
+	  res.json({ message: 'Usuario creado satisfactoriamente.' });
+	}
+  });
 
-  // Las personas que sigue el usuario 1
+
+
+
+
+
+  // Las personas que sigue el usuario x
   
 app.get('/followed/:user_id', async function(req, res) {
 	const user_id = req.params.user_id
@@ -87,7 +103,7 @@ app.get('/followed/:user_id', async function(req, res) {
 
 
   
-//   Las personas que no sigue el usuario 1
+//   Las personas que no sigue el usuario x
 
 app.get('/suggested/:user_id', async function(req, res) {
 	const user_id = req.params.user_id
@@ -107,7 +123,6 @@ app.get('/suggested/:user_id', async function(req, res) {
 	  res.status(500).send('Error interno del servidor');
 	}
   });
-
 
 
 
