@@ -36,6 +36,8 @@ findEmailPassword();*/
     }
   });*/
 
+//Trae todos los ususarios
+
  app.get('/users', async function(req, res) {
     try {
       const all_users = await sequelize.query("SELECT * FROM users", {type: sequelize.QueryTypes.SELECT});
@@ -48,9 +50,11 @@ findEmailPassword();*/
     }
   });
   
-  app.get('/login', async function(req, res) {
-	let email = req.query.email;  //Sacar datos de la queryString (lo que va despues de la interrogacion en la url)
-	let password = req.query.password;
+
+  //Lee el mail y la contraseña del body (datos del front) y trae como respuesta user_id
+  app.post('/login', async function(req, res) {
+	let email = req.body.email;  
+	let password = req.body.password;
 
 	await sequelize.query("SELECT * FROM users WHERE email=? AND password=?", {type: sequelize.QueryTypes.SELECT, replacements: [email, password]})
 	.then(function(response) {
@@ -68,9 +72,10 @@ findEmailPassword();*/
 
   // Las personas que sigue el usuario 1
   
-app.get('/followed', async function(req, res) {
+app.get('/followed/:user_id', async function(req, res) {
+	const user_id = req.params.user_id
 	try {
-	  const followers = await sequelize.query("Select * from `users` INNER JOIN `follow` ON follow.follow_user_id = users.user_id WHERE follow.user_id = 1;", {type: sequelize.QueryTypes.SELECT});
+	  const followers = await sequelize.query(`SELECT * from users INNER JOIN follow ON follow.follow_user_id = users.user_id WHERE follow.user_id = "${user_id}"`, {type: sequelize.QueryTypes.SELECT});
 	//   console.log(personas);
 	  res.send(followers);
 	  
@@ -84,12 +89,18 @@ app.get('/followed', async function(req, res) {
   
 //   Las personas que no sigue el usuario 1
 
-app.get('/suggested', async function(req, res) {
+app.get('/suggested/:user_id', async function(req, res) {
+	const user_id = req.params.user_id
 	try {
-	  const user_suggest = await sequelize.query("SELECT * FROM users WHERE user_id NOT IN (SELECT follow_user_id FROM follow WHERE user_id = 1) AND user_id != 1", {type: sequelize.QueryTypes.SELECT});
-	  // seleccionar todos los usuarios (tabla users) que en la tabla follow no estén en follow_user_id cuando user_id sea = 1
-	//   console.log(personas);
-	  res.send(user_suggest);
+		if (user_id){
+			const user_suggest = await sequelize.query(`SELECT * FROM users WHERE user_id NOT IN (SELECT follow_user_id FROM follow WHERE user_id = "${user_id}") AND user_id != "${user_id}"`, {type: sequelize.QueryTypes.SELECT});
+			// seleccionar todos los usuarios (tabla users) que en la tabla follow no estén en follow_user_id cuando user_id sea = 1
+	  
+			res.send(user_suggest);
+		
+		}else{
+			res.status(404).send('No existe usuario');
+		}
 	  
 	} catch (error) {
 	  console.error(error);

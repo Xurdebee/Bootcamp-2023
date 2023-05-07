@@ -112,11 +112,12 @@ getCharacter(data=>{
   
 */
 
+const user_id = JSON.parse(localStorage.getItem("user_id_login"));
 // Usuarios
 
-async function getUsers(done){
+function getUsers(done){
   //let userId = window.location.querystring["userId"];
-	fetch(`http://localhost:3000/suggested`)
+	fetch(`http://localhost:3000/suggested/${user_id}`)
 
 	  .then(response => response.json())
 	  .then(data => {
@@ -155,7 +156,7 @@ async function getUsers(done){
 
 // post generados
 
-async function getPost(done){
+function getPost(done){
 	fetch('http://localhost:3000/allpost')
 
 .then(response => response.json())
