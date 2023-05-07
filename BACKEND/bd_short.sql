@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-04-2023 a las 15:15:29
+-- Tiempo de generación: 07-05-2023 a las 14:49:27
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -30,6 +30,7 @@ USE `bd_short`;
 --
 
 CREATE TABLE `follow` (
+  `follow_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `follow_user_id` bigint(20) NOT NULL,
   `follow_status` tinyint(1) NOT NULL,
@@ -40,11 +41,11 @@ CREATE TABLE `follow` (
 -- Volcado de datos para la tabla `follow`
 --
 
-INSERT INTO `follow` (`user_id`, `follow_user_id`, `follow_status`, `follow_time`) VALUES
-(1, 2, 1, '2023-04-26 14:50:24'),
-(1, 3, 1, '2023-04-26 14:50:34'),
-(1, 4, 1, '2023-04-26 14:50:43'),
-(1, 5, 1, '2023-04-26 14:50:53');
+INSERT INTO `follow` (`follow_id`, `user_id`, `follow_user_id`, `follow_status`, `follow_time`) VALUES
+(1, 1, 2, 1, '2023-05-07 12:01:27'),
+(2, 1, 3, 1, '2023-05-07 12:01:27'),
+(3, 1, 4, 1, '2023-05-07 12:47:23'),
+(4, 1, 5, 1, '2023-05-07 12:48:06');
 
 -- --------------------------------------------------------
 
@@ -136,6 +137,7 @@ INSERT INTO `users` (`user_id`, `alias`, `name`, `surname`, `email`, `password`,
 -- Indices de la tabla `follow`
 --
 ALTER TABLE `follow`
+  ADD PRIMARY KEY (`follow_id`),
   ADD KEY `user_id` (`user_id`,`follow_user_id`),
   ADD KEY `follow_user_id` (`follow_user_id`);
 
@@ -164,6 +166,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `follow`
+--
+ALTER TABLE `follow`
+  MODIFY `follow_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `post`

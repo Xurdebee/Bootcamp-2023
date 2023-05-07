@@ -79,7 +79,6 @@ const user_id = JSON.parse(localStorage.getItem("user_id_login"));
 // Usuarios
 
 function getUsers(done){
-  //let userId = window.location.querystring["userId"];
 	fetch(`http://localhost:3000/suggested/${user_id}`)
 
 	  .then(response => response.json())
@@ -95,11 +94,11 @@ function getUsers(done){
 				<a class="h6 mb-0" href="#!">${user.name} ${user.surname}</a>
 				<p class="mb-0 small text-truncate">${user.alias}</p>
 			  </div>
-			  <a class="btn btn-outline-primary ms-auto btn-sm" href="#" data-user-id="${user.user_id}">
+        <button class="btn btn-outline-primary ms-auto btn-sm newfollow" boton-user-id="${user.user_id}">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
           </svg>
-        </a>
+         </button>
 			</div>
 		  `);
 		  const main = document.querySelector("article");
@@ -117,14 +116,16 @@ function getUsers(done){
 
 // Seguir a sujeridos
 
+// Asignar evento a un elemento del DOM existente
+const container = document.querySelector('article');
 
-// Agregar un event listener a los botones de suggested 
-document.querySelectorAll('.btn-outline-primary').forEach(function(button) {
-  console.log ("cargo esto")
-  button.addEventListener('click', function() {
+// Detectar clic en cualquier botón dentro del contenedor
+container.addEventListener('click', (event) => {
+  // Verificar si el elemento clicado es un botón con la clase 'newfollow'
+  const newFollowButton = event.target.closest('.newfollow');
+  if (newFollowButton) {
     // Obtener el user_id del usuario que se quiere seguir
-    const userIdToAdd = this.getAttribute('data-user-id');
-    console.log ("me has pulsado")
+    const userIdToAdd = newFollowButton.getAttribute('boton-user-id');
 
     // Realizar petición fetch para guardar la nueva amistad en el servidor
     fetch('http://localhost:3000/newfollow', {
@@ -140,7 +141,7 @@ document.querySelectorAll('.btn-outline-primary').forEach(function(button) {
     .then(response => {
       if (response.ok) {
         // Eliminar el div de sugerencias de amigos
-        this.parentElement.remove();
+        newFollowButton.parentElement.remove();
       } else {
         alert('Error al guardar la amistad');
       }
@@ -149,7 +150,7 @@ document.querySelectorAll('.btn-outline-primary').forEach(function(button) {
       alert('Error al guardar la amistad');
       console.error(error);
     });
-  });
+  }
 });
 
 
