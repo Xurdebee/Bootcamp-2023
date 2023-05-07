@@ -73,44 +73,7 @@ fetch('https://jsonplaceholder.typicode.com/comments')
   }) 
   .catch((err) => console.error(err.message));
 
-/*
 
-// api rick y morty
-function getCharacter(done){
-  const results = fetch("https://rickandmortyapi.com/api/character/?page=1");
-    results
-        .then(response => response.json())
-        .then(data=>{
-            done(data)
-        .catch((err) => console.log(err));
-        });
-}
-
-getCharacter(data=>{
-  data.results.forEach(personaje=>{
-    const amistades = document.createRange().createContextualFragment(`
-      <div class="hstack gap-2 mt-2 mb-3">
-        <div class="me-2">
-          <a href="#"><img class="rounded-circle" src="${personaje.image}" height="50" alt=""></img></a>
-        </div>
-        <div class="overflow-hidden">
-          <a class="h6 mb-0" href="#!">${personaje.name}</a>
-          <p class="mb-0 small text-truncate">${personaje.species}</p>
-        </div>
-        <a class="btn btn-outline-primary ms-auto btn-sm" href="#">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-          </svg>
-        </a>
-      </div>
-    `);
-        const main =document.querySelector("article");
-        main.append(amistades);
-  });
-});
-
-  
-*/
 
 const user_id = JSON.parse(localStorage.getItem("user_id_login"));
 // Usuarios
@@ -132,11 +95,11 @@ function getUsers(done){
 				<a class="h6 mb-0" href="#!">${user.name} ${user.surname}</a>
 				<p class="mb-0 small text-truncate">${user.alias}</p>
 			  </div>
-			  <a class="btn btn-outline-primary ms-auto btn-sm" href="#">
-				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-					  <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-				</svg>
-			  </a>
+			  <a class="btn btn-outline-primary ms-auto btn-sm" href="#" data-user-id="${user.user_id}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+          </svg>
+        </a>
 			</div>
 		  `);
 		  const main = document.querySelector("article");
@@ -150,6 +113,49 @@ function getUsers(done){
   getUsers(() => {
 	console.log('Datos de usuario cargados');
   });
+
+
+// Seguir a sujeridos
+
+
+// Agregar un event listener a los botones de suggested 
+document.querySelectorAll('.btn-outline-primary').forEach(function(button) {
+  console.log ("cargo esto")
+  button.addEventListener('click', function() {
+    // Obtener el user_id del usuario que se quiere seguir
+    const userIdToAdd = this.getAttribute('data-user-id');
+    console.log ("me has pulsado")
+
+    // Realizar petición fetch para guardar la nueva amistad en el servidor
+    fetch('http://localhost:3000/newfollow', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: user_id,
+        follow_user_id: userIdToAdd
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        // Eliminar el div de sugerencias de amigos
+        this.parentElement.remove();
+      } else {
+        alert('Error al guardar la amistad');
+      }
+    })
+    .catch(error => {
+      alert('Error al guardar la amistad');
+      console.error(error);
+    });
+  });
+});
+
+
+
+
+
 
 
 

@@ -11,36 +11,23 @@ app.use(cors());
 app.options("*", cors()); 	
 app.use(express.json());
 
-
-
- app.get('/users', async function(req, res) {
-    try {
-      const all_users = await sequelize.query("SELECT * FROM users", {type: sequelize.QueryTypes.SELECT});
-    //   console.log(personas);
-      res.send(all_users);
-
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error interno del servidor');
-    }
-  });
   
 
-  //Lee el mail y la contraseña del body (datos del front) y trae como respuesta user_id
-  app.post('/login', async function(req, res) {
+
+//Lee el mail y la contraseña del body (datos del front) y trae como respuesta user_id
+app.post('/login', async function(req, res) {
 	let email = req.body.email;  
 	let password = req.body.password;
 
 	await sequelize.query("SELECT * FROM users WHERE email=? AND password=?", {type: sequelize.QueryTypes.SELECT, replacements: [email, password]})
 	.then(function(response) {
-        if(response.length > 0) {
+		if(response.length > 0) {
 			res.json({'user_id': response[0].user_id}).end();
 		} else {
-			res.status(401);
+			res.status(401).json({error: "Correo electrónico o contraseña incorrectos"}).end();
 		}
 	});
-
-  });
+});
 
 
 
@@ -127,7 +114,38 @@ app.get('/suggested/:user_id', async function(req, res) {
 
 
 
-// deberia traer los usuarios una vez pinchas en su enlace
+/*
+const newUser = await sequelize.query(`INSERT INTO users (alias, name, surname, email, password, birthday, country, city, linkedIn, education) 
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, {
+		replacements: [alias, name, surname, email, password, birthday, country, city, linkedIn, education],
+		type: sequelize.QueryTypes.INSERT
+*/
+// Añadir gente a tu lista de seguimiento
+
+app.post('/newfollow', async function(req, res){
+	const userId = req.body.user_id;
+	const followUserId = req.body.follow_user_id;
+	const followStatus = 1;
+  
+	try {
+		await sequelize.query("INSERT INTO follow (user_id, follow_user_id, follow_status) VALUES (?, ?, ?)", {
+			replacements: [userId, followUserId, followStatus],
+			type: sequelize.QueryTypes.INSERT
+		});
+
+		console.log(`Nuevo seguimiento agregado: user_id=${userId}, follow_user_id=${followUserId}`);
+		res.sendStatus(200);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'Error al guardar el follow' });
+	}
+});
+
+
+
+
+
+// Deberia traer los usuarios una vez pinchas en su enlace (sin implementar)
 
 app.get('/user/:user_id', async function(req, res) {
 	try {
@@ -141,7 +159,7 @@ app.get('/user/:user_id', async function(req, res) {
 
 
 
-
+// Deberia traer los post (sin implementar)
 
   app.get('/allPost', async function(req, res) {
 	try {
@@ -155,21 +173,7 @@ app.get('/user/:user_id', async function(req, res) {
 	}
   });
 
-/*
-  app.get('/logins', async function (req, res){ 
-    console.log ("instance");
 
-    try {
-      const login = await sequelize.query("SELECT email, password FROM users WHERE user_id = 1", {type: sequelize.QueryTypes.SELECT });
-      console.log(login);
-      res.send(login);
-    } catch(error) {
-      console.error(error);
-      res.status(500).send("Error interno del servidor:"); 
-    }
-  });
-
-*/
 
 
 //Inicio del servidor
