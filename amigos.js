@@ -1,4 +1,4 @@
-// Asumiendo que tienes una lista de amigos con una propiedad id, como ejemplo:
+
 const amigosList = [
   { id: 1, name: " " },
   { id: 2, name: " " }
