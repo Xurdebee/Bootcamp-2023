@@ -173,6 +173,23 @@ app.get('/user/:user_id', async function(req, res) {
 	}
   });
 
+//Crear un post  
+app.post('/createPost', async function(req, res) {
+  const { user_id, body } = req.body; // Obtener los datos del nuevo post del cuerpo de la solicitud
+  const date = new Date(); // Obtener la fecha actual
+
+  try {
+    // Crear el nuevo post en la base de datos utilizando Sequelize
+    const new_post = await sequelize.query(
+      "INSERT INTO post (user_id, date, body) VALUES (?, ?, ?)",
+      { replacements: [user_id, date, body] }
+    );
+    res.send(new_post); // Devolver el nuevo post como respuesta
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error interno del servidor');
+  }
+});
 
 
 
