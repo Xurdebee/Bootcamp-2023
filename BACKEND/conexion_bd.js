@@ -4,14 +4,14 @@ const sequelize = new Sequelize(path, {operatorAliases: false});
 
 sequelize.authenticate()
 .then(() => {
-    console.log("Conectado");
+    console.log("Conectado: conexion_bd");
 })
 .catch(err =>{
     console.error("Error de conexión:", err)
 })
-.finally(() =>{
-    sequelize.close();
-});
+// .finally(() =>{
+//     sequelize.close();
+// });
 
 
 module.exports = sequelize;
