@@ -288,7 +288,7 @@ data.forEach(post => {
         
                     <div class="hstack gap-4 mt-3">
                     <!-- Boton Like -->
-                    <button class="btn btn-outline-danger border-0 rounded-circle corazon " id="boton_likes${post.post_id}" type="submit" >
+                    <button class="btn btn-outline-danger border-0 rounded-circle corazon " id="boton_likes${comment.id}" type="submit" >
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                       </svg>
@@ -302,7 +302,7 @@ data.forEach(post => {
                     </button>
                     
                     </div>
-                    <p id="total_likes${post.post_id}" class="ms-1 mt-2"> 158</p>
+                    <p id="total_likes${comment.id}" class="ms-1 mt-2"> 158</p>
                     </div>
                   
                   </div>
