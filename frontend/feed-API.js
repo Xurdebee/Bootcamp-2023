@@ -252,7 +252,13 @@ data.forEach(post => {
     const textoPost = document.querySelector("#textarea").value; // Obtener los datos del formulario
     fetch('http://localhost:3000/createPost', {
       method: 'POST',
-      body: textoPost
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        body: textoPost
+      })
+      
     })
   
   .then(response => response.json())
