@@ -1,14 +1,19 @@
 import React from 'react';
-import Navbar from './Navbar';
+import NavBar from './components/Navbar';
+import Footer from './components/Footer';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 function App() {
   return (
     <div>
-      <Navbar />
-      {/* Resto de tu aplicación */}
+      <NavBar />
+      {/* El resto de la app*/}
+      <Footer />
     </div>
+
   );
 }
 
 export default App;
-
