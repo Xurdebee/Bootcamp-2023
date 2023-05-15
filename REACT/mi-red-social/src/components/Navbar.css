@@ -9,3 +9,17 @@
     background-color: var(--bs-btn-hover-bg);
     border-color: var(--bs-btn-hover-border-color)
 }
+
+.navbar-collapse {
+    display: none;
+  }
+
+.navbar-collapse.open {
+    display: block;
+  }
+  
+  @media (min-width: 768px) {
+    .navbar-collapse {
+      display: block;
+    }
+  }
