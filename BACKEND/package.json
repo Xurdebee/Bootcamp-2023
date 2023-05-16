@@ -17,8 +17,12 @@
   "homepage": "https://github.com/Rociogvijande/Red-social-grupo-6#readme",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "express-jwt": "^8.4.1",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.29.4",
     "mysql2": "^3.2.3",
     "sequelize": "^6.31.0"
