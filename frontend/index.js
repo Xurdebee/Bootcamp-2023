@@ -30,6 +30,8 @@ function validateLogin() {
     // La respuesta es válida, redirigir al usuario
     response.json().then(function (json) {
       localStorage.setItem("user_id_login", json.user_id);
+      localStorage.setItem("token", json.token); 
+      console.log("El tokem guardado es:" +localStorage.getItem("token"));
     window.location.href = "feed-responsive.html";
  });
   } else {
