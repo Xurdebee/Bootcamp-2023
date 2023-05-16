@@ -34,11 +34,11 @@ function LoginForm() {
           <div className="col-12 col-md-8 col-lg-6">
             <div className="card bg-light shadow-lg">
               <div className="card-body p-5">
-                <form className="mb-3 mt-md-4">
-                  <div className="logo_login "><img  className="row d-flex justify-content-center" src="logo_horizontal.png" alt="" /></div>
+                <form className="mb-3 mt-md-0">
+                  <div className="logo_login mb-4 "><img className="row d-flex justify-content-center img-fluid" src="logo_horizontal.png" alt="" /></div>
                   <div className="mb-3">
                     <label htmlFor="email" className="form-label ">Email</label>
-                    <input type="email" className="form-control" id="email" placeholder="name@example.com" value={email} onChange={handleEmailChange} required />
+                    <input type="email" className="form-control" id="email" placeholder="nombre@example.com" value={email} onChange={handleEmailChange} required />
                   </div>
                   <div className="mb-3">
                     <label htmlFor="password" className="form-label">Contraseña</label>
@@ -48,7 +48,7 @@ function LoginForm() {
                   <div className="d-grid">
                     <button id="boton-login" className="btn btn-outline-primary" type="button" onClick={handleLogin}>Login</button>
                     <label className="checkbox mt-2">
-                      <input type="checkbox" value="remember-me" checked={rememberMe} onChange={handleRememberMeChange} />
+                      <input type="checkbox" value="remember-me" className="me-2" checked={rememberMe} onChange={handleRememberMeChange} />
                       Mantenerme conectado en este PC
                     </label>
                   </div>
