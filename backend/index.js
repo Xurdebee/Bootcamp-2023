@@ -89,7 +89,8 @@ app.post('/newregister', async (req, res) => {
 app.get('/followed/:user_id', async function(req, res) {
 	const user_id = req.params.user_id
 	try {
-	  const followers = await sequelize.query(`SELECT * from users INNER JOIN follow ON follow.follow_user_id = users.user_id WHERE follow.user_id = "${user_id}"`, {type: sequelize.QueryTypes.SELECT});
+		const followers = await sequelize.query(`SELECT * from users INNER JOIN follow ON follow.follow_user_id = users.user_id WHERE follow.user_id = "${user_id}" AND follow.follow_status = 1`, {type: sequelize.QueryTypes.SELECT});
+
 	//   console.log(personas);
 	  res.send(followers);
 	  
@@ -125,14 +126,6 @@ app.get('/suggested/:user_id', async function(req, res) {
 
 
 
-/*
-const newUser = await sequelize.query(`INSERT INTO users (alias, name, surname, email, password, birthday, country, city, linkedIn, education) 
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, {
-		replacements: [alias, name, surname, email, password, birthday, country, city, linkedIn, education],
-		type: sequelize.QueryTypes.INSERT
-*/
-// Añadir gente a tu lista de seguimiento
-
 app.post('/newfollow', async function(req, res){
 	const userId = req.body.user_id;
 	const followUserId = req.body.follow_user_id;
@@ -149,6 +142,32 @@ app.post('/newfollow', async function(req, res){
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'Error al guardar el follow' });
+	}
+});
+
+
+// Dejar de seguir amigo
+app.put('/unfollow/:user_id/:follow_user_id', async (req, res) => {
+	const { user_id, follow_user_id } = req.params;
+  
+	try {
+	  // Actualizar el campo follow_status a 0
+	  const result = await sequelize.query(`UPDATE follow SET follow_status = 0 WHERE user_id = ? AND follow_user_id = ?`, {
+		replacements: [user_id, follow_user_id],
+		type: sequelize.QueryTypes.UPDATE
+	  });
+  
+	  // Comprobar si se ha actualizado correctamente
+	  if (result[1] === 0) {
+		// Si no se ha actualizado ningún registro, devolver un error
+		return res.status(404).json({ message: 'No se ha encontrado un registro para actualizar.' });
+	  }
+  
+	  res.json({ message: 'Se ha dejado de seguir al usuario satisfactoriamente.' });
+  
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ message: 'Ha ocurrido un error al dejar de seguir al usuario.' });
 	}
 });
 
