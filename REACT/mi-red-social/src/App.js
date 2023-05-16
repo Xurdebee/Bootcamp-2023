@@ -9,7 +9,6 @@ function App() {
   return (
     <div>
       <NavBar />
-      {/* El resto de la app*/}
       <Footer />
     </div>
 
