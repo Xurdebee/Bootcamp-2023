@@ -11,8 +11,17 @@ app.use(cors());
 app.options("*", cors()); 	
 app.use(express.json());
 
-  
+//Importación de librería para acceder al cuerpo de la petición
+var bodyParser = require("body-parser");
+var jwt = require("jsonwebtoken");
+var expressJwt = require("express-jwt");
 
+app.use(express.static( "publica"));
+app.use(bodyParser.json());
+
+//Configura  autenticación de JWT para proteger las rutas de una APP Express, 
+    //con la excepción de la ruta /login.
+//app.use(expressJwt({ secret: 'secret_key' }).unless({ path: ['/login'] }));
 
 //Lee el mail y la contraseña del body (datos del front) y trae como respuesta user_id
 app.post('/login', async function(req, res) {
@@ -22,7 +31,9 @@ app.post('/login', async function(req, res) {
 	await sequelize.query("SELECT * FROM users WHERE email=? AND password=?", {type: sequelize.QueryTypes.SELECT, replacements: [email, password]})
 	.then(function(response) {
 		if(response.length > 0) {
-			res.json({'user_id': response[0].user_id}).end();
+			const token = jwt.sign({ email: email, password: password }, 'secret_key');
+			console.log("Token:", token);
+			res.json({'user_id': response[0].user_id, 'token': token}).end();
 		} else {
 			res.status(401).json({error: "Correo electrónico o contraseña incorrectos"}).end();
 		}
@@ -93,26 +104,40 @@ app.get('/followed/:user_id', async function(req, res) {
   
 //   Las personas que no sigue el usuario x
 
-app.get('/suggested/:user_id', async function(req, res) {
-	const user_id = req.params.user_id
-	try {
-		if (user_id){
-			const user_suggest = await sequelize.query(`SELECT * FROM users WHERE user_id NOT IN (SELECT follow_user_id FROM follow WHERE user_id = "${user_id}") AND user_id != "${user_id}"`, {type: sequelize.QueryTypes.SELECT});
-			// seleccionar todos los usuarios (tabla users) que en la tabla follow no estén en follow_user_id cuando user_id sea = 1
+// app.get('/suggested/:user_id', async function(req, res) {
+// 	const user_id = req.params.user_id
+// 	try {
+// 		if (user_id){
+// 			const user_suggest = await sequelize.query(`SELECT * FROM users WHERE user_id NOT IN (SELECT follow_user_id FROM follow WHERE user_id = "${user_id}") AND user_id != "${user_id}"`, {type: sequelize.QueryTypes.SELECT});
+// 			// seleccionar todos los usuarios (tabla users) que en la tabla follow no estén en follow_user_id cuando user_id sea = 1
 	  
-			res.send(user_suggest);
+// 			res.send(user_suggest);
 		
-		}else{
-			res.status(404).send('No existe usuario');
-		}
+// 		}else{
+// 			res.status(404).send('No existe usuario');
+// 		}
 	  
+// 	} catch (error) {
+// 	  console.error(error);
+// 	  res.status(500).send('Error interno del servidor');
+// 	}
+//   });
+
+app.get('/suggested/:user_id', async function(req, res) {
+	const user_id = req.params.user_id;
+	try {
+	  if (user_id) {
+		const user_suggest = await sequelize.query(`SELECT * FROM users WHERE user_id NOT IN (SELECT follow_user_id FROM follow WHERE user_id = "${user_id}") AND user_id != "${user_id}"`, {type: sequelize.QueryTypes.SELECT});
+		// seleccionar todos los usuarios (tabla users) que en la tabla follow no estén en follow_user_id cuando user_id sea igual al valor proporcionado
+		res.send(user_suggest);
+	  } else {
+		res.status(404).send('No existe usuario');
+	  }
 	} catch (error) {
 	  console.error(error);
 	  res.status(500).send('Error interno del servidor');
 	}
   });
-
-
 
 
 app.post('/newfollow', async function(req, res){
