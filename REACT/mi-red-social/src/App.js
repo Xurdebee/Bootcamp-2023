@@ -1,5 +1,5 @@
 // importar los componentes de react-router-dom
-import { BrowserRouter, Route, Link } from "react-router-dom";
+// import { BrowserRouter, Route, Link } from "react-router-dom";
 
 import React from 'react';
 
