@@ -1,8 +1,13 @@
+// importar los componentes de react-router-dom
+import { BrowserRouter, Route, Link } from "react-router-dom";
+
 import React from 'react';
+
 import NavBar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import LoginForm from './components/Login/LoginForm';
 import ColumnaSugeridos from './components/Feed/ColumnaSugeridos';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ColumnaUsuario from './components/Feed/ColumnaUsuario';
 import AmigoSugerido from './components/Feed/AmigoSugerido';
@@ -41,10 +46,13 @@ function App() {
           <ColumnaSugeridos><AmigoSugerido/></ColumnaSugeridos>
         </div>
       </div>
+
       <Footer />
+
     </div>
 
   );
 }
+
 
 export default App;
