@@ -3,8 +3,8 @@ import NavBar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ColumnaSugeridos from '../components/ColumnaSugeridos';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ColumnaUsuario from '../components/ColumnaUsuario';
-import AmigoSugerido from '../components/AmigoSugerido';
+import ColumnaUsuario from '../components/Feed/ColumnaUsuario';
+import AmigoSugerido from '../components/Feed/AmigoSugerido';
 
 
 
