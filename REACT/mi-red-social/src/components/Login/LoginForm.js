@@ -5,29 +5,57 @@ import React, { useState } from 'react';
         //Cuando se modifican estos valores, se actualiza el estado utilizando useState y los handlers handleEmailChange, handlePasswordChange y handleRememberMeChange. 
     //Se ha eliminado el atributo onclick del botón de inicio de sesión y se ha agregado un handler handleLogin que se encargará de implementar la lógica de inicio de sesión.
     
+    function LoginForm() {
+      const [email, setEmail] = useState('');
+      const [password, setPassword] = useState('');
+      const [rememberMe, setRememberMe] = useState(false);
+    
+      const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+      };
+    
+      const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+      };
+    
+      const handleRememberMeChange = (event) => {
+        setRememberMe(event.target.checked);
+      };
+    
+      const handleLogin = () => {
+        const data = {
+          email: email,
+          password: password
+        };
+    
+        fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+          .then(response => response.json())
+          .then(data => {
+            const { user_id, token } = data;
+            
+            // Almacenar el token en el almacenamiento local
+            localStorage.setItem('token', token);
 
-function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+            // Redireccionar al usuario a otra página
+            window.location.href = '/feed'; // Reemplaza '/feed' con la URL deseada
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleRememberMeChange = (event) => {
-    setRememberMe(event.target.checked);
-  };
-
-  const handleLogin = () => {
-    // Aquí se implementa la lógica de inicio de sesión 
-  };
-
-  return (
+            // O mostrar un mensaje de éxito
+            alert('Inicio de sesión exitoso');
+    
+          })
+          .catch(error => {
+            // Manejo de errores del inicio de sesión
+            console.error(error);
+          });
+      };
+    
+      return (
     <div className="vh-100 d-flex justify-content-center align-items-center">
       <div className="container">
         <div className="row d-flex justify-content-center">
