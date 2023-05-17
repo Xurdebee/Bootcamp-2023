@@ -1,7 +1,6 @@
 import React from 'react';
 import NavBar from './components/Navbar';
 import Footer from './components/Footer';
-import LoginForm from './components/LoginForm';
 import ColumnaSugeridos from './components/ColumnaSugeridos';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ColumnaUsuario from './components/ColumnaUsuario';
@@ -14,7 +13,6 @@ function App() {
   return (
     <div>
       <NavBar />
-      {/* <LoginForm/> */}
       <div className="row mt-3">
         <div className="col-lg-3">
           <ColumnaUsuario/>
