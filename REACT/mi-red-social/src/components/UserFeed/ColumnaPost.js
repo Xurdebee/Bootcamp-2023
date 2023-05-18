@@ -6,7 +6,7 @@ import PostAmigos from './PostAmigos';
 function ColumnaPost() {
 	const userId = 1; // Reemplazar este valor con el valor userId del login
 	return (
-  <Container className='m-3'>
+  <Container>
       <div className="bg-light p-2 rounded-3 border border-1 mb-4">
         <div className="mb-0">
           <div className="mb-2 d-flex">

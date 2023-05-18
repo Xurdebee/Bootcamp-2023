@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap';
 
 const ColumnaUsuario = ({user}) => {
   return (
-	<Container className='m-3'>
+	<Container>
 		<div className="bg-light p-2 rounded-3 border-1 border">
 			<div className="text-center mb-3">
 				<div className="m-3">

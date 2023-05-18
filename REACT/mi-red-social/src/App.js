@@ -3,9 +3,9 @@ import React from 'react';
 import NavBar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import LoginForm from './components/Login/LoginForm';
-import ColumnaUsuario from './components/Feed/ColumnaUsuario';
-import ColumnaPost from './components/Feed/ColumnaPost';
-import ColumnaSugeridos from './components/Feed/ColumnaSugeridos';
+import ColumnaUsuario from './components/UserFeed/ColumnaUsuario';
+import ColumnaPost from './components/UserFeed/ColumnaPost';
+import ColumnaSugeridos from './components/UserFeed/ColumnaSugeridos';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import { RouterPrincipal } from "./Router/RouterPrincipal";
 
@@ -30,7 +30,7 @@ function App() {
     
       <NavBar />
       {/* <LoginForm/> */}
-      <div className="row mt-3">
+      <div className="row mt-3 m-3">
         <div className="col-lg-3">
           <ColumnaUsuario/>
         </div>

@@ -5,7 +5,7 @@ import { Container } from 'react-bootstrap';
 function ColumnaSugeridos() {
 	const userId = 1; // Reemplazar este valor con el valor userId del login
 	return (
-  <Container className='m-3'>
+  <Container>
       <div className="card">
         <div className="card-header pb-1 border-0">
           <h5 className="card-title mb-2">Quizás conozcas a:</h5>
