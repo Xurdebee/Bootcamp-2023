@@ -23,7 +23,7 @@ function NavBar() {
   return (
     <Navbar bg="light" expand="lg" sticky="top" className={`${isCollapsed ? 'navbar-collapse' : ''}`}>
       <Navbar.Brand href="#">
-        <img className="logo" src="logo_horizontal.png" alt="" height="40" />
+        <img className="logo mx-3" src="logo_horizontal.png" alt="" height="40" />
       </Navbar.Brand>
       {/* La barra de busqueda desaaparece en el menu cuando la ventana es inferior a 575 */}
       {!showSearchBar && (
@@ -32,8 +32,8 @@ function NavBar() {
           <Button variant="outline-primary" type="submit">Search</Button>
         </Form>
       )}
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-      <Navbar.Collapse id="responsive-navbar-nav">
+      <Navbar.Toggle className= "mx-3" aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav" className= "mx-3">
         <Nav className="ms-auto">
           <Nav.Link href="perfil_ejemplo-responsive.html">Mensajes</Nav.Link>
           <Nav.Link href="feed-responsive.html">Feed</Nav.Link>
