@@ -23,6 +23,34 @@ import React, { useState } from 'react';
       };
     
       const handleLogin = () => {
+        const url = '/feed'; // Ruta a la que deseas redirigir después del inicio de sesión
+        const body = JSON.stringify({ email, password }); // Convertir los datos a JSON
+      
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: body
+        })
+        .then(response => {
+          console.log(response); // Agregar console.log para verificar el objeto response
+          if (response.ok) {
+            // Si la respuesta es exitosa, redirigir a la página /feed
+            console.log("respuesta exitosa"); 
+            window.location.href = '/feed';
+          } else {
+            // Manejar el caso de respuesta no exitosa (por ejemplo, mostrar un mensaje de error)
+            console.error('Error en la petición');
+          }
+        })
+        .catch(error => {
+          // Manejar el error de la petición
+          console.error('Error en la petición', error);
+        });
+      };
+
+      /*const handleLogin = () => {
         const data = {
           email: email,
           password: password
@@ -53,7 +81,10 @@ import React, { useState } from 'react';
             // Manejo de errores del inicio de sesión
             console.error(error);
           });
-      };
+      };*/
+
+      
+      
     
       return (
     <div className="vh-100 d-flex justify-content-center align-items-center">
