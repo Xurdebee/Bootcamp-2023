@@ -1,10 +1,9 @@
 import React from 'react';
 import NavBar from '../components/Navbar';
 import Footer from '../components/Footer';
-import ColumnaSugeridos from '../components/ColumnaSugeridos';
+import ColumnaSugeridos from '../components/UserFeed/ColumnaSugeridos';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ColumnaUsuario from '../components/Feed/ColumnaUsuario';
-import AmigoSugerido from '../components/Feed/AmigoSugerido';
+import ColumnaUsuario from '../components/UserFeed/ColumnaUsuario';
 
 
 
@@ -13,18 +12,21 @@ function App() {
   return (
     <>
         <NavBar />
-        <div className="row mt-3">
-          <div className="col-lg-3">
-            <ColumnaUsuario/>
-          </div>
-          {/* <div className="col-lg-6">
-            <ColumnaPost/>
-          </div> */}
-          <div className="col-lg-3">
-            <ColumnaSugeridos><AmigoSugerido/></ColumnaSugeridos>
-          </div>
+
+      <div className="row mt-3 text-center m-3">
+        <div className="col-lg-3">
+          <ColumnaUsuario/>
         </div>
-        <Footer />
+        <div className="col-lg-6">
+          <ColumnaPost/>
+        </div>
+        <div className="col-lg-3">
+          <ColumnaSugeridos/>
+        </div>
+      </div>
+
+      <Footer />
+
     </>
     
   );
