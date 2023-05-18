@@ -83,7 +83,7 @@ import React, { useState } from 'react';
                 </form>
                 <div>
                   <p className="mb-0 text-center">¿No tienes cuenta?
-                    <a href="registro.html" className="text-primary fw-bold">¡Registrate!</a>
+                    <a href="/registro" className="text-primary fw-bold">¡Registrate!</a>
                   </p>
                 </div>
               </div>
