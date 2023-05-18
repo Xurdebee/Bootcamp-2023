@@ -31,7 +31,7 @@ function App() {
       <NavBar />
       {/* <LoginForm/> */}
       <div className="row mt-3 m-3">
-        <div className="col-lg-3">
+        <div className="col-lg-3 mb-4">
           <ColumnaUsuario/>
         </div>
         <div className="col-lg-6">
