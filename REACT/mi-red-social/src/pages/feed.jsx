@@ -1,10 +1,9 @@
 import React from 'react';
 import NavBar from '../components/Navbar';
 import Footer from '../components/Footer';
-import ColumnaSugeridos from '../components/ColumnaSugeridos';
+import ColumnaSugeridos from '../components/Feed/ColumnaSugeridos';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ColumnaUsuario from '../components/Feed/ColumnaUsuario';
-import AmigoSugerido from '../components/Feed/AmigoSugerido';
 
 
 
@@ -21,7 +20,7 @@ function App() {
             <ColumnaPost/>
           </div> */}
           <div className="col-lg-3">
-            <ColumnaSugeridos><AmigoSugerido/></ColumnaSugeridos>
+            <ColumnaSugeridos/>
           </div>
         </div>
         <Footer />
