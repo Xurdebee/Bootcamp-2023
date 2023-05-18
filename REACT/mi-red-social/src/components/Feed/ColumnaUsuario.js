@@ -3,11 +3,11 @@ import { Container } from 'react-bootstrap';
 
 const ColumnaUsuario = ({user}) => {
   return (
-	<Container>
+	<Container className='m-3'>
 		<div className="bg-light p-2 rounded-3 border-1 border">
 			<div className="text-center mb-3">
 				<div className="m-3">
-					<img className="rounded-4" src="ripley cuadrada.jpg" height="90" alt=""/>
+					<img className="rounded-4" src="./users/user_1.jpg" height="90" alt=""/>
 					{/* <img className="rounded-4" src={user.img} height="90" alt=""/> */}
 				</div>
 				{/* <h5 className="mb-0">{user.name}{user.surname}</h5> */}
