@@ -1,6 +1,4 @@
-// importar los componentes de react-router-dom
 // import { BrowserRouter, Route, Link } from "react-router-dom";
-
 import React from 'react';
 
 import NavBar from './components/Navbar/Navbar';
@@ -11,13 +9,11 @@ import ColumnaUsuario from './components/Feed/ColumnaUsuario';
 import AmigoSugerido from './components/Feed/AmigoSugerido';
 import ColumnaPost from './components/Feed/ColumnaPost';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { RouterPrincipal } from "./Router/RouterPrincipal";
 
 
 //no es necesario si no utilizamos los css para toda la web, estructura sacada de Silvia
 // import "./App.css";
-
-
-
 
 function App() {
   return (
@@ -51,9 +47,7 @@ function App() {
       <Footer />
 
     </div>
-
   );
 }
-
 
 export default App;
