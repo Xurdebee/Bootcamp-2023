@@ -7,6 +7,7 @@ import ColumnaUsuario from './components/UserFeed/ColumnaUsuario';
 import ColumnaPost from './components/UserFeed/ColumnaPost';
 import ColumnaSugeridos from './components/UserFeed/ColumnaSugeridos';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { RouterPrincipal } from './Router/RouterPrincipal';
 // import { RouterPrincipal } from "./Router/RouterPrincipal";
 
 
@@ -16,33 +17,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <div>
+<RouterPrincipal />
 
-      {/* dentro de esto cargamos las rutas que tengamos
-      
-      <>
-        <Routes>
-          <route path="/" element={<Login/>}/}
-          <route path="/feed" element={<Feed/>}/}
-        </Routes>
-       </>
-
-       */}
-    
-      <NavBar />
-      {/* <LoginForm/> */}
-      <div className="row mt-3 m-3">
-        <div className="col-lg-3 mb-4">
-          <ColumnaUsuario/>
-        </div>
-        <div className="col-lg-6">
-          <ColumnaPost/>
-        </div>
-        <div className="col-lg-3">
-          <ColumnaSugeridos/>
-        </div>
-      </div>
-
-      <Footer />
 
     </div>
   );
