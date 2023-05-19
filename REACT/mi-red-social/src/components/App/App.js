@@ -6,6 +6,7 @@ import ColumnaSugeridos from './components/ColumnaSugeridos';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ColumnaUsuario from './components/ColumnaUsuario';
 import AmigoSugerido from './components/AmigoSugerido';
+import FormPerfil from '../Perfil/FormPerfil';
 
 //no es necesario si no utilizamos los css para toda la web, estructura sacada de Silvia
 // import "./App.css";
@@ -20,28 +21,28 @@ function App() {
       {/* dentro de esto cargamos las rutas que tengamos
       
       <>
-        <Routes>
-          <route path="/" element={<Login/>}/}
-          <route path="/feed" element={<Feed/>}/}
-        </Routes>
-       </>
+      <Routes>
+      //     <route path="/" element={<Login/>}/}
+      //     <route path="/feed" element={<Feed/>}/}
+      //   </Routes>
+      //  </>
 
        */}
     
-      <NavBar />
+      {/* <NavBar />
       {/* <LoginForm/> */}
-      <div className="row mt-3">
+      {/* <div className="row mt-3">
         <div className="col-lg-3">
           <ColumnaUsuario/>
-        </div>
+        // </div> */} 
         {/* <div className="col-lg-6">
           <ColumnaPost/>
         </div> */}
-        <div className="col-lg-3">
+        {/* <div className="col-lg-3">
           <ColumnaSugeridos><AmigoSugerido/></ColumnaSugeridos>
         </div>
       </div>
-      <Footer />
+      <Footer /> */}
     </div>
 
   );
