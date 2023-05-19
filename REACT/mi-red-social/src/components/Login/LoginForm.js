@@ -22,8 +22,8 @@ import React, { useState } from 'react';
         setRememberMe(event.target.checked);
       };
     
-      const handleLogin = () => {
-        const url = '/feed'; // Ruta a la que deseas redirigir después del inicio de sesión
+      /*const handleLogin = () => {
+        const url = 'http://localhost:3000/login'; // Ruta a la que deseas redirigir después del inicio de sesión
         const body = JSON.stringify({ email, password }); // Convertir los datos a JSON
       
         fetch(url, {
@@ -34,7 +34,7 @@ import React, { useState } from 'react';
           body: body
         })
         .then(response => {
-          console.log(response); // Agregar console.log para verificar el objeto response
+          console.log(response); //  console.log para verificar el objeto response
           if (response.ok) {
             // Si la respuesta es exitosa, redirigir a la página /feed
             console.log("respuesta exitosa"); 
@@ -48,15 +48,15 @@ import React, { useState } from 'react';
           // Manejar el error de la petición
           console.error('Error en la petición', error);
         });
-      };
+      };*/
 
-      /*const handleLogin = () => {
+      const handleLogin = () => {
         const data = {
           email: email,
           password: password
         };
     
-        fetch('/login', {
+        fetch('http://localhost:3000/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -81,7 +81,7 @@ import React, { useState } from 'react';
             // Manejo de errores del inicio de sesión
             console.error(error);
           });
-      };*/
+      };
 
       
       
