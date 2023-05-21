@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 
 function NavBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -35,11 +36,11 @@ function NavBar() {
       <Navbar.Toggle className= "mx-3" aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav" className= "mx-3">
         <Nav className="ms-auto">
-          <Nav.Link href="perfil_ejemplo-responsive.html">Mensajes</Nav.Link>
-          <Nav.Link href="feed-responsive.html">Feed</Nav.Link>
-          <Nav.Link href="amigos-responsive.html">Amigos</Nav.Link>
-          <Nav.Link href="index-responsive.html">LogIn</Nav.Link>
-          <Nav.Link href="mi_perfil-responsive.html">Mi Perfil</Nav.Link>
+          <NavLink to="/" className="nav-link" aria-current="page"> </NavLink>
+          <NavLink to="/feed" className="nav-link" aria-current="page"> Feed </NavLink>
+          <NavLink to="/amigos" className="nav-link" aria-current="page"> Amigos </NavLink>
+          <NavLink to="/miperfil" className="nav-link" aria-current="page"> Mi Perfil </NavLink>
+          
         </Nav>
         {/* La barra de busqueda aparece en el menu hamburguesa cuando la ventana es inferior a 575 */}
         <Form className={`d-flex d-lg-none ${showSearchBar ? '' : 'd-none'}`}> 
