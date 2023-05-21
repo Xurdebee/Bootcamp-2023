@@ -13,7 +13,7 @@ function ColumnaSugeridos() {
 
         <article className="mx-3">
       		<AmigoSugerido userId={userId} />
-    	</article>
+    	  </article>
 
         <div className="d-grid mt-3">
           <a href="#!" className="btn btn-sm btn-outline-primary">Ver más</a>

@@ -7,6 +7,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ColumnaUsuario from './components/ColumnaUsuario';
 import AmigoSugerido from './components/AmigoSugerido';
 
+
+
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+
+
 //no es necesario si no utilizamos los css para toda la web, estructura sacada de Silvia
 // import "./App.css";
 
@@ -20,11 +25,15 @@ function App() {
       {/* dentro de esto cargamos las rutas que tengamos
       
       <>
-        <Routes>
-          <route path="/" element={<Login/>}/}
-          <route path="/feed" element={<Feed/>}/}
-        </Routes>
-       </>
+        <Provider>
+          <Router>
+            <Routes>
+              <route exact path="/" element={<Login/>}/} hideNavBar={true}
+              <route path="/feed" element={<Feed/>}/}
+            </Routes>
+          </Router>
+        </Provider>
+      </>
 
        */}
     

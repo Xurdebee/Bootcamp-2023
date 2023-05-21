@@ -6,7 +6,10 @@ import LoginForm from './components/Login/LoginForm';
 import ColumnaUsuario from './components/UserFeed/ColumnaUsuario';
 import ColumnaPost from './components/UserFeed/ColumnaPost';
 import ColumnaSugeridos from './components/UserFeed/ColumnaSugeridos';
+import BloqueAmigos from './components/Amigos/BloqueAmigos';
+import BloqueSugeridos from './components/Sugeridos/BloqueSugeridos';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 // import { RouterPrincipal } from "./Router/RouterPrincipal";
 
 
@@ -34,12 +37,21 @@ function App() {
         <div className="col-lg-3 mb-4">
           <ColumnaUsuario/>
         </div>
-        <div className="col-lg-6">
+        {/* <div className="col-lg-6">
           <ColumnaPost/>
         </div>
         <div className="col-lg-3">
           <ColumnaSugeridos/>
+        </div> */}
+      <div className="col-lg-9 mb-4">
+        <div className="mb-4">
+          <BloqueAmigos/>
         </div>
+        <div className="mb-4">
+          <BloqueSugeridos/>
+        </div>
+      </div>
+       
       </div>
 
       <Footer />
