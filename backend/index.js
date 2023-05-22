@@ -101,28 +101,6 @@ app.get('/followed/:user_id', async function(req, res) {
   });
 
 
-  
-//   Las personas que no sigue el usuario x
-
-// app.get('/suggested/:user_id', async function(req, res) {
-// 	const user_id = req.params.user_id
-// 	try {
-// 		if (user_id){
-// 			const user_suggest = await sequelize.query(`SELECT * FROM users WHERE user_id NOT IN (SELECT follow_user_id FROM follow WHERE user_id = "${user_id}") AND user_id != "${user_id}"`, {type: sequelize.QueryTypes.SELECT});
-// 			// seleccionar todos los usuarios (tabla users) que en la tabla follow no estén en follow_user_id cuando user_id sea = 1
-	  
-// 			res.send(user_suggest);
-		
-// 		}else{
-// 			res.status(404).send('No existe usuario');
-// 		}
-	  
-// 	} catch (error) {
-// 	  console.error(error);
-// 	  res.status(500).send('Error interno del servidor');
-// 	}
-//   });
-
 app.get('/suggested/:user_id', async function(req, res) {
 	const user_id = req.params.user_id;
 	try {
@@ -140,34 +118,36 @@ app.get('/suggested/:user_id', async function(req, res) {
   });
 
 
-app.post('/newfollow', async function(req, res){
+// Agregar nuevo seguimiento
+app.post('/newfollow', async function(req, res) {
 	const userId = req.body.user_id;
 	const followUserId = req.body.follow_user_id;
 	const followStatus = 1;
   
 	try {
-		await sequelize.query("INSERT INTO follow (user_id, follow_user_id, follow_status) VALUES (?, ?, ?)", {
-			replacements: [userId, followUserId, followStatus],
-			type: sequelize.QueryTypes.INSERT
-		});
-
-		console.log(`Nuevo seguimiento agregado: user_id=${userId}, follow_user_id=${followUserId}`);
-		res.sendStatus(200);
+	  await sequelize.query("INSERT INTO follow (user_id, follow_user_id, follow_status) VALUES (?, ?, ?)", {
+		replacements: [userId, followUserId, followStatus],
+		type: sequelize.QueryTypes.INSERT
+	  });
+  
+	  console.log(`Nuevo seguimiento agregado: user_id=${userId}, follow_user_id=${followUserId}`);
+	  res.sendStatus(200);
 	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: 'Error al guardar el follow' });
+	  console.error(error);
+	  res.status(500).json({ error: 'Error al guardar el follow' });
 	}
-});
+  });
+  
 
-
-// Dejar de seguir amigo
-app.put('/unfollow/:user_id/:follow_user_id', async (req, res) => {
-	const { user_id, follow_user_id } = req.params;
+  /// Dejar de seguir amigo
+app.put('/unfollow/', async (req, res) => {
+	const userId = req.body.user_id;
+	const followUserId = req.body.follow_user_id;
   
 	try {
 	  // Actualizar el campo follow_status a 0
 	  const result = await sequelize.query(`UPDATE follow SET follow_status = 0 WHERE user_id = ? AND follow_user_id = ?`, {
-		replacements: [user_id, follow_user_id],
+		replacements: [userId, followUserId],
 		type: sequelize.QueryTypes.UPDATE
 	  });
   
@@ -183,7 +163,9 @@ app.put('/unfollow/:user_id/:follow_user_id', async (req, res) => {
 	  console.error(error);
 	  res.status(500).json({ message: 'Ha ocurrido un error al dejar de seguir al usuario.' });
 	}
-});
+  });
+  
+  
 
 
 
