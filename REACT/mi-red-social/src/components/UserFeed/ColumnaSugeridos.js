@@ -3,8 +3,8 @@ import AmigoSugerido from './AmigoSugerido';
 import { Container } from 'react-bootstrap';
 
 function ColumnaSugeridos() {
-	const user_id = 1; 
-  // const user_Id = localStorage.getItem('user_id');
+	// const user_id = 1; 
+  const user_id = localStorage.getItem('user_id');
 	return (
   <Container>
       <div className="card">
