@@ -50,41 +50,7 @@ import React, { useState } from 'react';
         });
       };
 
-      /*const handleLogin = () => {
-        const data = {
-          email: email,
-          password: password
-        };
-    
-        fetch('/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-          .then(response => response.json())
-          .then(data => {
-            const { user_id, token } = data;
-            
-            // Almacenar el token en el almacenamiento local
-            localStorage.setItem('token', token);
-
-            // Redireccionar al usuario a otra página
-            window.location.href = '/feed'; // Reemplaza '/feed' con la URL deseada
-
-            // O mostrar un mensaje de éxito
-            alert('Inicio de sesión exitoso');
-    
-          })
-          .catch(error => {
-            // Manejo de errores del inicio de sesión
-            console.error(error);
-          });
-      };*/
-
-      
-      
+          
     
       return (
     <div className="vh-100 d-flex justify-content-center align-items-center">

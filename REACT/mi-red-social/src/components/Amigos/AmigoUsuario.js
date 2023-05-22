@@ -43,7 +43,7 @@ const AmigoUsuario = ({ userId }) => {
     <Container>
       <Row>
         {users.map(user => (
-          <Col key={user.user_id} xs={6} sm={4} md={3} lg={3}>
+          <Col key={user.user_id} xs={6} sm={4} md={3} lg={3} xxl={2}>
               <div className="text-center mb-5">
                     <a href="#">
                       <img className="rounded-circle" src={user.image} width="70" alt="" />
