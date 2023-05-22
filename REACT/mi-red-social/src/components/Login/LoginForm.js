@@ -21,67 +21,44 @@ import React, { useState } from 'react';
       const handleRememberMeChange = (event) => {
         setRememberMe(event.target.checked);
       };
-    
-      /*const handleLogin = () => {
-        const url = 'http://localhost:3000/login'; // Ruta a la que deseas redirigir después del inicio de sesión
-        const body = JSON.stringify({ email, password }); // Convertir los datos a JSON
-      
-        fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: body
-        })
-        .then(response => {
-          console.log(response); //  console.log para verificar el objeto response
-          if (response.ok) {
-            // Si la respuesta es exitosa, redirigir a la página /feed
-            console.log("respuesta exitosa"); 
-            window.location.href = '/feed';
-          } else {
-            // Manejar el caso de respuesta no exitosa (por ejemplo, mostrar un mensaje de error)
-            console.error('Error en la petición');
-          }
-        })
-        .catch(error => {
-          // Manejar el error de la petición
-          console.error('Error en la petición', error);
-        });
-      };*/
 
       const handleLogin = () => {
         const data = {
           email: email,
           password: password
         };
-    
-        fetch('http://localhost:3000/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-          .then(response => response.json())
-          .then(data => {
-            const { user_id, token } = data;
-            
-            // Almacenar el token en el almacenamiento local
-            localStorage.setItem('token', token);
+        
+        // Validar si los campos están vacíos
+        if (email == "" || password == "") {
+          alert("Por favor, ingrese email y contraseña.");
+        } else {
 
-            // Redireccionar al usuario a otra página
-            window.location.href = '/feed'; // Reemplaza '/feed' con la URL deseada
-
-            // O mostrar un mensaje de éxito
-            alert('Inicio de sesión exitoso');
-    
+          fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
           })
-          .catch(error => {
-            // Manejo de errores del inicio de sesión
-            console.error(error);
-          });
-      };
+            .then(response => response.json())
+            .then(data => {
+              const { user_id, token } = data;
+              
+              // Almacenar el token en el almacenamiento local
+              localStorage.setItem('token', token);
+
+              // Redireccionar al usuario a otra página
+              window.location.href = '/feed'; // Reemplaza '/feed' con la URL deseada
+
+              // O mostrar un mensaje de éxito
+              alert('Inicio de sesión exitoso');
+      
+            })
+            .catch(error => {
+              // Manejo de errores del inicio de sesión
+              console.error(error);
+            });
+      }};
 
       
       
