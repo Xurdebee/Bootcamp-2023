@@ -13,11 +13,43 @@ function RegistroForm() {
     const [education, setEducation] = useState("");
     
   
-    const handleSubmit = (event) => {
-      event.preventDefault(); //evita que la página se recargue y se pierda la información ingresada por el usuario
-      // Falta el código para manejar el envío del formulario 
+    const handleSubmit = async (event) => {
+        event.preventDefault(); 
+        try {
+            const response = await fetch("http://localhost:3000/newregister", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    alias: alias,
+                    name: name,
+                    surname: surname,
+                    email: email,
+                    password: password,
+                    birthday: birthday,
+                    country: country,
+                    city: city,
+                    linkedIn: linkedIn,
+                    education: education
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.message) {
+                alert('El usuario ha sido registrado exitosamente!');
+                setTimeout(() => {
+                    window.location.href = 'index-responsive.html';
+                }, 2000);
+            } else {
+                alert('Error al crear el usuario');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Ha ocurrido un error al crear el usuario');
+        }
     };
-  
     const handleReset = () => {
       setAlias("");
       setName("");
