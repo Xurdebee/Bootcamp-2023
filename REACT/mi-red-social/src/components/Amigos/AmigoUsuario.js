@@ -48,7 +48,7 @@ const AmigoUsuario = ({ user_id }) => {
     <Container>
       <Row>
         {users.map(user => (
-          <Col key={user.user_id} xs={6} sm={4} md={3} lg={3} xxl={2}>
+          <Col key={user.follow_user_id} xs={6} sm={4} md={3} lg={3} xxl={2}>
               <div className="text-center mb-5">
                     <a href={`/user/${user.follow_user_id}`}>
                       <img className="rounded-circle" src={user.image} width="70" alt="" />
