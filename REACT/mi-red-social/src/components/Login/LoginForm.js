@@ -40,23 +40,41 @@ import React, { useState } from 'react';
             },
             body: JSON.stringify(data)
           })
-            .then(response => response.json())
+            .then(response => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                throw new Error(response.statusText);
+              }
+            })
             .then(data => {
               const { user_id, token } = data;
               
               // Almacenar el token en el almacenamiento local
               localStorage.setItem('token', token);
-
+            
+              // Almacenar el user_id en el almacenamiento local
+              localStorage.setItem('user_id', user_id);
+            
+              // Mostrar un mensaje de éxito
+              alert('Inicio de sesión exitoso');
+            
               // Redireccionar al usuario a otra página
               window.location.href = '/feed'; // Reemplaza '/feed' con la URL deseada
-
-              // O mostrar un mensaje de éxito
-              alert('Inicio de sesión exitoso');
-      
+            
+              // Agregar un return para salir de la función
+              return;
             })
+            
             .catch(error => {
               // Manejo de errores del inicio de sesión
-              console.error(error);
+              if (error instanceof TypeError) {
+                alert('Error de red'); // Mostrar un mensaje de error en caso de problemas de conexión
+              } else {
+                alert('Correo electrónico o contraseña incorrectos'); // Mostrar un mensaje de error genérico para otros errores
+              }
+              setEmail('');
+              setPassword('');
             });
       }};
 

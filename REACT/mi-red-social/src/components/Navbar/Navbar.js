@@ -43,7 +43,7 @@ function NavBar() {
           <NavLink to="/" className="nav-link" aria-current="page"> </NavLink>
           <NavLink to="/feed" className="nav-link" aria-current="page"> Feed </NavLink>
           <NavLink to="/amigos" className="nav-link" aria-current="page"> Amigos </NavLink>
-          <NavLink to="/miperfil" className="nav-link" aria-current="page"> Mi Perfil </NavLink>
+          <NavLink to="/perfil" className="nav-link" aria-current="page"> Mi Perfil </NavLink>
           <NavLink to="/" className="nav-link" aria-current="page" onClick={handleLogout}>Desconectarse </NavLink>
           
         </Nav>

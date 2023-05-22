@@ -3,7 +3,8 @@ import React from 'react';
 
 
 function PostAmigos() {
-	const userId = 1; // Reemplazar este valor con el valor userId del login
+	// const userId = 1; // Reemplazar este valor con el valor userId del login
+  const user_id = localStorage.getItem('user_id');
 	return (
     <>
       <div className="bg-light p-2 rounded-3 border border-1 mb-3">
@@ -28,7 +29,7 @@ function PostAmigos() {
           <div className="hstack gap-3">
             <button className="btn btn-outline-danger border-0 rounded-circle corazon " id="boton_likes${comment.id}" type="submit" >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-heart-fill" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                <path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
               </svg>
             </button>
 
