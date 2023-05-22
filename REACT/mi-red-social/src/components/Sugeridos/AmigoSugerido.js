@@ -1,32 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
-const AmigoSugerido = ({ userId }) => {
+function AmigoSugerido({ user_id }) {
   const [users, setUsers] = useState([]);
+  
 
   useEffect(() => {
-    fetch(`http://localhost:3000/suggested/${userId}`)
+    fetch(`http://localhost:3000/suggested/${user_id}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data); // Agregar esta línea para verificar los datos en la consola
+        console.log(data);
         setUsers(data);
       })
       .catch(error => {
         console.log(error);
       });
-  }, [userId]);
+  }, [user_id]);
 
   const followUser = (user_id, follow_user_id) => {
-    fetch(`http://localhost:3000/follow/${user_id}/${follow_user_id}`, {
-      method: 'PUT',
+    fetch('http://localhost:3000/newfollow', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify({ user_id, follow_user_id })
     })
       .then(response => {
-        // Si la eliminación es exitosa, recargar la lista de amigos para reflejar los cambios
-        setUsers([]);
-        fetch(`http://localhost:3000/suggested/${userId}`)
+        console.log('Follow successful');
+        // Actualizar la lista de usuarios sugeridos después de hacer el seguimiento
+        fetch(`http://localhost:3000/suggested/${user_id}`)
           .then(response => response.json())
           .then(data => {
             console.log(data);
@@ -36,7 +38,9 @@ const AmigoSugerido = ({ userId }) => {
             console.log(error);
           });
       })
-      .catch((err) => console.log(err));
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (
@@ -66,6 +70,6 @@ const AmigoSugerido = ({ userId }) => {
       </Row>
     </Container>
   );
-};
+}
 
 export default AmigoSugerido;

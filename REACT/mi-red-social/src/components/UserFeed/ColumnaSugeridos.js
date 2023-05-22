@@ -3,7 +3,8 @@ import AmigoSugerido from './AmigoSugerido';
 import { Container } from 'react-bootstrap';
 
 function ColumnaSugeridos() {
-	const userId = 1; // Reemplazar este valor con el valor userId del login
+	const user_id = 1; 
+  // const user_Id = localStorage.getItem('user_id');
 	return (
   <Container>
       <div className="card">
@@ -12,7 +13,7 @@ function ColumnaSugeridos() {
         </div>
 
         <article className="mx-3">
-      		<AmigoSugerido userId={userId} />
+      		<AmigoSugerido user_id={user_id} />
     	  </article>
 
         <div className="d-grid mt-3">
