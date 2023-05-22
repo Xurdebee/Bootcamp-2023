@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
-const AmigoUsuario = ({ userId }) => {
+const AmigoUsuario = ({ user_id }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/followed/${userId}`)
+    fetch(`http://localhost:3000/followed/${user_id}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -14,10 +14,10 @@ const AmigoUsuario = ({ userId }) => {
       .catch(error => {
         console.log(error);
       });
-  }, [userId]);
+  }, [user_id]);
 
   const unfollowUser = (user_id, follow_user_id) => {
-    fetch(`http://localhost:3000/unfollow/${user_id}/${follow_user_id}`, {
+    fetch(`http://localhost:3000/unfollow/${user_id}/${follow_user_id}`, { // Aquí se cambia user_id por userid
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -26,7 +26,7 @@ const AmigoUsuario = ({ userId }) => {
       .then(response => {
         // Si la eliminación es exitosa, recargar la lista de amigos para reflejar los cambios
         setUsers([]);
-        fetch(`http://localhost:3000/followed/${userId}`)
+        fetch(`http://localhost:3000/followed/${user_id}`)
           .then(response => response.json())
           .then(data => {
             console.log(data);
