@@ -47,6 +47,9 @@ import React, { useState } from 'react';
               // Almacenar el token en el almacenamiento local
               localStorage.setItem('token', token);
 
+              // Almacenar el user_id en el almacenamiento local
+              localStorage.setItem('user_id', user_id);
+
               // Redireccionar al usuario a otra página
               window.location.href = '/feed'; // Reemplaza '/feed' con la URL deseada
 
