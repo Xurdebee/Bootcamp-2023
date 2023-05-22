@@ -8,43 +8,20 @@ import ColumnaUsuario from './components/ColumnaUsuario';
 import AmigoSugerido from './components/AmigoSugerido';
 import FormPerfil from '../Perfil/FormPerfil';
 
-//no es necesario si no utilizamos los css para toda la web, estructura sacada de Silvia
-// import "./App.css";
+
+
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+
 
 
 
 
 function App() {
   return (
+  <>
     <div>
-
-      {/* dentro de esto cargamos las rutas que tengamos
-      
-      <>
-      <Routes>
-      //     <route path="/" element={<Login/>}/}
-      //     <route path="/feed" element={<Feed/>}/}
-      //   </Routes>
-      //  </>
-
-       */}
-    
-      {/* <NavBar />
-      {/* <LoginForm/> */}
-      {/* <div className="row mt-3">
-        <div className="col-lg-3">
-          <ColumnaUsuario/>
-        // </div> */} 
-        {/* <div className="col-lg-6">
-          <ColumnaPost/>
-        </div> */}
-        {/* <div className="col-lg-3">
-          <ColumnaSugeridos><AmigoSugerido/></ColumnaSugeridos>
-        </div>
-      </div>
-      <Footer /> */}
     </div>
-
+  </>
   );
 }
 
