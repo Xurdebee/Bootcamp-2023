@@ -17,7 +17,7 @@ function AmigoSugerido({ user_id }) {
       });
   }, [user_id]);
 
-  const followUser = (user_id, follow_user_id) => {
+  const followUser = (follow_user_id) => {
     fetch('http://localhost:3000/newfollow', {
       method: 'POST',
       headers: {
@@ -26,7 +26,7 @@ function AmigoSugerido({ user_id }) {
       body: JSON.stringify({ user_id, follow_user_id })
     })
       .then(response => {
-        console.log('Follow successful');
+        console.log('Follow realizado con exito');
         // Actualizar la lista de usuarios sugeridos después de hacer el seguimiento
         fetch(`http://localhost:3000/suggested/${user_id}`)
           .then(response => response.json())
@@ -57,10 +57,7 @@ function AmigoSugerido({ user_id }) {
                       {user.name} {user.surname}
                     </a>
                     <p className="mb-2 small text-truncate">{user.alias}</p>
-                    <button
-                      className="btn btn-outline-success btn-sm"
-                      onClick={() => followUser(user.user_id, user.follow_user_id)}
-                    >
+                    <button className="btn btn-outline-success btn-sm" onClick={() => followUser(user.user_id)}>
                       Añadir
                     </button>
                   </div>
