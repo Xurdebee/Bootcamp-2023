@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-
 function AmigoSugerido({ user_id }) {
   const [users, setUsers] = useState([]);
 
@@ -26,7 +25,9 @@ function AmigoSugerido({ user_id }) {
       body: JSON.stringify({ user_id, follow_user_id })
     })
       .then(response => {
+
         console.log('Follow realizado con exito');
+
         // Actualizar la lista de usuarios sugeridos después de hacer el seguimiento
         fetch(`http://localhost:3000/suggested/${user_id}`)
           .then(response => response.json())
