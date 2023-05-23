@@ -175,13 +175,33 @@ app.put('/unfollow/', async (req, res) => {
 
 app.get('/user/:user_id', async function(req, res) {
 	try {
-	const user = await sequelize.query(`SELECT * FROM users WHERE user_id = ${req.params.user_id}`, {type: sequelize.QueryTypes.SELECT});
-	res.send(user);
-	} catch (error) {
-	  console.error(error);
-	  res.status(500).send('Internal server error');
-	}
+		const user = await sequelize.query(`
+		SELECT
+			users.*,
+			COUNT(DISTINCT post.post_id) AS number_posts,
+			COUNT(DISTINCT post_likes.like_id) AS number_likes,
+			COUNT(DISTINCT follow.follow_user_id) AS number_users
+		FROM
+			users
+			LEFT JOIN post ON users.user_id = post.user_id
+			LEFT JOIN post_likes ON post.post_id = post_likes.post_id
+			LEFT JOIN follow ON users.user_id = follow.user_id
+		WHERE
+			users.user_id = :user_id
+		GROUP BY
+			users.user_id;
+		`, {
+			replacements: { user_id: req.params.user_id },
+			type: sequelize.QueryTypes.SELECT
+		});
+	console.log (user)
+		res.send(user);
+		} catch (error) {
+		console.error(error);
+		res.status(500).send('Internal server error');
+		}
   });
+  
 
 
 
