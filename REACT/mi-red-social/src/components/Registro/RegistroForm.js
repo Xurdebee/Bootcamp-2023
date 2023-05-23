@@ -141,20 +141,14 @@ function RegistroForm() {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="education">Nivel de educación</label>
-              <select
+              <label htmlFor="education">Formación</label>
+              <textarea 
                 className="form-control"
-                id="education"
-                name="education"
+                id="education" 
+                rows="3" 
                 value={education}
-                onChange={(e) => setEducation(e.target.value)}
-              >
-                <option value="none">Selecciona un nivel</option>
-                <option value="primaria">Primaria</option>
-                <option value="secundaria">Secundaria</option>
-                <option value="bachillerato">Bachillerato</option>
-                <option value="universidad">Universidad</option>
-              </select>
+                onChange={(e) => setEducation(e.target.value)}>
+              </textarea>
             </div>
             
             <div className="btn-container d-flex justify-content-evenly mb-1">
