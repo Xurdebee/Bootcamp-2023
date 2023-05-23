@@ -40,7 +40,7 @@ function RegistroForm() {
             if (data.message) {
                 alert('El usuario ha sido registrado exitosamente!');
                 setTimeout(() => {
-                    window.location.href = 'index-responsive.html';
+                    window.location.href = '/';
                 }, 2000);
             } else {
                 alert('Error al crear el usuario');
@@ -81,7 +81,7 @@ function RegistroForm() {
                   id="alias"
                   name="username"
                   value={alias}
-                  onChange={(e) => setAlias(e.target.value)} //e es lo mismo que event
+                  onChange={(event) => setAlias(event.target.value)} //e es lo mismo que event
                 />
               </div>
               <div className="form-group">
@@ -92,7 +92,7 @@ function RegistroForm() {
                   id="name"
                   name="fullname"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(event) => setName(event.target.value)}
                 />
               </div>
               <div className="form-group">
@@ -103,7 +103,7 @@ function RegistroForm() {
                   id="surname"
                   name="fullname"
                   value={surname}
-                  onChange={(e) => setSurname(e.target.value)}
+                  onChange={(event) => setSurname(event.target.value)}
                 />
               </div>
               <div className="form-group">
@@ -114,7 +114,7 @@ function RegistroForm() {
                   id="email"
                   name="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </div>
               <div className="form-group">
@@ -125,7 +125,7 @@ function RegistroForm() {
                   id="password"
                   name="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(event) => setPassword(event.target.value)}
                 />
               </div>
               <div className="form-group">
@@ -136,7 +136,7 @@ function RegistroForm() {
                   id="birthday"
                   name="age"
                   value={birthday}
-                  onChange={(e) => setBirthday(e.target.value)}
+                  onChange={(event) => setBirthday(event.target.value)}
                 />
                </div> 
                <div className="form-group">
@@ -147,7 +147,7 @@ function RegistroForm() {
                 id="country"
                 name="country"
                 value={country}
-                onChange={(e) => setCountry(e.target.value)}
+                onChange={(event) => setCountry(event.target.value)}
               />
             </div>
             <div className="form-group">
@@ -158,7 +158,7 @@ function RegistroForm() {
                 id="city"
                 name="city"
                 value={city}
-                onChange={(e) => setCity(e.target.value)}
+                onChange={(event) => setCity(event.target.value)}
               />
             </div>
             <div className="form-group">
@@ -169,7 +169,7 @@ function RegistroForm() {
                 id="linkedin"
                 name="linkedin"
                 value={linkedIn}
-                onChange={(e) => setLinkedIn(e.target.value)}
+                onChange={(event) => setLinkedIn(event.target.value)}
               />
             </div>
             <div className="form-group">
@@ -179,7 +179,7 @@ function RegistroForm() {
                 id="education"
                 name="education"
                 value={education}
-                onChange={(e) => setEducation(e.target.value)}
+                onChange={(event) => setEducation(event.target.value)}
               >
                 <option value="none">Selecciona un nivel</option>
                 <option value="primaria">Primaria</option>
@@ -192,7 +192,7 @@ function RegistroForm() {
             <div className="btn-container d-flex justify-content-evenly mb-1">
                 <button type="reset" className="btn btn-secondary m-2">Limpiar</button>
                 <button type="submit" className="btn btn-primary m-2">Enviar</button>
-                <a href="index-responsive.html" className="btn btn-danger  m-2">Cancelar</a>
+                <a href="index-responsivevent.html" className="btn btn-danger  m-2">Cancelar</a>
             </div>
 
           </form>
