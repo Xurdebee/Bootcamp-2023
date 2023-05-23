@@ -101,6 +101,8 @@ app.get('/followed/:user_id', async function(req, res) {
   });
 
 
+    // Las personas que no sigue el usuario x
+
 app.get('/suggested/:user_id', async function(req, res) {
 	const user_id = req.params.user_id;
 	try {
@@ -139,7 +141,7 @@ app.post('/newfollow', async function(req, res) {
   });
   
 
-  /// Dejar de seguir amigo
+  /// Dejar de seguir usuario
 app.put('/unfollow/', async (req, res) => {
 	const userId = req.body.user_id;
 	const followUserId = req.body.follow_user_id;
@@ -171,7 +173,7 @@ app.put('/unfollow/', async (req, res) => {
 
 
 
-// Deberia traer los usuarios una vez pinchas en su enlace (sin implementar)
+// Datos del usuario user_id, se envian desde el front, carga desde el user_id logeado
 
 app.get('/user/:user_id', async function(req, res) {
 	try {
@@ -205,12 +207,11 @@ app.get('/user/:user_id', async function(req, res) {
 
 
 
-// Deberia traer los post (sin implementar)
+// Trae todos los post (sin utilizar)
 
   app.get('/allPost', async function(req, res) {
 	try {
 	  const all_post = await sequelize.query("SELECT * FROM post", {type: sequelize.QueryTypes.SELECT});
-	//   console.log(personas);
 	  res.send(all_post);
 	  
 	} catch (error) {
@@ -218,6 +219,30 @@ app.get('/user/:user_id', async function(req, res) {
 	  res.status(500).send('Error interno del servidor');
 	}
   });
+
+
+
+// Trae todos los post de los amigos
+
+app.get('/friendPost', async function(req, res) {
+	try {
+	  const friend_post = await sequelize.query(`
+		SELECT post.*, users.name, users.surname, users.alias, users.image
+		FROM post
+		JOIN users ON post.user_id = users.user_id
+	  `, { type: sequelize.QueryTypes.SELECT });
+  
+	  res.send(friend_post);
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).send('Error interno del servidor');
+	}
+  });
+  
+
+
+
+
 
 //Crear un post  
 app.post('/createPost', async function(req, res) {

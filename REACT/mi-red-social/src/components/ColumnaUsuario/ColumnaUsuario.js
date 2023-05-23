@@ -35,18 +35,18 @@ const ColumnaUsuario = () => {
 				<p className="mt-3">{user.education}</p>
 				<div className="hstack gap-2 gap-xl-3 justify-content-center">
 				<div>
-					<h6 className="mb-0"><strong>{user.number_posts} 1</strong></h6>
+					<h6 className="mb-0"><strong>{user.number_posts}</strong></h6>
 					<small>Post</small>
 				</div>
 
 				<div className="vr"></div>
 				<div>
-					<h6 className="mb-0"><strong>{user.number_users}2</strong></h6>
+					<h6 className="mb-0"><strong>{user.number_users}</strong></h6>
 					<small>Amigos</small>
 				</div>
 				<div className="vr"></div>
 				<div>
-					<h6 className="mb-0"><strong>{user.number_likes}3</strong></h6>
+					<h6 className="mb-0"><strong>{user.number_likes}</strong></h6>
 					<small>Likes</small>
 				</div>
 				</div>
