@@ -10,11 +10,42 @@ function RegistroForm() {
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [linkedIn, setLinkedIn] = useState("");
-  const [education, setEducation] = useState("");
+  const [education, setEducation] = useState("none");
 
-  const handleSubmit = (event) => {
-    event.preventDefault(); //evita que la página se recargue y se pierda la información ingresada por el usuario
-    // Falta el código para manejar el envío del formulario
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const formData = {
+      alias,
+      name,
+      surname,
+      email,
+      password,
+      birthday,
+      country,
+      city,
+      linkedIn,
+      education,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/newregister", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        alert("Usuario creado satisfactoriamente.");
+        window.location.href = "/";
+      } else {
+        console.error("Error en la solicitud");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleReset = () => {
@@ -27,7 +58,7 @@ function RegistroForm() {
     setCountry("");
     setCity("");
     setLinkedIn("");
-    setEducation("");
+    setEducation("none");
   };
 
   return (
@@ -44,7 +75,7 @@ function RegistroForm() {
           >
             <div id="mensaje-confirmacion" className="oculto"></div>
 
-            <div className="form-group ">
+            <div className="form-group">
               <label htmlFor="alias"> Alias</label>
               <input
                 type="text"
@@ -111,7 +142,6 @@ function RegistroForm() {
               />
             </div>
             <div className="form-group">
-
               <label htmlFor="country">País</label>
               <input
                 type="text"
@@ -146,10 +176,9 @@ function RegistroForm() {
             </div>
             <div className="form-group">
               <label htmlFor="education">Formación</label>
-              <textarea 
+              <select
                 className="form-control"
-                id="education" 
-                rows="3" 
+                id="education"
                 value={education}
                 onChange={(event) => setEducation(event.target.value)}
               >
@@ -168,7 +197,7 @@ function RegistroForm() {
               <button type="submit" className="btn btn-primary m-2">
                 Enviar
               </button>
-              <a href="index-responsive.html" className="btn btn-danger  m-2">
+              <a href="/" className="btn btn-danger  m-2">
                 Cancelar
               </a>
             </div>

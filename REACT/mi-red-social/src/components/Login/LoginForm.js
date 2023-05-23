@@ -29,7 +29,7 @@ function LoginForm() {
     };
 
     // Validar si los campos están vacíos
-    if (email == "" || password == "") {
+    if (email === "" || password === "") {
       alert("Por favor, ingrese email y contraseña.");
     } else {
       fetch("http://localhost:3000/login", {
