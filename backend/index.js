@@ -85,12 +85,9 @@ app.post("/newregister", async (req, res) => {
 
   if (aliasExists.length > 0 && emailExists.length > 0) {
     // Si ya existe un usuario con el mismo alias y correo electrónico, enviar un mensaje de error
-    res
-      .status(400)
-      .json({
-        message:
-          "Ya existe un usuario con el mismo alias y correo electrónico.",
-      });
+    res.status(400).json({
+      message: "Ya existe un usuario con el mismo alias y correo electrónico.",
+    });
   } else if (aliasExists.length > 0) {
     // Si ya existe un usuario con el mismo alias, enviar un mensaje de error
     res
@@ -98,11 +95,9 @@ app.post("/newregister", async (req, res) => {
       .json({ message: "Ya existe un usuario con el mismo alias." });
   } else if (emailExists.length > 0) {
     // Si ya existe un usuario con el mismo correo electrónico, enviar un mensaje de error
-    res
-      .status(400)
-      .json({
-        message: "Ya existe un usuario con el mismo correo electrónico.",
-      });
+    res.status(400).json({
+      message: "Ya existe un usuario con el mismo correo electrónico.",
+    });
   } else {
     // Si el alias y correo electrónico no están en uso, crear un nuevo usuario en la base de datos
     const newUser = await sequelize.query(
@@ -245,6 +240,7 @@ app.get("/user/:user_id", async function (req, res) {
 			LEFT JOIN follow ON users.user_id = follow.user_id
 		WHERE
 			users.user_id = :user_id
+      AND follow.follow_status=1
 		GROUP BY
 			users.user_id;
 		`,
