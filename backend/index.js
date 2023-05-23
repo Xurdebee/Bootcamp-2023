@@ -133,8 +133,6 @@ app.get("/followed/:user_id", async function (req, res) {
       `SELECT * from users INNER JOIN follow ON follow.follow_user_id = users.user_id WHERE follow.user_id = "${user_id}" AND follow.follow_status = 1`,
       { type: sequelize.QueryTypes.SELECT }
     );
-
-    //   console.log(personas);
     res.send(followers);
   } catch (error) {
     console.error(error);

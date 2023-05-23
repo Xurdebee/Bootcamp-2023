@@ -20,6 +20,7 @@ const FormPerfil = () => {
     setPerfil({
       ...perfil,
       [event.target.name]: event.target.value,
+
     });
   };
 
@@ -101,5 +102,6 @@ const FormPerfil = () => {
     </div>
   );
 };
+
 
 export default FormPerfil;
