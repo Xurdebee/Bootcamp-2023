@@ -173,11 +173,11 @@ function RegistroForm() {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="education">Nivel de educación</label>
-              <select
+              <label htmlFor="education">Formación</label>
+              <textarea 
                 className="form-control"
-                id="education"
-                name="education"
+                id="education" 
+                rows="3" 
                 value={education}
                 onChange={(event) => setEducation(event.target.value)}
               >

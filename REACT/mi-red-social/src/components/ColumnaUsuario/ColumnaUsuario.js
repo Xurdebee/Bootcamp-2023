@@ -1,33 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 
-const ColumnaUsuario = ({user}) => {
+const ColumnaUsuario = () => {
+  const [user, setUser] = useState({
+    number_posts: 0,
+    number_following: 0,
+    number_likes: 0
+  });
+  const user_id = localStorage.getItem('user_id');
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/user/${user_id}`)
+      .then(response => response.json())
+      .then(data => {
+        setUser(data[0 ]);
+		console.log (data)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [user_id]);
+
+
   return (
+	
 	<Container>
 		<div className="bg-light p-2 rounded-3 border-1 border">
 			<div className="text-center mb-3">
 				<div className="m-3">
-					<img className="rounded-4" src="./users/user_1.jpg" height="90" alt=""/>
-					{/* <img className="rounded-4" src={user.img} height="90" alt=""/> */}
+					<img className="rounded-4" src={user.image} height="90" alt=""/>
 				</div>
-				{/* <h5 className="mb-0">{user.name}{user.surname}</h5> */}
-				<h5 className="mb-0">Ellen Ripley</h5>
-				<small>Exterminadora de aliens</small>
-				<p className="mt-3">Lucho contra una forma de vida alienígena. Todo comenzó en 1979 con la película de 20th Century Fox Alien, el octavo pasajero.</p>
+				<h5 className="mb-0">{user.name} {user.surname}</h5>
+				<small>{user.alias}</small>
+				<p className="mt-3">{user.education}</p>
 				<div className="hstack gap-2 gap-xl-3 justify-content-center">
 				<div>
-					<h6 className="mb-0"><strong>246</strong></h6>
+					<h6 className="mb-0"><strong>{user.number_posts}</strong></h6>
 					<small>Post</small>
 				</div>
 
 				<div className="vr"></div>
 				<div>
-					<h6 className="mb-0"><strong>459</strong></h6>
+					<h6 className="mb-0"><strong>{user.number_users}</strong></h6>
 					<small>Amigos</small>
 				</div>
 				<div className="vr"></div>
 				<div>
-					<h6 className="mb-0"><strong>24K</strong></h6>
+					<h6 className="mb-0"><strong>{user.number_likes}</strong></h6>
 					<small>Likes</small>
 				</div>
 				</div>
@@ -74,7 +93,7 @@ const ColumnaUsuario = ({user}) => {
 				<li className="nav-item">
 				<a className="nav-link" href="">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-sliders me-2" viewBox="0 0 16 16">
-					<path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
+					<path fillRule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
 					</svg>
 					Opciones
 				</a>
@@ -83,4 +102,6 @@ const ColumnaUsuario = ({user}) => {
 		</div>
 </Container>
 )}
+
+
 export default ColumnaUsuario;

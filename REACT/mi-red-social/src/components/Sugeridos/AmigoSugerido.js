@@ -9,7 +9,6 @@ function AmigoSugerido({ user_id }) {
     fetch(`http://localhost:3000/suggested/${user_id}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         setUsers(data);
       })
       .catch(error => {
@@ -34,7 +33,6 @@ function AmigoSugerido({ user_id }) {
         fetch(`http://localhost:3000/suggested/${user_id}`)
           .then(response => response.json())
           .then(data => {
-            console.log(data);
             setUsers(data);
           })
           .catch(error => {
@@ -52,11 +50,11 @@ function AmigoSugerido({ user_id }) {
         {users.map(user => (
           <Col key={user.user_id} xs={6} sm={4} md={3} lg={3} xxl={2}>
               <div className="text-center mb-5">
-                    <a href="#">
+                    <a href={`/user/${user.user_id}`}>
                       <img className="rounded-circle" src={user.image} width="70" alt="" />
                     </a>
                   <div className="overflow-hidden">
-                    <a className="h6 mb-0" href={`/user/${user.follow_user_id}`}>
+                    <a className="h6 mb-0" href={`/user/${user.user_id}`}>
                       {user.name} {user.surname}
                     </a>
                     <p className="mb-2 small text-truncate">{user.alias}</p>

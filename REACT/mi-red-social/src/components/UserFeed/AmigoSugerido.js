@@ -8,7 +8,6 @@ function AmigoSugerido({ user_id }) {
     fetch(`http://localhost:3000/suggested/${user_id}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         setUsers(data);
       })
       .catch(error => {
@@ -32,7 +31,6 @@ function AmigoSugerido({ user_id }) {
         fetch(`http://localhost:3000/suggested/${user_id}`)
           .then(response => response.json())
           .then(data => {
-            console.log(data);
             setUsers(data);
           })
           .catch(error => {

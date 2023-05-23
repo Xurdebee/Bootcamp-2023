@@ -3,8 +3,8 @@ import AmigoSugerido from './AmigoSugerido';
 import { Container } from 'react-bootstrap';
 
 function ColumnaSugeridos() {
-	const user_id = 1; 
-  // const user_Id = localStorage.getItem('user_id');
+	// const user_id = 1; 
+  const user_id = localStorage.getItem('user_id');
 	return (
   <Container>
       <div className="card">
@@ -17,7 +17,7 @@ function ColumnaSugeridos() {
     	  </article>
 
         <div className="d-grid mt-3">
-          <a href="#!" className="btn btn-sm btn-outline-primary">Ver más</a>
+          <a href="/sugeridos" className="btn btn-sm btn-outline-primary">Ver más</a>
         </div>
       </div>
   </Container>

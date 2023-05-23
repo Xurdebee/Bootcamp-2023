@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-05-2023 a las 11:17:13
+-- Tiempo de generación: 23-05-2023 a las 17:59:34
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -42,11 +42,10 @@ CREATE TABLE `follow` (
 --
 
 INSERT INTO `follow` (`follow_id`, `user_id`, `follow_user_id`, `follow_status`, `follow_time`) VALUES
-(1, 1, 2, 1, '2023-05-07 12:01:27'),
+(1, 1, 2, 0, '2023-05-07 12:01:27'),
 (2, 1, 3, 1, '2023-05-07 12:01:27'),
 (3, 1, 4, 1, '2023-05-07 12:47:23'),
-(4, 1, 5, 0, '2023-05-07 12:48:06'),
-(5, 1, 8, 0, '2023-05-08 07:48:58');
+(4, 1, 5, 1, '2023-05-07 12:48:06');
 
 -- --------------------------------------------------------
 
@@ -58,19 +57,19 @@ CREATE TABLE `post` (
   `post_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `body` varchar(255) NOT NULL,
-  `likes_post` int(11) NOT NULL
+  `body` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `post`
 --
 
-INSERT INTO `post` (`post_id`, `user_id`, `date`, `body`, `likes_post`) VALUES
-(1, 2, '2023-04-26 13:45:57', '¡¡Cómo echo de menos los tiempos de flash!!', 0),
-(2, 3, '2023-04-26 13:45:01', 'Muy pronto todo backend de todo proyecto se hará con javascript... y lo sabéis', 0),
-(3, 4, '2023-04-26 13:47:02', 'Dentro de nada me voy a comprar una 4090 para jugar al Fornite con Ray Tracing', 1),
-(4, 5, '2023-04-26 13:48:43', 'No sé como aguantaría sin que me despidieran si no me dejaran usar Canva', 2);
+INSERT INTO `post` (`post_id`, `user_id`, `date`, `body`) VALUES
+(1, 2, '2023-04-26 13:45:57', '¡¡Cómo echo de menos los tiempos de flash!!'),
+(2, 3, '2023-04-26 13:45:01', 'Muy pronto todo backend de todo proyecto se hará con javascript... y lo sabéis'),
+(3, 4, '2023-04-26 13:47:02', 'Dentro de nada me voy a comprar una 4090 para jugar al Fornite con Ray Tracing'),
+(4, 5, '2023-04-26 13:48:43', 'No sé como aguantaría sin que me despidieran si no me dejaran usar Canva'),
+(5, 1, '2023-05-23 07:49:09', '\"¡Enfrentando a la amenaza alienígena una vez más! 💪💥 #Alien #Ripley #Survivor\"');
 
 -- --------------------------------------------------------
 
@@ -79,6 +78,7 @@ INSERT INTO `post` (`post_id`, `user_id`, `date`, `body`, `likes_post`) VALUES
 --
 
 CREATE TABLE `post_likes` (
+  `like_id` bigint(20) NOT NULL,
   `post_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `like_status` tinyint(1) NOT NULL
@@ -88,10 +88,12 @@ CREATE TABLE `post_likes` (
 -- Volcado de datos para la tabla `post_likes`
 --
 
-INSERT INTO `post_likes` (`post_id`, `user_id`, `like_status`) VALUES
-(3, 1, 1),
-(4, 2, 1),
-(4, 3, 1);
+INSERT INTO `post_likes` (`like_id`, `post_id`, `user_id`, `like_status`) VALUES
+(1, 3, 1, 1),
+(2, 4, 2, 1),
+(3, 4, 3, 1),
+(4, 5, 2, 1),
+(5, 5, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -153,6 +155,7 @@ ALTER TABLE `post`
 -- Indices de la tabla `post_likes`
 --
 ALTER TABLE `post_likes`
+  ADD PRIMARY KEY (`like_id`),
   ADD KEY `post_id` (`post_id`,`user_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -172,13 +175,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `follow`
 --
 ALTER TABLE `follow`
-  MODIFY `follow_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `follow_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `post_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `post_likes`
+--
+ALTER TABLE `post_likes`
+  MODIFY `like_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
