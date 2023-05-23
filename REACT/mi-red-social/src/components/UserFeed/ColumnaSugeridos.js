@@ -17,7 +17,7 @@ function ColumnaSugeridos() {
     	  </article>
 
         <div className="d-grid mt-3">
-          <a href="#!" className="btn btn-sm btn-outline-primary">Ver más</a>
+          <a href="/sugeridos" className="btn btn-sm btn-outline-primary">Ver más</a>
         </div>
       </div>
   </Container>
