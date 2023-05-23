@@ -79,8 +79,90 @@ app.post('/newregister', async (req, res) => {
 	}
   });
 
+// ACTUALIZAR Registro (SIN PROBAR)
+app.put('/updateregister/:user_id', async (req, res) => {
+	const user_id = req.params.user_id; // El ID del usuario se pasa como un parámetro en la ruta (/updateregister/:user_id) para identificar el registro que se va a actualizar.
+	const { alias, name, surname, email, password, birthday, country, city, linkedIn, education } = req.body;
+  
+	// Verificar si el alias ya existe en la base de datos, excluyendo el usuario actual
+	const aliasExists = await sequelize.query('SELECT * FROM users WHERE alias = ? AND user_id != ?', {
+	  replacements: [alias, user_id],
+	  type: sequelize.QueryTypes.SELECT
+	});
+  
+	// Verificar si el correo electrónico ya existe en la base de datos, excluyendo el usuario actual
+	const emailExists = await sequelize.query('SELECT * FROM users WHERE email = ? AND user_id != ?', {
+	  replacements: [email, user_id],
+	  type: sequelize.QueryTypes.SELECT
+	});
+  
+	if (aliasExists.length > 0 && emailExists.length > 0) {
+	  // Si ya existe un usuario con el mismo alias y correo electrónico, enviar un mensaje de error
+	  res.status(400).json({ message: 'Ya existe un usuario con el mismo alias y correo electrónico.' });
+	} else if (aliasExists.length > 0) {
+	  // Si ya existe un usuario con el mismo alias, enviar un mensaje de error
+	  res.status(400).json({ message: 'Ya existe un usuario con el mismo alias.' });
+	} else if (emailExists.length > 0) {
+	  // Si ya existe un usuario con el mismo correo electrónico, enviar un mensaje de error
+	  res.status(400).json({ message: 'Ya existe un usuario con el mismo correo electrónico.' });
+	} else {
+	  // Si el alias y correo electrónico no están en uso, actualiza el usuario en la base de datos
+	  //En la consulta de actualización (UPDATE), se establecen los nuevos valores para cada columna de la tabla 
+	  	//utilizando los datos proporcionados en req.body. 
+			//El ID del usuario se utiliza en la cláusula WHERE para asegurarse de que solo se actualice el registro correspondiente.
+	  const updateUser = await sequelize.query(`UPDATE users SET alias = ?, name = ?, surname = ?, email = ?, password = ?, 
+		birthday = ?, country = ?, city = ?, linkedIn = ?, education = ? WHERE user_id = ?`, {
+		replacements: [alias, name, surname, email, password, birthday, country, city, linkedIn, education, userId],
+		type: sequelize.QueryTypes.UPDATE
+	  });
+  
+	  res.json({ message: 'Usuario actualizado satisfactoriamente.' });
+	}
+  });
+  
+//TRAER CAMPOS DEL USUARIO LOGUEADO A SU PERFIL (SIN PROBAR)
+app.get('/usersmyprofile/:user_id', async (req, res) => {
+	const user_id = req.params.user_id;
+  
+	try {
+	  // Realiza una consulta a la base de datos para obtener los campos del usuario
+	  const user = await sequelize.query('SELECT * FROM users WHERE user_id = ?', {
+		replacements: [user_id],
+		type: sequelize.QueryTypes.SELECT
+	  });
+  
+	  if (user.length === 0) {
+		// Si no se encuentra ningún usuario con el ID proporcionado, devuelve un mensaje de error
+		return res.status(404).json({ message: 'Usuario no encontrado.' });
+	  }
+  
+	  // Si se encuentra el usuario, devuelve los campos del usuario
+	  res.json(user[0]);
+	} catch (error) {
+	  // Si ocurre un error durante la consulta, devuelve un mensaje de error
+	  res.status(500).json({ message: 'Error al obtener el usuario.' });
+	}
+  });
+  
+//TRAER CAMPOS DE UN TERCERO A SU PERFIL  (SIN PROBAR)
+app.get('/usersothersprofiles/:user_id', async (req, res) => {
+  const user_id = req.params.user_id;
 
+  try {
+    const user = await sequelize.query('SELECT alias, name, surname, birthday, country, city, linkedIn, education FROM users WHERE user_id = ?', {
+      replacements: [user_id],
+      type: sequelize.QueryTypes.SELECT
+    });
 
+    if (user.length === 0) {
+      res.status(404).json({ message: 'Usuario no encontrado.' });
+    } else {
+      res.json(user[0]);
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener el usuario.' });
+  }
+});
 
 
 
