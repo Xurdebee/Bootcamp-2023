@@ -120,7 +120,49 @@ app.put('/updateregister/:user_id', async (req, res) => {
 	}
   });
   
+//TRAER CAMPOS DEL USUARIO LOGUEADO A SU PERFIL (SIN PROBAR)
+app.get('/usersmyprofile/:user_id', async (req, res) => {
+	const user_id = req.params.user_id;
+  
+	try {
+	  // Realiza una consulta a la base de datos para obtener los campos del usuario
+	  const user = await sequelize.query('SELECT * FROM users WHERE user_id = ?', {
+		replacements: [user_id],
+		type: sequelize.QueryTypes.SELECT
+	  });
+  
+	  if (user.length === 0) {
+		// Si no se encuentra ningún usuario con el ID proporcionado, devuelve un mensaje de error
+		return res.status(404).json({ message: 'Usuario no encontrado.' });
+	  }
+  
+	  // Si se encuentra el usuario, devuelve los campos del usuario
+	  res.json(user[0]);
+	} catch (error) {
+	  // Si ocurre un error durante la consulta, devuelve un mensaje de error
+	  res.status(500).json({ message: 'Error al obtener el usuario.' });
+	}
+  });
+  
+//TRAER CAMPOS DE UN TERCERO A SU PERFIL  (SIN PROBAR)
+app.get('/usersothersprofiles/:user_id', async (req, res) => {
+  const user_id = req.params.user_id;
 
+  try {
+    const user = await sequelize.query('SELECT alias, name, surname, birthday, country, city, linkedIn, education FROM users WHERE user_id = ?', {
+      replacements: [user_id],
+      type: sequelize.QueryTypes.SELECT
+    });
+
+    if (user.length === 0) {
+      res.status(404).json({ message: 'Usuario no encontrado.' });
+    } else {
+      res.json(user[0]);
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener el usuario.' });
+  }
+});
 
 
 
