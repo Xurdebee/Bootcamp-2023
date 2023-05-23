@@ -1,21 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import PostAmigos from './PostAmigos';
 
-function ColumnaPost() {
-	const userId = 1; // Reemplazar este valor con el valor userId del login
+const ColumnaPost = () => {
+  const [user, setUser] = useState({
+ 
+  });
+  const user_id = localStorage.getItem('user_id');
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/user/${user_id}`)
+      .then(response => response.json())
+      .then(data => {
+        setUser(data[0 ]);
+		console.log (data)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [user_id]);
+
 	return (
+
   <Container>
       <div className="bg-light p-2 rounded-3 border border-1 mb-4">
         <div className="mb-0">
           <div className="mb-2 d-flex">
             <div className="me-2">
-            <a href="#"><img className="rounded-circle" src="./users/user_1.jpg" height="50" alt="" /></a>
+            <a href="#"><img className="rounded-circle" src={user.image} height="50" alt="" /></a>
               {/* <a href="#"><img className="rounded-circle" src={user.image} height="50" alt="" /></a> */}
             </div>
             <div className="overflow-hidden">
-              <a className="h6 mb-0" href="#!">Ellen Ripley</a>
-              <p className="mb-0 small text-truncate">Exterminadora de aliens</p>
+              <a className="h6 mb-0" href="#!">{user.name} {user.surname}</a>
+              <p className="mb-0 small text-truncate">{user.alias}</p>
               {/* <a className="h6 mb-0" href="#!">{user.name} {user.surname}</a>
               <p className="mb-0 small text-truncate">{user.alias}</p> */}
             </div>
@@ -33,7 +50,7 @@ function ColumnaPost() {
 
         </div>
     </div>
-    <PostAmigos/>
+    <PostAmigos  user_id={user_id}/>
   </Container>
   );
 }

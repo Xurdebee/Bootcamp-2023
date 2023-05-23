@@ -5,78 +5,78 @@ import React, { useState } from 'react';
         //Cuando se modifican estos valores, se actualiza el estado utilizando useState y los handlers handleEmailChange, handlePasswordChange y handleRememberMeChange. 
     //Se ha eliminado el atributo onclick del botón de inicio de sesión y se ha agregado un handler handleLogin que se encargará de implementar la lógica de inicio de sesión.
     
-    function LoginForm() {
-      const [email, setEmail] = useState('');
-      const [password, setPassword] = useState('');
-      const [rememberMe, setRememberMe] = useState(false);
-    
-      const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-      };
-    
-      const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-      };
-    
-      const handleRememberMeChange = (event) => {
-        setRememberMe(event.target.checked);
-      };
+function LoginForm() {
+const [email, setEmail] = useState('');
+const [password, setPassword] = useState('');
+const [rememberMe, setRememberMe] = useState(false);
 
-      const handleLogin = () => {
-        const data = {
-          email: email,
-          password: password
-        };
-        
-        // Validar si los campos están vacíos
-        if (email == "" || password == "") {
-          alert("Por favor, ingrese email y contraseña.");
+const handleEmailChange = (event) => {
+  setEmail(event.target.value);
+};
+
+const handlePasswordChange = (event) => {
+  setPassword(event.target.value);
+};
+
+const handleRememberMeChange = (event) => {
+  setRememberMe(event.target.checked);
+};
+
+const handleLogin = () => {
+  const data = {
+    email: email,
+    password: password
+  };
+  
+  // Validar si los campos están vacíos
+  if (email == "" || password == "") {
+    alert("Por favor, ingrese email y contraseña.");
+  } else {
+
+    fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
         } else {
-
-          fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          })
-            .then(response => {
-              if (response.ok) {
-                return response.json();
-              } else {
-                throw new Error(response.statusText);
-              }
-            })
-            .then(data => {
-              const { user_id, token } = data;
-              
-              // Almacenar el token en el almacenamiento local
-              localStorage.setItem('token', token);
-            
-              // Almacenar el user_id en el almacenamiento local
-              localStorage.setItem('user_id', user_id);
-            
-              // Mostrar un mensaje de éxito
-              alert('Inicio de sesión exitoso');
-            
-              // Redireccionar al usuario a otra página
-              window.location.href = '/feed'; // Reemplaza '/feed' con la URL deseada
-            
-              // Agregar un return para salir de la función
-              return;
-            })
-            
-            .catch(error => {
-              // Manejo de errores del inicio de sesión
-              if (error instanceof TypeError) {
-                alert('Error de red'); // Mostrar un mensaje de error en caso de problemas de conexión
-              } else {
-                alert('Correo electrónico o contraseña incorrectos'); // Mostrar un mensaje de error genérico para otros errores
-              }
-              setEmail('');
-              setPassword('');
-            });
-      }};
+          throw new Error(response.statusText);
+        }
+      })
+      .then(data => {
+        const { user_id, token } = data;
+        
+        // Almacenar el token en el almacenamiento local
+        localStorage.setItem('token', token);
+      
+        // Almacenar el user_id en el almacenamiento local
+        localStorage.setItem('user_id', user_id);
+      
+        // Mostrar un mensaje de éxito
+        alert('Inicio de sesión exitoso');
+      
+        // Redireccionar al usuario a otra página
+        window.location.href = '/feed'; // Reemplaza '/feed' con la URL deseada
+      
+        // Agregar un return para salir de la función
+        return;
+      })
+      
+      .catch(error => {
+        // Manejo de errores del inicio de sesión
+        if (error instanceof TypeError) {
+          alert('Error de red'); // Mostrar un mensaje de error en caso de problemas de conexión
+        } else {
+          alert('Correo electrónico o contraseña incorrectos'); // Mostrar un mensaje de error genérico para otros errores
+        }
+        setEmail('');
+        setPassword('');
+      });
+}};
 
       
       
