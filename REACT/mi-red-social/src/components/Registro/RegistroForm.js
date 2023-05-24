@@ -16,6 +16,7 @@ function RegistroForm() {
     const handleSubmit = (event) => {
       event.preventDefault(); //evita que la página se recargue y se pierda la información ingresada por el usuario
       // Falta el código para manejar el envío del formulario 
+      
     };
   
     const handleReset = () => {
