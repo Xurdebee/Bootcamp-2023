@@ -1,14 +1,14 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import NavBar from '../components/Navbar/Navbar';
-import Footer from '../components/Footer/Footer';
-import Login from '../pages/WebLogin';
-import Registro from '../pages/WebRegistro';
-import MiPerfil from '../pages/WebMiPerfil';
-import Feed from '../pages/WebFeed';
-import Amigos from '../pages/WebAmigos';
-import Sugeridos from '../pages/WebSugeridos';
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import NavBar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
+import Login from "../pages/WebLogin";
+import Registro from "../pages/WebRegistro";
+import MiPerfil from "../pages/WebMiPerfil";
+import Feed from "../pages/WebFeed";
+import Amigos from "../pages/WebAmigos";
+import Sugeridos from "../pages/WebSugeridos";
 
 const App = () => {
   return (
