@@ -26,7 +26,6 @@ app.use(bodyParser.json());
 //con la excepción de la ruta /login.
 //app.use(expressJwt({ secret: 'secret_key' }).unless({ path: ['/login'] }));
 
-//Lee el mail y la contraseña del body (datos del front) y trae como respuesta user_id
 // Login
 app.post("/login", async function (req, res) {
   let email = req.body.email;
@@ -401,21 +400,30 @@ app.get("/user/:user_id", async function (req, res) {
 });
 
 // Trae los post de los amigos
-app.get("/friendPost", async function (req, res) {
+app.get("/friendpost/:user_id", async function (req, res) {
   try {
     const friend_post = await sequelize.query(
       `
       SELECT post.*, users.name, users.surname, users.alias, users.image,
-        COUNT(post_likes.post_id) AS like_count
+      COUNT(post_likes.post_id) AS like_count
       FROM post
       JOIN users ON post.user_id = users.user_id
       LEFT JOIN post_likes ON post.post_id = post_likes.post_id
-      WHERE post_likes.like_status = 1
+      WHERE (post.user_id = :user_id OR post.user_id IN (
+            SELECT follow_user_id
+            FROM follow
+            WHERE user_id = :user_id
+              AND follow_status = 1
+          ))
       GROUP BY post.post_id, users.user_id
-	  `,
-      { type: sequelize.QueryTypes.SELECT }
+      ORDER BY post.date DESC; -- Ordenar por fecha descendente
+      `,
+      {
+        replacements: { user_id: req.params.user_id },
+        type: sequelize.QueryTypes.SELECT,
+      }
     );
-
+    
     // Calcular la diferencia de tiempo para cada publicación
     friend_post.forEach((post) => {
       const postDate = moment(post.date);
@@ -443,6 +451,7 @@ app.get("/friendPost", async function (req, res) {
     res.status(500).send("Error interno del servidor");
   }
 });
+
 
 //Crear un post (sin implementar)
 app.post("/createPost", async function (req, res) {

@@ -24,7 +24,7 @@ const ColumnaPost = () => {
         <div className="mb-0">
           <div className="mb-2 d-flex">
             <div className="me-2">
-              <a href="#">
+              <a href="#!">
                 <img
                   className="rounded-circle"
                   src={user.image}
@@ -32,15 +32,12 @@ const ColumnaPost = () => {
                   alt=""
                 />
               </a>
-              {/* <a href="#"><img className="rounded-circle" src={user.image} height="50" alt="" /></a> */}
             </div>
             <div className="overflow-hidden">
               <a className="h6 mb-0" href="#!">
                 {user.name} {user.surname}
               </a>
               <p className="mb-0 small text-truncate">{user.alias}</p>
-              {/* <a className="h6 mb-0" href="#!">{user.name} {user.surname}</a>
-              <p className="mb-0 small text-truncate">{user.alias}</p> */}
             </div>
           </div>
 
