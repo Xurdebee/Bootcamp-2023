@@ -11,7 +11,7 @@ function RegistroForm() {
     const [city, setCity] = useState("");
     const [linkedIn, setLinkedIn] = useState("");
     const [education, setEducation] = useState("");
-    
+    const [extra_knowledge, setExtra_knowledge] = useState("");
   
     const handleSubmit = async (event) => {
         event.preventDefault(); 
@@ -31,7 +31,8 @@ function RegistroForm() {
                     country: country,
                     city: city,
                     linkedIn: linkedIn,
-                    education: education
+                    education: education,
+                    extra_knowledge: extra_knowledge
                 })
             });
 
@@ -61,6 +62,7 @@ function RegistroForm() {
       setCity("");
       setLinkedIn("");
       setEducation("");
+      setExtra_knowledge("");
     };
   
     return (
@@ -173,21 +175,33 @@ function RegistroForm() {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="education">Formación</label>
-              <textarea 
+  <label htmlFor="education">Formación</label>
+  <select
+    className="form-control"
+    id="education"
+    value={education}
+    onChange={(event) => setEducation(event.target.value)}
+  >
+    <option value="none">Selecciona un nivel</option>
+    <option value="primaria">Primaria</option>
+    <option value="secundaria">Secundaria</option>
+    <option value="bachillerato">Bachillerato</option>
+    <option value="universidad">Universidad</option>
+  </select>
+</div>
+
+<div className="form-group">
+              <label htmlFor="linkedin">Conocimiento Extra</label>
+              <input
+                type="text"
                 className="form-control"
-                id="education" 
-                rows="3" 
-                value={education}
-                onChange={(event) => setEducation(event.target.value)}
-              >
-                <option value="none">Selecciona un nivel</option>
-                <option value="primaria">Primaria</option>
-                <option value="secundaria">Secundaria</option>
-                <option value="bachillerato">Bachillerato</option>
-                <option value="universidad">Universidad</option>
-              </select>
+                id="extraknowledge"
+                name="extraknowledge"
+                value={extra_knowledge}
+                onChange={(event) => setExtra_knowledge(event.target.value)}
+              />
             </div>
+
             
             <div className="btn-container d-flex justify-content-evenly mb-1">
                 <button type="reset" className="btn btn-secondary m-2">Limpiar</button>

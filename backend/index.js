@@ -44,7 +44,7 @@ app.post('/login', async function(req, res) {
 
 // Registro
 app.post('/newregister', async (req, res) => {
-	const { alias, name, surname, email, password, birthday, country, city, linkedIn, education } = req.body;
+	const { alias, name, surname, email, password, birthday, country, city, linkedIn, education, extra_knowledge } = req.body;
   
 	// Verificar si el alias ya existe en la base de datos
 	const aliasExists = await sequelize.query(`SELECT * FROM users WHERE alias = ?`, {
@@ -111,8 +111,8 @@ app.put('/updateregister/:user_id', async (req, res) => {
 	  	//utilizando los datos proporcionados en req.body. 
 			//El ID del usuario se utiliza en la cláusula WHERE para asegurarse de que solo se actualice el registro correspondiente.
 	  const updateUser = await sequelize.query(`UPDATE users SET alias = ?, name = ?, surname = ?, email = ?, password = ?, 
-		birthday = ?, country = ?, city = ?, linkedIn = ?, education = ? WHERE user_id = ?`, {
-		replacements: [alias, name, surname, email, password, birthday, country, city, linkedIn, education, userId],
+		birthday = ?, country = ?, city = ?, linkedIn = ?, education = ?, extra_knowledge = ?, WHERE user_id = ?`, {
+		replacements: [alias, name, surname, email, password, birthday, country, city, linkedIn, education, extra_knowledge, userId],
 		type: sequelize.QueryTypes.UPDATE
 	  });
   
@@ -149,7 +149,7 @@ app.get('/usersothersprofiles/:user_id', async (req, res) => {
   const user_id = req.params.user_id;
 
   try {
-    const user = await sequelize.query('SELECT alias, name, surname, birthday, country, city, linkedIn, education FROM users WHERE user_id = ?', {
+    const user = await sequelize.query('SELECT alias, name, surname, birthday, country, city, linkedIn, education, extra_knowledge FROM users WHERE user_id = ?', {
       replacements: [user_id],
       type: sequelize.QueryTypes.SELECT
     });
