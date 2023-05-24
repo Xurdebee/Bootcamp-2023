@@ -5,6 +5,9 @@ const app = express();
 //Importanción del módulo de conexión a nuestra base de datos
 const sequelize = require("./conexion_bd.js");
 
+//Necesario para mostrar "fecha" del post
+const moment = require("moment");
+
 //Necesario libería cors para que funcione
 var cors = require("cors");
 app.use(cors());
@@ -275,12 +278,37 @@ app.get("/friendPost", async function (req, res) {
   try {
     const friend_post = await sequelize.query(
       `
-		SELECT post.*, users.name, users.surname, users.alias, users.image
-		FROM post
-		JOIN users ON post.user_id = users.user_id
+      SELECT post.*, users.name, users.surname, users.alias, users.image,
+        COUNT(post_likes.post_id) AS like_count
+      FROM post
+      JOIN users ON post.user_id = users.user_id
+      LEFT JOIN post_likes ON post.post_id = post_likes.post_id
+      WHERE post_likes.like_status = 1
+      GROUP BY post.post_id, users.user_id
 	  `,
       { type: sequelize.QueryTypes.SELECT }
     );
+
+    // Calcular la diferencia de tiempo para cada publicación
+    friend_post.forEach((post) => {
+      const postDate = moment(post.date);
+      const currentDate = moment();
+      const duration = moment.duration(currentDate.diff(postDate));
+
+      if (duration.asDays() >= 1) {
+        post.timeAgo = `${Math.floor(duration.asDays())} ${
+          Math.floor(duration.asDays()) === 1 ? "día" : "días"
+        }`;
+      } else if (duration.asHours() >= 1) {
+        post.timeAgo = `${Math.floor(duration.asHours())} ${
+          Math.floor(duration.asHours()) === 1 ? "hora" : "horas"
+        }`;
+      } else {
+        post.timeAgo = `${Math.floor(duration.asMinutes())} ${
+          Math.floor(duration.asMinutes()) === 1 ? "minuto" : "minutos"
+        }`;
+      }
+    });
 
     res.send(friend_post);
   } catch (error) {
