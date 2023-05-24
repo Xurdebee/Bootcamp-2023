@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function FormPerfil() {
+
   const [profile, setProfile] = useState({
     alias: "",
     name: "",
@@ -12,6 +14,7 @@ function FormPerfil() {
     city: "",
     linkedIn: "",
     education: "",
+    feedback: "",
   });
 
   useEffect(() => {
@@ -20,6 +23,7 @@ function FormPerfil() {
       .then((response) => response.json())
       .then((data) => {
         setProfile(data);
+
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -27,16 +31,20 @@ function FormPerfil() {
   }, []);
 
   const handleChange = (event) => {
+
     setProfile({
       ...profile,
+
       [event.target.name]: event.target.value,
     });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     const user_id = localStorage.getItem("user_id");
     fetch(`http://localhost:3000/usersmyprofile/${user_id}`, {
+
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -49,6 +57,7 @@ function FormPerfil() {
       })
       .catch((error) => {
         console.error("Error al actualizar los datos del usuario:", error);
+
       });
   };
 
@@ -64,6 +73,7 @@ function FormPerfil() {
       city: "",
       linkedIn: "",
       education: "",
+
     });
   };
 

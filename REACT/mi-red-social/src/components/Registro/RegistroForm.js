@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-
 function RegistroForm() {
+
     const [alias, setAlias] = useState("");
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -36,7 +36,8 @@ function RegistroForm() {
                 })
             });
 
-            const data = await response.json();
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Evita que la página se recargue y se pierda la información ingresada por el usuario
 
             if (data.message) {
                 alert('El usuario ha sido registrado exitosamente!');
@@ -201,14 +202,17 @@ function RegistroForm() {
                 onChange={(event) => setExtra_knowledge(event.target.value)}
               />
             </div>
-
-            
             <div className="btn-container d-flex justify-content-evenly mb-1">
-                <button type="reset" className="btn btn-secondary m-2">Limpiar</button>
-                <button type="submit" className="btn btn-primary m-2">Enviar</button>
-                <a href="index-responsivevent.html" className="btn btn-danger  m-2">Cancelar</a>
+              <button type="reset" className="btn btn-secondary m-2">
+                Limpiar
+              </button>
+              <button type="submit" className="btn btn-primary m-2">
+                Enviar
+              </button>
+              <a href="/" className="btn btn-danger m-2">
+                Cancelar
+              </a>
             </div>
-
           </form>
         </div>
       </div>
@@ -217,5 +221,3 @@ function RegistroForm() {
 }
 
 export default RegistroForm;
-
- 
