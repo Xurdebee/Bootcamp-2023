@@ -54,8 +54,6 @@ function LoginForm() {
 
           // Almacenar el user_id en el almacenamiento local
           localStorage.setItem("user_id", user_id);
-
-          // Mostrar un mensaje de éxito
           alert("Inicio de sesión exitoso");
 
           // Redireccionar al usuario a otra página

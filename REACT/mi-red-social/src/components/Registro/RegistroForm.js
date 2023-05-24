@@ -197,7 +197,7 @@ function RegistroForm() {
               <button type="submit" className="btn btn-primary m-2">
                 Enviar
               </button>
-              <a href="/" className="btn btn-danger  m-2">
+              <a href="/" className="btn btn-danger m-2">
                 Cancelar
               </a>
             </div>
