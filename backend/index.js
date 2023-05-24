@@ -55,7 +55,7 @@ app.post("/login", async function (req, res) {
 
 // Registro
 app.post('/newregister', async (req, res) => {
-	const { alias, name, surname, email, password, birthday, country, city, linkedIn, education } = req.body;
+	const { alias, name, surname, email, password, birthday, country, city, linkedIn, education, extra_knowledge } = req.body;
   
 	// Verificar si el alias ya existe en la base de datos
 	const aliasExists = await sequelize.query(`SELECT * FROM users WHERE alias = ?`, {
@@ -122,8 +122,8 @@ app.put('/updateregister/:user_id', async (req, res) => {
 	  	//utilizando los datos proporcionados en req.body. 
 			//El ID del usuario se utiliza en la cláusula WHERE para asegurarse de que solo se actualice el registro correspondiente.
 	  const updateUser = await sequelize.query(`UPDATE users SET alias = ?, name = ?, surname = ?, email = ?, password = ?, 
-		birthday = ?, country = ?, city = ?, linkedIn = ?, education = ? WHERE user_id = ?`, {
-		replacements: [alias, name, surname, email, password, birthday, country, city, linkedIn, education, user_id],
+		birthday = ?, country = ?, city = ?, linkedIn = ?, education = ?, extra_knowledge = ?, WHERE user_id = ?`, {
+		replacements: [alias, name, surname, email, password, birthday, country, city, linkedIn, education, extra_knowledge, user_id],
 		type: sequelize.QueryTypes.UPDATE
 	  });
   
@@ -159,20 +159,10 @@ app.get('/usersmyprofile/:user_id', async (req, res) => {
 app.get('/usersothersprofiles/:user_id', async (req, res) => {
   const user_id = req.params.user_id;
 
-  if (aliasExists.length > 0 && emailExists.length > 0) {
-    // Si ya existe un usuario con el mismo alias y correo electrónico, enviar un mensaje de error
-    res.status(400).json({
-      message: "Ya existe un usuario con el mismo alias y correo electrónico.",
-    });
-  } else if (aliasExists.length > 0) {
-    // Si ya existe un usuario con el mismo alias, enviar un mensaje de error
-    res
-      .status(400)
-      .json({ message: "Ya existe un usuario con el mismo alias." });
-  } else if (emailExists.length > 0) {
-    // Si ya existe un usuario con el mismo correo electrónico, enviar un mensaje de error
-    res.status(400).json({
-      message: "Ya existe un usuario con el mismo correo electrónico.",
+  try {
+    const user = await sequelize.query('SELECT alias, name, surname, birthday, country, city, linkedIn, education, extra_knowledge FROM users WHERE user_id = ?', {
+      replacements: [user_id],
+      type: sequelize.QueryTypes.SELECT
     });
   } else {
     // Si el alias y correo electrónico no están en uso, crear un nuevo usuario en la base de datos
