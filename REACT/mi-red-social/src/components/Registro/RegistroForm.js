@@ -1,39 +1,34 @@
 import React, { useState } from "react";
 
 function RegistroForm() {
-    const [alias, setAlias] = useState("");
-    const [name, setName] = useState("");
-    const [surname, setSurname] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [birthday, setBirthday] = useState("");
-    const [country, setCountry] = useState("");
-    const [city, setCity] = useState("");
-    const [linkedIn, setLinkedIn] = useState("");
-    const [education, setEducation] = useState("");
-    
-  
-    const handleSubmit = (event) => {
-      event.preventDefault(); //evita que la página se recargue y se pierda la información ingresada por el usuario
-      // Falta el código para manejar el envío del formulario 
-      
-    };
-  
-    const handleReset = () => {
-      setAlias("");
-      setName("");
-      setSurname("");
-      setEmail("");
-      setPassword("");
-      setBirthday("");
-      setCountry("");
-      setCity("");
-      setLinkedIn("");
-      setEducation("");
+  const [alias, setAlias] = useState("");
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [linkedIn, setLinkedIn] = useState("");
+  const [education, setEducation] = useState("");
 
-    };
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Evita que la página se recargue y se pierda la información ingresada por el usuario
 
     try {
+      const formData = {
+        alias,
+        name,
+        surname,
+        email,
+        password,
+        birthday,
+        country,
+        city,
+        linkedIn,
+        education,
+      };
+
       const response = await fetch("http://localhost:3000/newregister", {
         method: "POST",
         headers: {
