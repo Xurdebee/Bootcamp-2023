@@ -1,11 +1,11 @@
 import React from "react";
-import MiPerfil from "../components/Perfil/MiPerfil";
+import PerfilEditable from "../components/Perfil/PerfilEditable";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <>
-      <MiPerfil />
+      <PerfilEditable />
     </>
   );
 }

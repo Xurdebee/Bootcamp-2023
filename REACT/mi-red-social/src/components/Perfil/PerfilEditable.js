@@ -1,75 +1,100 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-function RegistroForm() {
-  const [alias, setAlias] = useState("");
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
-  const [linkedIn, setLinkedIn] = useState("");
-  const [education, setEducation] = useState("");
-  const [extra_knowledge, setExtraKnowledge] = useState("");
+function PerfilEditable() {
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await fetch("http://localhost:3000/newregister", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          alias,
-          name,
-          surname,
-          email,
-          password,
-          birthday,
-          country,
-          city,
-          linkedIn,
-          education,
-          extra_knowledge,
-        }),
+  const [profile, setProfile] = useState({
+    alias: "",
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+    birthday: "",
+    country: "",
+    city: "",
+    linkedIn: "",
+    education: "",
+  });
+
+  useEffect(() => {
+    const user_id = localStorage.getItem("user_id");
+    fetch(`http://localhost:3000/usersmyprofile/${user_id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setProfile(data);
+
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
+  }, []);
 
-      if (response.ok) {
-        alert("El usuario ha sido registrado exitosamente");
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 2000);
-      } else {
-        alert("Error al crear el usuario");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Ha ocurrido un error al crear el usuario");
-    }
+  const handleChange = (event) => {
+
+    setProfile({
+      ...profile,
+
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const user_id = localStorage.getItem("user_id");
+    fetch(`http://localhost:3000/usersmyprofile/${user_id}`, {
+
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profile),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error al actualizar los datos del usuario:", error);
+
+      });
   };
 
   const handleReset = () => {
-    setAlias("");
-    setName("");
-    setSurname("");
-    setEmail("");
-    setPassword("");
-    setBirthday("");
-    setCountry("");
-    setCity("");
-    setLinkedIn("");
-    setEducation("");
-    setExtraKnowledge("");
+    setProfile({
+      alias: "",
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+      birthday: "",
+      country: "",
+      city: "",
+      linkedIn: "",
+      education: "",
+
+    });
   };
+
+  const {
+    alias,
+    name,
+    surname,
+    email,
+    password,
+    birthday,
+    country,
+    city,
+    linkedIn,
+    education,
+  } = profile;
 
   return (
     <div className="container formulario mb-2">
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <h2 className="text-center text-bg-light text-muted p-4 mt-2">
-            Formulario de Registro
+            Mi perfil de usuario
           </h2>
           <form
             className="form-registro p-3"
@@ -78,39 +103,42 @@ function RegistroForm() {
           >
             <div id="mensaje-confirmacion" className="oculto"></div>
 
-            <div className="form-group ">
+            <div className="form-group">
               <label htmlFor="alias"> Alias</label>
               <input
                 type="text"
                 className="form-control"
                 id="alias"
-                name="username"
+                name="alias"
                 value={alias}
-                onChange={(event) => setAlias(event.target.value)}
+                onChange={handleChange}
               />
             </div>
+
             <div className="form-group">
               <label htmlFor="name">Nombre</label>
               <input
                 type="text"
                 className="form-control"
                 id="name"
-                name="fullname"
+                name="name"
                 value={name}
-                onChange={(event) => setName(event.target.value)}
+                onChange={handleChange}
               />
             </div>
+
             <div className="form-group">
               <label htmlFor="surname">Apellidos</label>
               <input
                 type="text"
                 className="form-control"
                 id="surname"
-                name="fullname"
+                name="surname"
                 value={surname}
-                onChange={(event) => setSurname(event.target.value)}
+                onChange={handleChange}
               />
             </div>
+
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
@@ -119,9 +147,10 @@ function RegistroForm() {
                 id="email"
                 name="email"
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={handleChange}
               />
             </div>
+
             <div className="form-group">
               <label htmlFor="password">Contraseña</label>
               <input
@@ -130,20 +159,22 @@ function RegistroForm() {
                 id="password"
                 name="password"
                 value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={handleChange}
               />
             </div>
+
             <div className="form-group">
               <label htmlFor="birthday">Fecha de nacimiento</label>
               <input
                 type="date"
                 className="form-control"
                 id="birthday"
-                name="age"
+                name="birthday"
                 value={birthday}
-                onChange={(event) => setBirthday(event.target.value)}
+                onChange={handleChange}
               />
             </div>
+
             <div className="form-group">
               <label htmlFor="country">País</label>
               <input
@@ -152,9 +183,10 @@ function RegistroForm() {
                 id="country"
                 name="country"
                 value={country}
-                onChange={(event) => setCountry(event.target.value)}
+                onChange={handleChange}
               />
             </div>
+
             <div className="form-group">
               <label htmlFor="city">Ciudad</label>
               <input
@@ -163,47 +195,34 @@ function RegistroForm() {
                 id="city"
                 name="city"
                 value={city}
-                onChange={(event) => setCity(event.target.value)}
+                onChange={handleChange}
               />
             </div>
+
             <div className="form-group">
               <label htmlFor="linkedin">Perfil de LinkedIn</label>
               <input
                 type="text"
                 className="form-control"
                 id="linkedin"
-                name="linkedin"
+                name="linkedIn"
                 value={linkedIn}
-                onChange={(event) => setLinkedIn(event.target.value)}
+                onChange={handleChange}
               />
             </div>
+
             <div className="form-group">
               <label htmlFor="education">Formación</label>
-              <select
+              <textarea
                 className="form-control"
                 id="education"
+                name="education"
+                rows="3"
                 value={education}
-                onChange={(event) => setEducation(event.target.value)}
-              >
-                <option value="none">Selecciona un nivel</option>
-                <option value="Primaria">Primaria</option>
-                <option value="Secundaria">Secundaria</option>
-                <option value="Bachillerato">Bachillerato</option>
-                <option value="Bachillerato">Formación Profesional</option>
-                <option value="Universidad">Universidad</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="extraknowledge">Conocimiento Extra</label>
-              <input
-                type="text"
-                className="form-control"
-                id="extraknowledge"
-                name="extraknowledge"
-                value={extra_knowledge}
-                onChange={(event) => setExtraKnowledge(event.target.value)}
+                onChange={handleChange}
               />
             </div>
+
             <div className="btn-container d-flex justify-content-evenly mb-1">
               <button type="reset" className="btn btn-secondary m-2">
                 Limpiar
@@ -211,7 +230,7 @@ function RegistroForm() {
               <button type="submit" className="btn btn-primary m-2">
                 Enviar
               </button>
-              <a href="/" className="btn btn-danger m-2">
+              <a href="/perfil" className="btn btn-danger m-2">
                 Cancelar
               </a>
             </div>
@@ -222,4 +241,4 @@ function RegistroForm() {
   );
 }
 
-export default RegistroForm;
+export default PerfilEditable;

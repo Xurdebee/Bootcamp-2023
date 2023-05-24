@@ -26,7 +26,7 @@ const ColumnaUsuario = () => {
       <div className="bg-light p-2 rounded-3 border-1 border">
         <div className="text-center mb-3">
           <div className="m-3">
-            <img className="rounded-4" src={user.image} height="90" alt="" />
+            <img className="rounded-4" src={user.image} height="90" alt="imagen_usuario" />
           </div>
           <h5 className="mb-0">
             {user.name} {user.surname}

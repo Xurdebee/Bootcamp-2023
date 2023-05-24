@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function FormPerfil() {
+function MiPerfil() {
 
   const [profile, setProfile] = useState({
     alias: "",
     name: "",
     surname: "",
     email: "",
-    password: "",
     birthday: "",
     country: "",
     city: "",
@@ -67,7 +66,6 @@ function FormPerfil() {
       name: "",
       surname: "",
       email: "",
-      password: "",
       birthday: "",
       country: "",
       city: "",
@@ -82,7 +80,6 @@ function FormPerfil() {
     name,
     surname,
     email,
-    password,
     birthday,
     country,
     city,
@@ -153,18 +150,6 @@ function FormPerfil() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Contraseña</label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                name="password"
-                value={password}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
               <label htmlFor="birthday">Fecha de nacimiento</label>
               <input
                 type="date"
@@ -225,15 +210,9 @@ function FormPerfil() {
             </div>
 
             <div className="btn-container d-flex justify-content-evenly mb-1">
-              <button type="reset" className="btn btn-secondary m-2">
-                Limpiar
+              <button type="reset" className="btn btn-secondary m-2" href="/perfileditable">
+                Editar
               </button>
-              <button type="submit" className="btn btn-primary m-2">
-                Enviar
-              </button>
-              <a href="/feed" className="btn btn-danger m-2">
-                Cancelar
-              </a>
             </div>
           </form>
         </div>
@@ -242,4 +221,4 @@ function FormPerfil() {
   );
 }
 
-export default FormPerfil;
+export default MiPerfil;
