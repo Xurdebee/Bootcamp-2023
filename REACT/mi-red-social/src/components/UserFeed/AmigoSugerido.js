@@ -48,7 +48,7 @@ function AmigoSugerido({ user_id }) {
       {suggestedUsers.map((user) => (
         <div className="hstack gap-2 mt-2 mb-3" key={user.user_id}>
           <div className="me-2">
-            <a href="#">
+            <a href="#!">
               <img
                 className="rounded-circle"
                 src={user.image}
