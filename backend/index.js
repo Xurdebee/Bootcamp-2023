@@ -406,7 +406,7 @@ app.get("/friendpost/:user_id", async function (req, res) {
       `
       SELECT post.*, users.name, users.surname, users.alias, users.image,
           COALESCE(user_likes.like_status, 0) AS user_like_status,
-          COUNT(post_likes.post_id) AS like_count
+          COALESCE(SUM(post_likes.like_status), 0) AS like_count
       FROM post
       JOIN users ON post.user_id = users.user_id
       LEFT JOIN post_likes ON post.post_id = post_likes.post_id
@@ -491,16 +491,26 @@ app.post("/newlike", async function (req, res) {
       console.log(`Nuevo like agregado: user_id=${userId}, post_id=${postId}`);
     }
 
-    res.sendStatus(200);
+    // Obtener el nuevo like_count
+    const likeCount = await sequelize.query(
+      "SELECT COALESCE(SUM(like_status), 0) AS like_count FROM post_likes WHERE post_id = ?",
+      {
+        replacements: [postId],
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+
+    res.json({ success: true, like_count: likeCount[0].like_count });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error al guardar el like." });
+    res
+      .status(500)
+      .json({ success: false, message: "Error al guardar el like." });
   }
 });
 
-
 // Quitar un like de un post
-app.put("/unlike/", async (req, res) => {
+app.put("/unlike", async (req, res) => {
   const userId = req.body.user_id;
   const postId = req.body.post_id;
 
@@ -513,22 +523,33 @@ app.put("/unlike/", async (req, res) => {
         type: sequelize.QueryTypes.UPDATE,
       }
     );
-    // Comprobar si se ha actualizado correctamente
+
+    // Verificar si se ha actualizado correctamente
     if (result[1] === 0) {
       // Si no se ha actualizado ningún registro, devolver un error
       return res
         .status(404)
-        .json({ message: "No se ha encontrado un like a esa publicación." });
+        .json({ message: "No se ha encontrado un like para esa publicación." });
     }
 
-    res.json({
-      message: "Ha dejado de gustarte la publicación.",
-    });
+    // Obtener el nuevo like_count
+    const likeCount = await sequelize.query(
+      "SELECT COALESCE(SUM(like_status), 0) AS like_count FROM post_likes WHERE post_id = ?",
+      {
+        replacements: [postId],
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+
+    res.json({ success: true, like_count: likeCount[0].like_count });
   } catch (error) {
     console.error(error);
     res
       .status(500)
-      .json({ message: "Ha ocurrido un error al quitar tu like." });
+      .json({
+        success: false,
+        message: "Ha ocurrido un error al quitar tu like.",
+      });
   }
 });
 

@@ -30,6 +30,7 @@ function PostAmigos() {
                 return {
                   ...post,
                   user_like_status: newLikeStatus,
+                  like_count: data.like_count,
                 };
               }
               return post;
@@ -53,7 +54,7 @@ function PostAmigos() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [user_id]);
 
   return (
     <>
@@ -89,7 +90,9 @@ function PostAmigos() {
               <div>
                 <button
                   className="btn btn-outline-danger border-0"
-                  onClick={() => handleButtonClick(post.post_id, post.user_like_status)}
+                  onClick={() =>
+                    handleButtonClick(post.post_id, post.user_like_status)
+                  }
                 >
                   {post.user_like_status === 1 ? (
                     <HeartFill width="24" height="24" />
@@ -102,7 +105,8 @@ function PostAmigos() {
                     id={`total_likes${post.post_id}`}
                     className="ms-1 text-center small"
                   >
-                    {post.like_count} {post.like_count === 1 ? "like" : "likes"}
+                    {parseInt(post.like_count)}{" "}
+                    {parseInt(post.like_count) === 1 ? "like" : "likes"}
                   </p>
                 </div>
               </div>
