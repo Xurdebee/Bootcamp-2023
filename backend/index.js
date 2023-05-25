@@ -544,27 +544,25 @@ app.put("/unlike", async (req, res) => {
     res.json({ success: true, like_count: likeCount[0].like_count });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Ha ocurrido un error al quitar tu like.",
-      });
+    res.status(500).json({
+      success: false,
+      message: "Ha ocurrido un error al quitar tu like.",
+    });
   }
 });
 
 //Crear un post (sin implementar)
-app.post("/createPost", async function (req, res) {
+app.post("/newpost", async function (req, res) {
   const { user_id, body } = req.body; // Obtener los datos del nuevo post del cuerpo de la solicitud
-  const date = new Date(); // Obtener la fecha actual
 
   try {
-    // Crear el nuevo post en la base de datos utilizando Sequelize
-    const new_post = await sequelize.query(
-      "INSERT INTO post (user_id, date, body) VALUES (?, ?, ?)",
-      { replacements: [user_id, date, body] }
-    );
-    res.send(new_post); // Devolver el nuevo post como respuesta
+    await sequelize.query("INSERT INTO post (user_id, body) VALUES (?, ?)", {
+      replacements: [user_id, body],
+      type: sequelize.QueryTypes.INSERT,
+    });
+
+    res.json({ message: "Post creado exitosamente" });
+ // Enviar una confirmación de éxito como respuesta
   } catch (error) {
     console.error(error);
     res.status(500).send("Error interno del servidor");

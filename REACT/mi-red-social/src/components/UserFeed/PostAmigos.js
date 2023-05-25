@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { HeartFill, Heart } from "react-bootstrap-icons";
 
-function PostAmigos() {
+function PostAmigos({ updatePosts }) {
   const [posts, setPosts] = useState([]);
   const user_id = localStorage.getItem("user_id");
 
@@ -54,7 +54,7 @@ function PostAmigos() {
       .catch((error) => {
         console.log(error);
       });
-  }, [user_id]);
+  }, [user_id, updatePosts]);
 
   return (
     <>
