@@ -12,9 +12,9 @@ const ColumnaUsuario = () => {
   useEffect(() => {
     fetch(`http://localhost:3000/user/${user_id}`)
       .then((response) => response.json())
-      .then((data) => {
-        setUser(data[0]);
-        console.log(data);
+      .then((user) => {
+        setUser(user[0]);
+        console.log(user);
       })
       .catch((error) => {
         console.log(error);
@@ -44,7 +44,7 @@ const ColumnaUsuario = () => {
             <div className="vr"></div>
             <div>
               <h6 className="mb-0">
-                <strong>{user.number_users}</strong>
+                <strong>{user.number_friends}</strong>
               </h6>
               <small>Amigos</small>
             </div>
@@ -125,7 +125,7 @@ const ColumnaUsuario = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="">
+            <a className="nav-link" href="#!">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"

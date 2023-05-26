@@ -28,10 +28,9 @@ app.use(bodyParser.json());
 
 // Login
 app.post("/login", async function (req, res) {
-  let email = req.body.email;
-  let password = req.body.password;
-
   try {
+    const { email, password } = req.body;
+
     const response = await sequelize.query(
       "SELECT * FROM users WHERE email=? AND password=?",
       {
@@ -85,6 +84,14 @@ app.post("/newregister", async (req, res) => {
       }
     );
 
+    if (aliasExists.length > 0) {
+      // Si ya existe un usuario con el mismo alias, enviar un mensaje de error
+      res
+        .status(400)
+        .json({ message: "Ya existe un usuario con el mismo alias." });
+      return;
+    }
+
     // Verificar si el correo electrónico ya existe en la base de datos
     const emailExists = await sequelize.query(
       "SELECT * FROM users WHERE email = ?",
@@ -94,47 +101,37 @@ app.post("/newregister", async (req, res) => {
       }
     );
 
-    if (aliasExists.length > 0 && emailExists.length > 0) {
-      // Si ya existe un usuario con el mismo alias y correo electrónico, enviar un mensaje de error
-      res.status(400).json({
-        message:
-          "Ya existe un usuario con el mismo alias y correo electrónico.",
-      });
-    } else if (aliasExists.length > 0) {
-      // Si ya existe un usuario con el mismo alias, enviar un mensaje de error
-      res
-        .status(400)
-        .json({ message: "Ya existe un usuario con el mismo alias." });
-    } else if (emailExists.length > 0) {
+    if (emailExists.length > 0) {
       // Si ya existe un usuario con el mismo correo electrónico, enviar un mensaje de error
       res.status(400).json({
         message: "Ya existe un usuario con el mismo correo electrónico.",
       });
-    } else {
-      // Si el alias y correo electrónico no están en uso, crear un nuevo usuario en la base de datos
-      const newUser = await sequelize.query(
-        `INSERT INTO users (alias, name, surname, email, password, birthday, country, city, linkedIn, education, extra_knowledge) 
-		  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        {
-          replacements: [
-            alias,
-            name,
-            surname,
-            email,
-            password,
-            birthday,
-            country,
-            city,
-            linkedIn,
-            education,
-            extra_knowledge,
-          ],
-          type: sequelize.QueryTypes.INSERT,
-        }
-      );
-
-      res.json({ message: "Usuario creado satisfactoriamente." });
+      return;
     }
+
+    // Si el alias y correo electrónico no están en uso, crear un nuevo usuario en la base de datos
+    await sequelize.query(
+      `INSERT INTO users (alias, name, surname, email, password, birthday, country, city, linkedIn, education, extra_knowledge) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      {
+        replacements: [
+          alias,
+          name,
+          surname,
+          email,
+          password,
+          birthday,
+          country,
+          city,
+          linkedIn,
+          education,
+          extra_knowledge,
+        ],
+        type: sequelize.QueryTypes.INSERT,
+      }
+    );
+
+    res.json({ message: "Usuario creado satisfactoriamente." });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error al crear el usuario." });
@@ -273,50 +270,117 @@ app.get("/usersothersprofiles/:user_id", async (req, res) => {
   }
 });
 
-// Las personas que sigue el usuario x
-app.get("/friends/:user_id", async function (req, res) {
-  const user_id = req.params.user_id;
+// Trae los datos necesarios para cargar la barra de usuario
+app.get("/user/:user_id", async function (req, res) {
   try {
-    const friends = await sequelize.query(
-      `SELECT * from users INNER JOIN friend ON friend.friend_user_id = users.user_id WHERE friend.user_id = "${user_id}" AND friend.friendship = 1`,
-      { type: sequelize.QueryTypes.SELECT }
+    const user = await sequelize.query(
+      `
+      SELECT
+        users.*,
+        COALESCE(COUNT(DISTINCT post.post_id), 0) AS number_posts,
+        COALESCE(COUNT(DISTINCT post_likes.like_id), 0) AS number_likes,
+        COALESCE(COUNT(DISTINCT CASE WHEN friends.friend_status = 'accepted' THEN friends.friend_user_id END), 0) AS number_friends
+      FROM
+        users
+        LEFT JOIN post ON users.user_id = post.user_id
+        LEFT JOIN post_likes ON post.post_id = post_likes.post_id
+        LEFT JOIN friends ON (users.user_id = friends.user_id OR users.user_id = friends.friend_user_id)
+      WHERE
+        users.user_id = :user_id
+      GROUP BY
+        users.user_id
+      `,
+      {
+        replacements: { user_id: req.params.user_id },
+        type: sequelize.QueryTypes.SELECT,
+      }
     );
-    res.send(friends);
+    console.log(user);
+    res.json(user);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error interno del servidor");
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-// Las personas que no sigue el usuario x
-app.get("/suggested/:user_id", async function (req, res) {
-  const user_id = req.params.user_id;
+// Las personas que son amigas del usuario registrado
+app.get("/friends/:user_id", async function (req, res) {
   try {
-    if (user_id) {
-      const user_suggest = await sequelize.query(
-        `SELECT * FROM users WHERE user_id NOT IN (SELECT friend_user_id FROM friend WHERE user_id = "${user_id}") AND user_id != "${user_id}"`,
-        { type: sequelize.QueryTypes.SELECT }
-      );
-      // seleccionar todos los usuarios (tabla users) que en la tabla friend no estén en friend_user_id cuando user_id sea igual al valor proporcionado
-      res.send(user_suggest);
-    } else {
-      res.status(404).send("No existe usuario");
-    }
+    const friend = await sequelize.query(
+      `SELECT users.user_id AS new_id, users.name, users.surname, users.alias, users.image
+      FROM users
+      INNER JOIN friends ON (friends.friend_user_id = users.user_id OR friends.user_id = users.user_id)
+      WHERE (friends.user_id = :user_id OR friends.friend_user_id = :user_id) AND friends.friend_status = 'accepted'
+      AND users.user_id <> :user_id`,
+      {
+        replacements: { user_id: req.params.user_id },
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+    res.json(friend);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error interno del servidor");
   }
 });
 
-// Agregar nuevo seguimiento
+// Las personas que no son amigas del usuario registrado
+app.get("/suggested/:user_id", async function (req, res) {
+  try {
+    const suggested = await sequelize.query(
+      `SELECT users.*, users.user_id AS new_id
+      FROM users
+      WHERE users.user_id NOT IN (
+        SELECT friend_user_id
+        FROM friends
+        WHERE user_id = :user_id
+        UNION
+        SELECT user_id
+        FROM friends
+        WHERE friend_user_id = :user_id
+      ) AND users.user_id <> :user_id;
+      `,
+      {
+        replacements: { user_id: req.params.user_id },
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+    res.json(suggested);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error interno del servidor");
+  }
+});
+
+// Peticiones pendientes
+app.get("/pending/:user_id", async function (req, res) {
+  try {
+    const user = await sequelize.query(
+      `SELECT users.*, users.user_id AS new_id
+      FROM users 
+        INNER JOIN friends ON (friends.friend_user_id = users.user_id OR friends.user_id = users.user_id)
+        WHERE (friends.friend_user_id = :user_id) AND friends.friend_status = 'pending' AND users.user_id <> :user_id`,
+      {
+        replacements: { user_id: req.params.user_id },
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error interno del servidor");
+  }
+});
+
+// Agregar nueva Amistad
 app.post("/newfriend", async function (req, res) {
   const userId = req.body.user_id;
-  const friendUserId = req.body.friend_user_id;
-  const friendStatus = 1;
+  const friendUserId = req.body.new_id;
+  const friendStatus = "pending";
 
   try {
     await sequelize.query(
-      "INSERT INTO friend (user_id, friend_user_id, friendship) VALUES (?, ?, ?)",
+      "INSERT INTO friends (user_id, friend_user_id, friend_status) VALUES (?, ?, ?)",
       {
         replacements: [userId, friendUserId, friendStatus],
         type: sequelize.QueryTypes.INSERT,
@@ -329,24 +393,26 @@ app.post("/newfriend", async function (req, res) {
     res.sendStatus(200);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error al guardar el friend" });
+    res.status(500).json({ error: "Error al guardar el amigo" });
   }
 });
 
-/// Dejar de seguir usuario
-app.put("/unfriend/", async (req, res) => {
+// Aceptar ser Amigos
+app.put("/acceptfriend", async (req, res) => {
   const userId = req.body.user_id;
-  const friendUserId = req.body.friend_user_id;
+  const friendUserId = req.body.new_id;
 
   try {
-    // Actualizar el campo friendship a 0
+    // Actualizar el campo friend_status a 'accepted'
     const result = await sequelize.query(
-      `UPDATE friend SET friendship = 0 WHERE user_id = ? AND friend_user_id = ?`,
+      `UPDATE friends SET friend_status = 'accepted' WHERE
+        (user_id = ? AND friend_user_id = ?)`,
       {
-        replacements: [userId, friendUserId],
+        replacements: [friendUserId, userId],
         type: sequelize.QueryTypes.UPDATE,
       }
     );
+
     // Comprobar si se ha actualizado correctamente
     if (result[1] === 0) {
       // Si no se ha actualizado ningún registro, devolver un error
@@ -356,15 +422,53 @@ app.put("/unfriend/", async (req, res) => {
     }
 
     res.json({
-      message: "Se ha dejado de seguir al usuario satisfactoriamente.",
+      message: "Ahora eres amigo del usuario.",
     });
   } catch (error) {
     console.error(error);
     res
       .status(500)
-      .json({ message: "Ha ocurrido un error al dejar de seguir al usuario." });
+      .json({ message: "Ha ocurrido un error al intentar ser amigos." });
   }
 });
+
+
+// Dejar de ser Amigos
+app.put("/unfriend", async (req, res) => {
+  const userId = req.body.user_id;
+  const friendUserId = req.body.new_id;
+
+  try {
+    // Actualizar el campo friend_status a 'rejected'
+    const result = await sequelize.query(
+      `UPDATE friends SET friend_status = 'rejected' WHERE
+        (user_id = ? AND friend_user_id = ?) OR
+        (user_id = ? AND friend_user_id = ?)`,
+      {
+        replacements: [userId, friendUserId, friendUserId, userId],
+        type: sequelize.QueryTypes.UPDATE,
+      }
+    );
+
+    // Comprobar si se ha actualizado correctamente
+    if (result[1] === 0) {
+      // Si no se ha actualizado ningún registro, devolver un error
+      return res
+        .status(404)
+        .json({ message: "No se ha encontrado un registro para actualizar." });
+    }
+
+    res.json({
+      message: "Se ha dejado de ser amigo del usuario.",
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Ha ocurrido un error al dejar de ser amigos." });
+  }
+});
+
 
 // Datos del usuario user_id, se envian desde el front, carga desde el user_id logeado
 app.get("/user/:user_id", async function (req, res) {
@@ -375,16 +479,16 @@ app.get("/user/:user_id", async function (req, res) {
         users.*,
         COALESCE(COUNT(DISTINCT post.post_id), 0) AS number_posts,
         COALESCE(COUNT(DISTINCT post_likes.like_id), 0) AS number_likes,
-        COALESCE(COUNT(DISTINCT CASE WHEN friend.friendship = 1 THEN friend.friend_user_id END), 0) AS number_users
+        COALESCE(COUNT(DISTINCT CASE WHEN friends.friend_status = 'accepted' THEN friends.friend_user_id END), 0) AS number_friends
       FROM
         users
         LEFT JOIN post ON users.user_id = post.user_id
         LEFT JOIN post_likes ON post.post_id = post_likes.post_id
-        LEFT JOIN friend ON users.user_id = friend.user_id
+        LEFT JOIN friends ON (users.user_id = friends.user_id OR users.user_id = friends.friend_user_id)
       WHERE
         users.user_id = :user_id
       GROUP BY
-        users.user_id;
+        users.user_id
       `,
       {
         replacements: { user_id: req.params.user_id },
@@ -392,14 +496,14 @@ app.get("/user/:user_id", async function (req, res) {
       }
     );
     console.log(user);
-    res.send(user);
+    res.json(user);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal server error");
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-// Trae los post de los amigos
+// Trae los post de los amigos del usuario registrado
 app.get("/friendpost/:user_id", async function (req, res) {
   try {
     const friend_post = await sequelize.query(
@@ -413,13 +517,12 @@ app.get("/friendpost/:user_id", async function (req, res) {
       LEFT JOIN post_likes AS user_likes ON post.post_id = user_likes.post_id AND user_likes.user_id = :user_id
       WHERE (post.user_id = :user_id OR post.user_id IN (
           SELECT friend_user_id
-          FROM friend
+          FROM friends
           WHERE user_id = :user_id
-            AND friendship = 1
+            AND friend_status = 'accepted'
           ))
       GROUP BY post.post_id, users.user_id
-      ORDER BY post.date DESC;
-      `,
+      ORDER BY post.date DESC`,
       {
         replacements: { user_id: req.params.user_id },
         type: sequelize.QueryTypes.SELECT,
@@ -447,7 +550,7 @@ app.get("/friendpost/:user_id", async function (req, res) {
       }
     });
 
-    res.send(friend_post);
+    res.json(friend_post);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error interno del servidor");
@@ -515,7 +618,7 @@ app.put("/unlike", async (req, res) => {
   const postId = req.body.post_id;
 
   try {
-    // Actualizar el campo friendship a 0
+    // Actualizar el campo friend_status a 0
     const result = await sequelize.query(
       `UPDATE post_likes SET like_status = 0 WHERE user_id = ? AND post_id = ?`,
       {
@@ -551,7 +654,7 @@ app.put("/unlike", async (req, res) => {
   }
 });
 
-//Crear un post (sin implementar)
+//Crear un post
 app.post("/newpost", async function (req, res) {
   const { user_id, body } = req.body; // Obtener los datos del nuevo post del cuerpo de la solicitud
 
@@ -562,7 +665,7 @@ app.post("/newpost", async function (req, res) {
     });
 
     res.json({ message: "Post creado exitosamente" });
- // Enviar una confirmación de éxito como respuesta
+    // Enviar una confirmación de éxito como respuesta
   } catch (error) {
     console.error(error);
     res.status(500).send("Error interno del servidor");
