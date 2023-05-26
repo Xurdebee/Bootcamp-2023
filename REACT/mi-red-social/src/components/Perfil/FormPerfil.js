@@ -55,27 +55,27 @@ function FormPerfil () {
     };  
 
     // Obtener el user_id del localStorage
-  const user_id = localStorage.getItem('user_id');
+    const user_id = localStorage.getItem('user_id');
 
-  // Realizar la solicitud PUT al servidor
-  fetch(`http://localhost:3000/updateregister/${user_id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(updatedData)
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Datos actualizados correctamente:", data);
-      //notificación de éxito
-      alert('Actualización del registro con exito');
+    // Realizar la solicitud PUT al servidor
+    fetch(`http://localhost:3000/updateregister/${user_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(updatedData)
     })
-    .catch((error) => {
-      console.error("Error al actualizar los datos:", error);
-      // mostrar un mensaje de error 
-      alert('Error al actualizar los datos');
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Datos actualizados correctamente:", data);
+        //notificación de éxito
+        alert('Actualización del registro con exito');
+      })
+      .catch((error) => {
+        console.error("Error al actualizar los datos:", error);
+        // mostrar un mensaje de error 
+        alert('Error al actualizar los datos');
+      });
     
 
   };

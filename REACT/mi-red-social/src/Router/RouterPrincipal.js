@@ -9,6 +9,7 @@ import MiPerfil from "../pages/WebMiPerfil";
 import Feed from "../pages/WebFeed";
 import Amigos from "../pages/WebAmigos";
 import Sugeridos from "../pages/WebSugeridos";
+import ListadoBusqueda from "../pages/WebBusqueda";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
                 <Route path="/amigos" element={<Amigos />} />
                 <Route path="/sugeridos" element={<Sugeridos />} />
                 <Route path="/perfil" element={<MiPerfil />} />
+                <Route path="/busqueda" element={<ListadoBusqueda />} />
               </Routes>
               <Footer />
             </>

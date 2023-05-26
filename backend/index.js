@@ -90,23 +90,7 @@ app.post('/newregister', async (req, res) => {
 	}
   });
 
-  // Verificar si el alias ya existe en la base de datos
-  const aliasExists = await sequelize.query(
-    `SELECT * FROM users WHERE alias = ?`,
-    {
-      replacements: [alias],
-      type: sequelize.QueryTypes.SELECT,
-    }
-  );
 
-  // Verificar si el correo electrónico ya existe en la base de datos
-  const emailExists = await sequelize.query(
-    `SELECT * FROM users WHERE email = ?`,
-    {
-      replacements: [email],
-      type: sequelize.QueryTypes.SELECT,
-    }
-  );
 // ACTUALIZAR Registro (SIN PROBAR)
 app.put('/updateregister/:user_id', async (req, res) => {
 	const user_id = req.params.user_id; // El ID del usuario se pasa como un parámetro en la ruta (/updateregister/:user_id) para identificar el registro que se va a actualizar.
@@ -424,6 +408,25 @@ app.post("/createPost", async function (req, res) {
     res.status(500).send("Error interno del servidor");
   }
 });
+
+//Realizar una búsqueda por una coincidiencia parcial del alias
+  
+app.get('/users/:alias', async (req, res) => {
+  try {
+    const alias = req.params.alias;
+
+    const query = `SELECT * FROM users WHERE alias LIKE '%${alias}%'`;
+    const result = await sequelize.query(query, { type: Sequelize.QueryTypes.SELECT });
+
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al ejecutar la consulta' });
+  }
+});
+
+
+
 
 //Inicio del servidor
 app.listen(3000, function () {
