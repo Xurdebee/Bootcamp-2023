@@ -8,7 +8,7 @@ function ListadoBusqueda() {
     setAlias(event.target.value);
   };
 
-  useEffect(() => {
+  useEffect(() => { //se utiliza useEffect para realizar la solicitud al backend cuando el valor de alias cambia
     if (alias !== "") {
       fetch(`http://localhost:3000/users/${alias}`)
         .then((response) => response.json())
