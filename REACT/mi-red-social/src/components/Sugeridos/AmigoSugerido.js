@@ -15,16 +15,16 @@ function AmigoSugerido({ user_id }) {
       });
   }, [user_id]);
 
-  const followUser = (follow_user_id) => {
-    fetch("http://localhost:3000/newfollow", {
+  const friendUser = (friend_user_id) => {
+    fetch("http://localhost:3000/newfriend", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_id, follow_user_id }),
+      body: JSON.stringify({ user_id, friend_user_id }),
     })
       .then((response) => {
-        console.log("Follow realizado con exito");
+        console.log("friend realizado con exito");
 
         // Actualizar la lista de usuarios sugeridos después de hacer el seguimiento
         fetch(`http://localhost:3000/suggested/${user_id}`)
@@ -62,7 +62,7 @@ function AmigoSugerido({ user_id }) {
                 <p className="mb-2 small text-truncate">{user.alias}</p>
                 <button
                   className="btn btn-outline-success btn-sm"
-                  onClick={() => followUser(user.user_id)}
+                  onClick={() => friendUser(user.user_id)}
                 >
                   Añadir
                 </button>

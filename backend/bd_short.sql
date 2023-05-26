@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-05-2023 a las 11:57:07
+-- Tiempo de generación: 26-05-2023 a las 11:45:29
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -20,30 +20,48 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `bd_short`
 --
+CREATE DATABASE IF NOT EXISTS `bd_short` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `bd_short`;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `follow`
+-- Estructura de tabla para la tabla `feedback`
 --
 
-CREATE TABLE `follow` (
-  `follow_id` bigint(20) NOT NULL,
+CREATE TABLE `feedback` (
+  `feedback_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `follow_user_id` bigint(20) NOT NULL,
-  `follow_status` tinyint(1) NOT NULL,
-  `follow_time` timestamp NOT NULL DEFAULT current_timestamp()
+  `feedback_user_id` bigint(20) NOT NULL,
+  `feedback_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `feedback_status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `friends`
+--
+
+CREATE TABLE `friends` (
+  `friend_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `friend_user_id` bigint(20) NOT NULL,
+  `friendship` tinyint(1) NOT NULL,
+  `friend_time` timestamp NOT NULL DEFAULT current_timestamp(),
+  `friend_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `follow`
+-- Volcado de datos para la tabla `friends`
 --
 
-INSERT INTO `follow` (`follow_id`, `user_id`, `follow_user_id`, `follow_status`, `follow_time`) VALUES
-(1, 1, 2, 0, '2023-05-07 12:01:27'),
-(2, 1, 3, 1, '2023-05-07 12:01:27'),
-(3, 1, 4, 1, '2023-05-07 12:47:23'),
-(4, 1, 5, 1, '2023-05-07 12:48:06');
+INSERT INTO `friends` (`friend_id`, `user_id`, `friend_user_id`, `friendship`, `friend_time`, `friend_status`) VALUES
+(1, 1, 2, 0, '2023-05-07 12:01:27', 0),
+(2, 1, 3, 1, '2023-05-07 12:01:27', 0),
+(3, 1, 4, 1, '2023-05-07 12:47:23', 0),
+(4, 1, 5, 1, '2023-05-07 12:48:06', 0),
+(5, 1, 11, 0, '2023-05-24 12:19:37', 0);
 
 -- --------------------------------------------------------
 
@@ -79,7 +97,7 @@ CREATE TABLE `post_likes` (
   `like_id` bigint(20) NOT NULL,
   `post_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `like_status` tinyint(1) NOT NULL
+  `like_status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -87,7 +105,7 @@ CREATE TABLE `post_likes` (
 --
 
 INSERT INTO `post_likes` (`like_id`, `post_id`, `user_id`, `like_status`) VALUES
-(1, 3, 1, 1),
+(1, 3, 1, 0),
 (2, 4, 2, 1),
 (3, 4, 3, 1),
 (4, 5, 2, 1),
@@ -112,7 +130,7 @@ CREATE TABLE `users` (
   `linkedIn` varchar(150) NOT NULL,
   `education` varchar(50) NOT NULL,
   `extra_knowledge` varchar(150) NOT NULL,
-  `image` varchar(100) NOT NULL
+  `image` varchar(100) NOT NULL DEFAULT 'users/default.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -139,26 +157,35 @@ INSERT INTO `users` (`user_id`, `alias`, `name`, `surname`, `email`, `password`,
 (17, 'Carlitos', 'Carlos', 'Alcántara Fernández', 'carlitos@gmail.com', 1597, '1990-03-04', 'España', 'Sagrillas', 'linkedin.com/in/carlosalcantara', 'FP Imagen y sonido', 'Inglés B2 y Alemán A2', 'users/user_17.jpg'),
 (18, 'Danna', 'Daniela', 'López Aguilar', 'danna@gmail.com', 1598, '2000-03-07', 'México', 'Monterrey', 'linkedin.com/in/Dannalopez', 'Grado en Historia', 'Historia del Arte: Del Arte Prehistórico al Renacimiento', 'users/user_18.jpg'),
 (19, 'Miacolucci', 'Mia', 'Colucci ', 'miacolucci@gmail.com', 1599, '1999-01-01', 'México', 'México DF', 'linkedin.com/in/MiaColucci', 'Finanzas ', 'Auditoría de Cuentas', 'users/user_19.jpg'),
-(20, 'Dulcemaria', 'Dulce María', 'Espinosa Saviñón', 'dulcemaria@gmail.com', 1560, '1978-06-09', 'México', 'Ciudad de México ', 'linkedin.com/in/Dulcemaria', 'Postgrado en Arte contemporáneo', 'Arte y actividad: Estrategias interactivas para interactuar con el arte', 'users/user_20.jpg');
+(20, 'Dulcemaria', 'Dulce María', 'Espinosa Saviñón', 'dulcemaria@gmail.com', 1560, '1978-06-09', 'México', 'Ciudad de México ', 'linkedin.com/in/Dulcemaria', 'Postgrado en Arte contemporáneo', 'Arte y actividad: Estrategias interactivas para interactuar con el arte', 'users/user_20.jpg'),
+(21, 'Xurde', 'Xurde', 'Pellitero', 'xurdebrandulas@gmail.com', 123456, '1111-01-01', 'España', 'Gijón', '111', 'primaria', '111', 'users/default.jpg');
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `follow`
+-- Indices de la tabla `feedback`
 --
-ALTER TABLE `follow`
-  ADD PRIMARY KEY (`follow_id`),
-  ADD KEY `user_id` (`user_id`,`follow_user_id`),
-  ADD KEY `follow_user_id` (`follow_user_id`);
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`feedback_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `feedback_user_id` (`feedback_user_id`);
+
+--
+-- Indices de la tabla `friends`
+--
+ALTER TABLE `friends`
+  ADD PRIMARY KEY (`friend_id`),
+  ADD KEY `user_id` (`user_id`,`friend_user_id`),
+  ADD KEY `follow_user_id` (`friend_user_id`);
 
 --
 -- Indices de la tabla `post`
 --
 ALTER TABLE `post`
   ADD PRIMARY KEY (`post_id`),
-  ADD UNIQUE KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indices de la tabla `post_likes`
@@ -181,10 +208,16 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT de la tabla `follow`
+-- AUTO_INCREMENT de la tabla `feedback`
 --
-ALTER TABLE `follow`
-  MODIFY `follow_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `feedback`
+  MODIFY `feedback_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `friends`
+--
+ALTER TABLE `friends`
+  MODIFY `friend_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `post`
@@ -202,24 +235,31 @@ ALTER TABLE `post_likes`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `follow`
+-- Filtros para la tabla `feedback`
 --
-ALTER TABLE `follow`
-  ADD CONSTRAINT `follow_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `follow_ibfk_2` FOREIGN KEY (`follow_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+ALTER TABLE `feedback`
+  ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`feedback_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `friends`
+--
+ALTER TABLE `friends`
+  ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `friends_ibfk_2` FOREIGN KEY (`friend_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `post`
 --
 ALTER TABLE `post`
-  ADD CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `post_likes`

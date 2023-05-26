@@ -28,6 +28,7 @@ const App = () => {
                 <Route path="/sugeridos" element={<Sugeridos />} />
                 <Route path="/perfil" element={<MiPerfil />} />
                 <Route path="/perfileditable" element={<PefilEditable />} />
+                {/* <Route path="/*"/ element={Error}> */}
               </Routes>
               <Footer />
             </>

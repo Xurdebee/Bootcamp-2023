@@ -5,7 +5,7 @@ const AmigoUsuario = ({ user_id }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/followed/${user_id}`)
+    fetch(`http://localhost:3000/friends/${user_id}`)
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
@@ -15,19 +15,19 @@ const AmigoUsuario = ({ user_id }) => {
       });
   }, [user_id]);
 
-  const unfollowUser = (follow_user_id) => {
-    fetch(`http://localhost:3000/unfollow/`, {
+  const unfriendUser = (friend_user_id) => {
+    fetch(`http://localhost:3000/unfriend/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_id, follow_user_id }),
+      body: JSON.stringify({ user_id, friend_user_id }),
     })
       .then((response) => {
         console.log("Amigo eliminado con exito");
 
         // Actualizar la lista de usuarios
-        fetch(`http://localhost:3000/followed/${user_id}`)
+        fetch(`http://localhost:3000/friends/${user_id}`)
           .then((response) => response.json())
           .then((data) => {
             setUsers(data);
@@ -45,9 +45,9 @@ const AmigoUsuario = ({ user_id }) => {
     <Container>
       <Row>
         {users.map((user) => (
-          <Col key={user.follow_user_id} xs={6} sm={4} md={3} lg={3} xxl={2}>
+          <Col key={user.friend_user_id} xs={6} sm={4} md={3} lg={3} xxl={2}>
             <div className="text-center mb-5">
-              <a href={`/user/${user.follow_user_id}`}>
+              <a href={`/user/${user.friend_user_id}`}>
                 <img
                   className="rounded-circle"
                   src={user.image}
@@ -56,13 +56,13 @@ const AmigoUsuario = ({ user_id }) => {
                 />
               </a>
               <div className="overflow-hidden">
-                <a className="h6 mb-0" href={`/user/${user.follow_user_id}`}>
+                <a className="h6 mb-0" href={`/user/${user.friend_user_id}`}>
                   {user.name} {user.surname}
                 </a>
                 <p className="mb-2 small text-truncate">{user.alias}</p>
                 <button
                   className="btn btn-outline-danger btn-sm"
-                  onClick={() => unfollowUser(user.follow_user_id)}
+                  onClick={() => unfriendUser(user.friend_user_id)}
                 >
                   Eliminar
                 </button>

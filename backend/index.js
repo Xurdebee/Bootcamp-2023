@@ -274,14 +274,14 @@ app.get("/usersothersprofiles/:user_id", async (req, res) => {
 });
 
 // Las personas que sigue el usuario x
-app.get("/followed/:user_id", async function (req, res) {
+app.get("/friends/:user_id", async function (req, res) {
   const user_id = req.params.user_id;
   try {
-    const followers = await sequelize.query(
-      `SELECT * from users INNER JOIN follow ON follow.follow_user_id = users.user_id WHERE follow.user_id = "${user_id}" AND follow.follow_status = 1`,
+    const friends = await sequelize.query(
+      `SELECT * from users INNER JOIN friend ON friend.friend_user_id = users.user_id WHERE friend.user_id = "${user_id}" AND friend.friendship = 1`,
       { type: sequelize.QueryTypes.SELECT }
     );
-    res.send(followers);
+    res.send(friends);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error interno del servidor");
@@ -294,10 +294,10 @@ app.get("/suggested/:user_id", async function (req, res) {
   try {
     if (user_id) {
       const user_suggest = await sequelize.query(
-        `SELECT * FROM users WHERE user_id NOT IN (SELECT follow_user_id FROM follow WHERE user_id = "${user_id}") AND user_id != "${user_id}"`,
+        `SELECT * FROM users WHERE user_id NOT IN (SELECT friend_user_id FROM friend WHERE user_id = "${user_id}") AND user_id != "${user_id}"`,
         { type: sequelize.QueryTypes.SELECT }
       );
-      // seleccionar todos los usuarios (tabla users) que en la tabla follow no estén en follow_user_id cuando user_id sea igual al valor proporcionado
+      // seleccionar todos los usuarios (tabla users) que en la tabla friend no estén en friend_user_id cuando user_id sea igual al valor proporcionado
       res.send(user_suggest);
     } else {
       res.status(404).send("No existe usuario");
@@ -309,41 +309,41 @@ app.get("/suggested/:user_id", async function (req, res) {
 });
 
 // Agregar nuevo seguimiento
-app.post("/newfollow", async function (req, res) {
+app.post("/newfriend", async function (req, res) {
   const userId = req.body.user_id;
-  const followUserId = req.body.follow_user_id;
-  const followStatus = 1;
+  const friendUserId = req.body.friend_user_id;
+  const friendStatus = 1;
 
   try {
     await sequelize.query(
-      "INSERT INTO follow (user_id, follow_user_id, follow_status) VALUES (?, ?, ?)",
+      "INSERT INTO friend (user_id, friend_user_id, friendship) VALUES (?, ?, ?)",
       {
-        replacements: [userId, followUserId, followStatus],
+        replacements: [userId, friendUserId, friendStatus],
         type: sequelize.QueryTypes.INSERT,
       }
     );
 
     console.log(
-      `Nuevo seguimiento agregado: user_id=${userId}, follow_user_id=${followUserId}`
+      `Nuevo seguimiento agregado: user_id=${userId}, friend_user_id=${friendUserId}`
     );
     res.sendStatus(200);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error al guardar el follow" });
+    res.status(500).json({ error: "Error al guardar el friend" });
   }
 });
 
 /// Dejar de seguir usuario
-app.put("/unfollow/", async (req, res) => {
+app.put("/unfriend/", async (req, res) => {
   const userId = req.body.user_id;
-  const followUserId = req.body.follow_user_id;
+  const friendUserId = req.body.friend_user_id;
 
   try {
-    // Actualizar el campo follow_status a 0
+    // Actualizar el campo friendship a 0
     const result = await sequelize.query(
-      `UPDATE follow SET follow_status = 0 WHERE user_id = ? AND follow_user_id = ?`,
+      `UPDATE friend SET friendship = 0 WHERE user_id = ? AND friend_user_id = ?`,
       {
-        replacements: [userId, followUserId],
+        replacements: [userId, friendUserId],
         type: sequelize.QueryTypes.UPDATE,
       }
     );
@@ -375,12 +375,12 @@ app.get("/user/:user_id", async function (req, res) {
         users.*,
         COALESCE(COUNT(DISTINCT post.post_id), 0) AS number_posts,
         COALESCE(COUNT(DISTINCT post_likes.like_id), 0) AS number_likes,
-        COALESCE(COUNT(DISTINCT CASE WHEN follow.follow_status = 1 THEN follow.follow_user_id END), 0) AS number_users
+        COALESCE(COUNT(DISTINCT CASE WHEN friend.friendship = 1 THEN friend.friend_user_id END), 0) AS number_users
       FROM
         users
         LEFT JOIN post ON users.user_id = post.user_id
         LEFT JOIN post_likes ON post.post_id = post_likes.post_id
-        LEFT JOIN follow ON users.user_id = follow.user_id
+        LEFT JOIN friend ON users.user_id = friend.user_id
       WHERE
         users.user_id = :user_id
       GROUP BY
@@ -412,10 +412,10 @@ app.get("/friendpost/:user_id", async function (req, res) {
       LEFT JOIN post_likes ON post.post_id = post_likes.post_id
       LEFT JOIN post_likes AS user_likes ON post.post_id = user_likes.post_id AND user_likes.user_id = :user_id
       WHERE (post.user_id = :user_id OR post.user_id IN (
-          SELECT follow_user_id
-          FROM follow
+          SELECT friend_user_id
+          FROM friend
           WHERE user_id = :user_id
-            AND follow_status = 1
+            AND friendship = 1
           ))
       GROUP BY post.post_id, users.user_id
       ORDER BY post.date DESC;
@@ -515,7 +515,7 @@ app.put("/unlike", async (req, res) => {
   const postId = req.body.post_id;
 
   try {
-    // Actualizar el campo follow_status a 0
+    // Actualizar el campo friendship a 0
     const result = await sequelize.query(
       `UPDATE post_likes SET like_status = 0 WHERE user_id = ? AND post_id = ?`,
       {
