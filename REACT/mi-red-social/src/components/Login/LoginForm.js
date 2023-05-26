@@ -119,11 +119,7 @@ function LoginForm() {
                       required
                     />
                   </div>
-                  <p className="small">
-                    <a className="text-primary" href="forget-password.html">
-                      ¿Olvidaste la contraseña?
-                    </a>
-                  </p>
+                 
                   <div className="d-grid">
                     <button
                       id="boton-login"
@@ -133,17 +129,7 @@ function LoginForm() {
                     >
                       Login
                     </button>
-                    <label className="checkbox mt-2">
-                      <input
-                        type="checkbox"
-                        value="remember-me"
-                        className="me-2"
-                        checked={rememberMe}
-                        onChange={handleRememberMeChange}
-                      />
-                      Mantenerme conectado en este PC
-                    </label>
-                  </div>
+                    </div>
                 </form>
                 <div>
                   <p className="mb-0 text-center">

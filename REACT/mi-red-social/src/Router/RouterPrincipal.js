@@ -6,6 +6,7 @@ import Footer from "../components/Footer/Footer";
 import Login from "../pages/WebLogin";
 import Registro from "../pages/WebRegistro";
 import MiPerfil from "../pages/WebMiPerfil";
+import PefilEditable from "../pages/WebPerfilEditable";
 import Feed from "../pages/WebFeed";
 import Amigos from "../pages/WebAmigos";
 import Sugeridos from "../pages/WebSugeridos";
@@ -28,6 +29,7 @@ const App = () => {
                 <Route path="/sugeridos" element={<Sugeridos />} />
                 <Route path="/perfil" element={<MiPerfil />} />
                 <Route path="/busqueda" element={<ListadoBusqueda />} />
+                <Route path="/perfileditable" element={<PefilEditable />} />
               </Routes>
               <Footer />
             </>

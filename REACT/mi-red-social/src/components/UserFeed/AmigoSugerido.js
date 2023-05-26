@@ -23,7 +23,7 @@ function AmigoSugerido({ user_id }) {
       body: JSON.stringify({ user_id, follow_user_id }),
     })
       .then((response) => {
-        console.log("Follow realizado con exito");
+        console.log("Follow realizado con éxito");
 
         // Actualizar la lista de usuarios sugeridos después de hacer el seguimiento
         fetch(`http://localhost:3000/suggested/${user_id}`)
@@ -40,12 +40,15 @@ function AmigoSugerido({ user_id }) {
       });
   };
 
+  // Obtener los primeros 5 usuarios
+  const suggestedUsers = users.slice(0, 5);
+
   return (
     <>
-      {users.map((user) => (
+      {suggestedUsers.map((user) => (
         <div className="hstack gap-2 mt-2 mb-3" key={user.user_id}>
           <div className="me-2">
-            <a href="#">
+            <a href="#!">
               <img
                 className="rounded-circle"
                 src={user.image}

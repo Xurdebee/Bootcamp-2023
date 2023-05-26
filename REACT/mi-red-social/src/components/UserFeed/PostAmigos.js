@@ -1,10 +1,52 @@
 import React, { useState, useEffect } from "react";
+import { HeartFill, Heart } from "react-bootstrap-icons";
 
-function PostAmigos() {
+function PostAmigos({ updatePosts }) {
   const [posts, setPosts] = useState([]);
+  const user_id = localStorage.getItem("user_id");
+
+  const handleButtonClick = (postId, userLikeStatus) => {
+    const newLikeStatus = userLikeStatus === 0 ? 1 : 0;
+    const url = userLikeStatus === 0 ? "/newlike" : "/unlike";
+
+    fetch(`http://localhost:3000${url}`, {
+      method: userLikeStatus === 0 ? "POST" : "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: user_id,
+        post_id: postId,
+        like_status: newLikeStatus,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // Actualizar el estado de los posts después de dar like/unlike
+          setPosts((prevPosts) =>
+            prevPosts.map((post) => {
+              if (post.post_id === postId) {
+                return {
+                  ...post,
+                  user_like_status: newLikeStatus,
+                  like_count: data.like_count,
+                };
+              }
+              return post;
+            })
+          );
+        } else {
+          console.log(data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
-    fetch("http://localhost:3000/friendPost")
+    fetch(`http://localhost:3000/friendPost/${user_id}`)
       .then((response) => response.json())
       .then((data) => {
         setPosts(data);
@@ -12,7 +54,7 @@ function PostAmigos() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [user_id, updatePosts]);
 
   return (
     <>
@@ -38,9 +80,7 @@ function PostAmigos() {
               </a>
               <p className="mb-0 small text-truncate">{post.alias}</p>
             </div>
-            <div className="ms-auto align-self-center">
-              Hace {post.timeAgo}
-            </div>
+            <div className="ms-auto align-self-center">Hace {post.timeAgo}</div>
           </div>
 
           <div className="nav w-100">
@@ -49,49 +89,29 @@ function PostAmigos() {
             <div className="hstack gap-3">
               <div>
                 <button
-                  className="btn btn-outline-danger border-0 rounded-circle corazon"
-                  id={`boton_likes${post.post_id}`}
-                  type="submit"
+                  className="btn btn-outline-danger border-0"
+                  onClick={() =>
+                    handleButtonClick(post.post_id, post.user_like_status)
+                  }
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="currentColor"
-                    className="bi bi-heart-fill"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-                    />
-                  </svg>
-                  <div>
-                    <p id={`total_likes${post.post_id}`} className="ms-1 text-center small">
-                      {post.like_count} {post.like_count === 1 ? "like" : "likes"}
-                    </p>
-                </div>
+                  {post.user_like_status === 1 ? (
+                    <HeartFill width="24" height="24" />
+                  ) : (
+                    <Heart width="24" height="24" />
+                  )}
                 </button>
+                <div>
+                  <p
+                    id={`total_likes${post.post_id}`}
+                    className="ms-1 text-center small"
+                  >
+                    {parseInt(post.like_count)}{" "}
+                    {parseInt(post.like_count) === 1 ? "like" : "likes"}
+                  </p>
+                </div>
               </div>
-              {/* <button
-                className="nav-link border-0 bg-transparent"
-                id="boton_responder"
-                type="submit"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="currentColor"
-                  className="bi bi-chat"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z" />
-                </svg>
-              </button> */}
             </div>
           </div>
-
         </div>
       ))}
     </>
