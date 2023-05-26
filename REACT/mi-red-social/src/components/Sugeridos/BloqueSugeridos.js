@@ -3,7 +3,6 @@ import AmigoSugerido from "./AmigoSugerido";
 import { Container } from "react-bootstrap";
 
 const BloqueSugeridos = () => {
-  // const user_id = 1;
   const user_id = localStorage.getItem("user_id");
 
   return (
