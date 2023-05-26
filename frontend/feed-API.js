@@ -85,7 +85,7 @@ function getUsers(done){
 	  .then(data => {
 		console.log(data)
 		data.forEach(user => {
-		  const follow = document.createRange().createContextualFragment(`
+		  const friend = document.createRange().createContextualFragment(`
 			<div class="hstack gap-2 mt-2 mb-3">
 			  <div class="me-2">
 				<a href="#"><img class="rounded-circle" src="${user.image}" height="50" alt=""></img></a>
@@ -94,7 +94,7 @@ function getUsers(done){
 				<a class="h6 mb-0" href="#!">${user.name} ${user.surname}</a>
 				<p class="mb-0 small text-truncate">${user.alias}</p>
 			  </div>
-        <button class="btn btn-outline-primary ms-auto btn-sm newfollow" boton-user-id="${user.user_id}">
+        <button class="btn btn-outline-primary ms-auto btn-sm newfriend" boton-user-id="${user.user_id}">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
           </svg>
@@ -102,7 +102,7 @@ function getUsers(done){
 			</div>
 		  `);
 		  const main = document.querySelector("article");
-		  main.append(follow);
+		  main.append(friend);
 		});
 		done();
 	  })
@@ -121,27 +121,27 @@ const container = document.querySelector('article');
 
 // Detectar clic en cualquier botón dentro del contenedor
 container.addEventListener('click', (event) => {
-  // Verificar si el elemento clicado es un botón con la clase 'newfollow'
-  const newFollowButton = event.target.closest('.newfollow');
-  if (newFollowButton) {
+  // Verificar si el elemento clicado es un botón con la clase 'newfriend'
+  const newfriendButton = event.target.closest('.newfriend');
+  if (newfriendButton) {
     // Obtener el user_id del usuario que se quiere seguir
-    const userIdToAdd = newFollowButton.getAttribute('boton-user-id');
+    const userIdToAdd = newfriendButton.getAttribute('boton-user-id');
 
     // Realizar petición fetch para guardar la nueva amistad en el servidor
-    fetch('http://localhost:3000/newfollow', {
+    fetch('http://localhost:3000/newfriend', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         user_id: user_id,
-        follow_user_id: userIdToAdd
+        friend_user_id: userIdToAdd
       })
     })
     .then(response => {
       if (response.ok) {
         // Eliminar el div de sugerencias de amigos
-        newFollowButton.parentElement.remove();
+        newfriendButton.parentElement.remove();
       } else {
         alert('Error al guardar la amistad');
       }

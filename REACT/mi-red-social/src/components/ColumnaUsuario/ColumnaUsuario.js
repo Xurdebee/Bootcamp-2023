@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 const ColumnaUsuario = () => {
   const [user, setUser] = useState({
     number_posts: 0,
-    number_following: 0,
+    number_friends: 0,
     number_likes: 0,
   });
   const user_id = localStorage.getItem("user_id");

@@ -8,14 +8,12 @@ function NavBar() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsCollapsed(window.innerWidth <= 992); // Establece el ancho límite en el que se considera que es necesario colapsar la barra de navegación
-      setShowSearchBar(window.innerWidth <= 620); // Establece el ancho límite en el que se considera que es necesario mostrar la barra de búsqueda en el collapsable
+      setIsCollapsed(window.innerWidth <= 992);
+      setShowSearchBar(window.innerWidth <= 630);
     };
 
-    // Agrega el event listener al montar el componente
     window.addEventListener("resize", handleResize);
 
-    // Limpia el event listener al desmontar el componente
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -30,7 +28,7 @@ function NavBar() {
       bg="light"
       expand="lg"
       sticky="top"
-      className={`${isCollapsed ? "navbar-collapse" : ""}`}
+      collapseOnSelect={isCollapsed}
     >
       <Navbar.Brand href="./feed">
         <img
@@ -40,7 +38,6 @@ function NavBar() {
           height="40"
         />
       </Navbar.Brand>
-      {/* La barra de busqueda desaaparece en el menu cuando la ventana es inferior a 620 */}
       {!showSearchBar && (
         <Form className="d-flex">
           <FormControl type="search" placeholder="Search" aria-label="Search" />
@@ -52,20 +49,14 @@ function NavBar() {
       <Navbar.Toggle className="mx-3" aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav" className="mx-3">
         <Nav className="ms-auto">
-          <NavLink to="/" className="nav-link" aria-current="page">
-            {" "}
-          </NavLink>
           <NavLink to="/feed" className="nav-link" aria-current="page">
-            {" "}
-            Feed{" "}
+            Feed
           </NavLink>
           <NavLink to="/amigos" className="nav-link" aria-current="page">
-            {" "}
-            Amigos{" "}
+            Amigos
           </NavLink>
           <NavLink to="/perfil" className="nav-link" aria-current="page">
-            {" "}
-            Mi Perfil{" "}
+            Mi Perfil
           </NavLink>
           <NavLink
             to="/"
@@ -73,10 +64,9 @@ function NavBar() {
             aria-current="page"
             onClick={handleLogout}
           >
-            Desconectarse{" "}
+            Desconectarse
           </NavLink>
         </Nav>
-        {/* La barra de busqueda aparece en el menu hamburguesa cuando la ventana es inferior a 620 */}
         <Form className={`d-flex d-lg-none ${showSearchBar ? "" : "d-none"}`}>
           <FormControl type="search" placeholder="Search" aria-label="Search" />
           <Button variant="outline-primary" type="submit">
