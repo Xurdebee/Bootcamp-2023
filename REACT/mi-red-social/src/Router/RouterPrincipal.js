@@ -10,6 +10,7 @@ import PefilEditable from "../pages/WebPerfilEditable";
 import Feed from "../pages/WebFeed";
 import Amigos from "../pages/WebAmigos";
 import Sugeridos from "../pages/WebSugeridos";
+import ListadoBusqueda from "../pages/WebBusqueda";
 import Peticiones from "../pages/WebPeticiones";
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
                 <Route path="/sugeridos" element={<Sugeridos />} />
                 <Route path="/peticiones" element={<Peticiones />} />
                 <Route path="/perfil" element={<MiPerfil />} />
+                <Route path="/busqueda" element={<ListadoBusqueda />} />
                 <Route path="/perfileditable" element={<PefilEditable />} />
                 {/* <Route path="/*"/ element={Error}> */}
               </Routes>
