@@ -574,9 +574,11 @@ app.post("/newpost", async function (req, res) {
 app.get('/users/:alias', async (req, res) => {
   try {
     const alias = req.params.alias;
+    console.log('Valor del alias:', alias); 
 
-    const query = `SELECT * FROM users WHERE alias LIKE '%${alias}%'`;
-    const result = await sequelize.query(query, { type: Sequelize.QueryTypes.SELECT });
+    const query = `SELECT * FROM users WHERE alias LIKE '${alias}%'`;
+    console.log(query)
+    const result = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
 
     res.json(result);
   } catch (error) {
