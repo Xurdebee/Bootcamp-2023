@@ -1,16 +1,17 @@
 import React from "react";
-import AmigoUsuario from "./AmigoUsuario";
+import AmigoSugerido from "./AmigoPendiente";
 import { Container } from "react-bootstrap";
 
-const ColumnaAmigos = () => {
+const BloquePeticiones = () => {
   const user_id = localStorage.getItem("user_id");
+
   return (
     <Container>
       <div className="bg-light p-2 rounded-3 border-1 border">
         <div className="text-center mb-3">
           <div className="">
             <article className="my-3">
-              <AmigoUsuario user_id={user_id} />
+              <AmigoSugerido user_id={user_id} />
             </article>
           </div>
         </div>
@@ -19,4 +20,4 @@ const ColumnaAmigos = () => {
   );
 };
 
-export default ColumnaAmigos;
+export default BloquePeticiones;

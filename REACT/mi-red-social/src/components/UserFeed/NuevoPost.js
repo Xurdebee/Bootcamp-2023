@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
 
 const NuevoPost = ({ user_id, updatePostAmigos }) => {
   const [user, setUser] = useState({});
@@ -20,10 +19,10 @@ const NuevoPost = ({ user_id, updatePostAmigos }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-	if (body.trim() === "") {
-		alert("No estás enviando nada");
-		return;
-	  }
+    if (body.trim() === "") {
+      alert("No estás enviando nada");
+      return;
+    }
 
     // Realizar la solicitud POST al endpoint /newpost
     fetch("http://localhost:3000/newpost", {
@@ -39,7 +38,7 @@ const NuevoPost = ({ user_id, updatePostAmigos }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-		updatePostAmigos();
+        updatePostAmigos();
       })
       .catch((error) => {
         console.log(error);
@@ -48,12 +47,13 @@ const NuevoPost = ({ user_id, updatePostAmigos }) => {
     // Limpiar el contenido del textarea después de enviar el post
     setBody("");
   };
-  
+
   return (
     <>
-      <div className="p-2 rounded-3 border border-1 mb-4"
-	  style={{ backgroundColor: 'rgb(178, 216, 255, 0.5)' }}
-	  >
+      <div
+        className="p-2 rounded-3 border border-1 mb-4"
+        style={{ backgroundColor: "rgb(178, 216, 255, 0.5)" }}
+      >
         <div className="mb-0">
           <div className="mb-2 d-flex">
             <div className="me-2">

@@ -14,16 +14,17 @@ function AmigoSugerido({ user_id }) {
       });
   }, [user_id]);
 
-  const followUser = (follow_user_id) => {
-    fetch("http://localhost:3000/newfollow", {
+  const friendUser = (new_id) => {
+    const localStorageUserId = localStorage.getItem("user_id");
+    fetch("http://localhost:3000/newfriend", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_id, follow_user_id }),
+      body: JSON.stringify({ user_id: localStorageUserId, new_id}),
     })
       .then((response) => {
-        console.log("Follow realizado con éxito");
+        console.log("friend realizado con éxito");
 
         // Actualizar la lista de usuarios sugeridos después de hacer el seguimiento
         fetch(`http://localhost:3000/suggested/${user_id}`)
@@ -46,9 +47,9 @@ function AmigoSugerido({ user_id }) {
   return (
     <>
       {suggestedUsers.map((user) => (
-        <div className="hstack gap-2 mt-2 mb-3" key={user.user_id}>
+        <div className="hstack gap-2 mt-2 mb-3" key={user.new_id}>
           <div className="me-2">
-            <a href="#!">
+            <a href={`/user/${user.new_id}`}>
               <img
                 className="rounded-circle"
                 src={user.image}
@@ -58,14 +59,14 @@ function AmigoSugerido({ user_id }) {
             </a>
           </div>
           <div className="overflow-hidden">
-            <a className="h6 mb-0" href="#!">
+            <a className="h6 mb-0" href={`/user/${user.new_id}`}>
               {user.name} {user.surname}
             </a>
             <p className="mb-0 small text-truncate">{user.alias}</p>
           </div>
           <button
             className="btn btn-outline-primary ms-auto btn-sm"
-            onClick={() => followUser(user.user_id)}
+            onClick={() => friendUser(user.new_id)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

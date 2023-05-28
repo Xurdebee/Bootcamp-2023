@@ -7,30 +7,31 @@ function AmigoSugerido({ user_id }) {
   useEffect(() => {
     fetch(`http://localhost:3000/suggested/${user_id}`)
       .then((response) => response.json())
-      .then((data) => {
-        setUsers(data);
+      .then((suggested) => {
+        setUsers(suggested);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [user_id]);
 
-  const followUser = (follow_user_id) => {
-    fetch("http://localhost:3000/newfollow", {
+  const friendUser = (new_id) => {
+    const localStorageUserId = localStorage.getItem("user_id");
+    fetch("http://localhost:3000/newfriend", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_id, follow_user_id }),
+      body: JSON.stringify({ user_id: localStorageUserId, new_id}),
     })
       .then((response) => {
-        console.log("Follow realizado con exito");
+        console.log("Amistad solicitada con exito");
 
         // Actualizar la lista de usuarios sugeridos después de hacer el seguimiento
         fetch(`http://localhost:3000/suggested/${user_id}`)
           .then((response) => response.json())
-          .then((data) => {
-            setUsers(data);
+          .then((suggested) => {
+            setUsers(suggested);
           })
           .catch((error) => {
             console.log(error);
@@ -45,9 +46,9 @@ function AmigoSugerido({ user_id }) {
     <Container>
       <Row>
         {users.map((user) => (
-          <Col key={user.user_id} xs={6} sm={4} md={3} lg={3} xxl={2}>
+          <Col key={user.new_id} xs={6} sm={4} md={3} lg={3} xxl={2}>
             <div className="text-center mb-5">
-              <a href={`/user/${user.user_id}`}>
+              <a href={`/user/${user.new_id}`}>
                 <img
                   className="rounded-circle"
                   src={user.image}
@@ -56,13 +57,13 @@ function AmigoSugerido({ user_id }) {
                 />
               </a>
               <div className="overflow-hidden">
-                <a className="h6 mb-0" href={`/user/${user.user_id}`}>
+                <a className="h6 mb-0" href={`/user/${user.new_id}`}>
                   {user.name} {user.surname}
                 </a>
                 <p className="mb-2 small text-truncate">{user.alias}</p>
                 <button
-                  className="btn btn-outline-success btn-sm"
-                  onClick={() => followUser(user.user_id)}
+                  className="btn btn-outline-secondary btn-sm"
+                  onClick={() => friendUser(user.new_id)}
                 >
                   Añadir
                 </button>
