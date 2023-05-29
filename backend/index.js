@@ -432,7 +432,6 @@ app.put("/acceptfriend", async (req, res) => {
   }
 });
 
-
 // Dejar de ser Amigos
 app.put("/unfriend", async (req, res) => {
   const userId = req.body.user_id;
@@ -468,7 +467,6 @@ app.put("/unfriend", async (req, res) => {
       .json({ message: "Ha ocurrido un error al dejar de ser amigos." });
   }
 });
-
 
 // Datos del usuario user_id, se envian desde el front, carga desde el user_id logeado
 app.get("/user/:user_id", async function (req, res) {
@@ -509,20 +507,24 @@ app.get("/friendpost/:user_id", async function (req, res) {
     const friend_post = await sequelize.query(
       `
       SELECT post.*, users.name, users.surname, users.alias, users.image,
-          COALESCE(user_likes.like_status, 0) AS user_like_status,
-          COALESCE(SUM(post_likes.like_status), 0) AS like_count
+      COALESCE(SUM(post_likes.like_status), 0) AS like_count,
+        COALESCE((SELECT COALESCE(like_status, 0)
+                  FROM post_likes
+                  WHERE post_likes.post_id = post.post_id AND post_likes.user_id = :user_id), 0) AS user_like_status
       FROM post
       JOIN users ON post.user_id = users.user_id
       LEFT JOIN post_likes ON post.post_id = post_likes.post_id
-      LEFT JOIN post_likes AS user_likes ON post.post_id = user_likes.post_id AND user_likes.user_id = :user_id
       WHERE (post.user_id = :user_id OR post.user_id IN (
-          SELECT friend_user_id
-          FROM friends
-          WHERE user_id = :user_id
-            AND friend_status = 'accepted'
-          ))
+        SELECT CASE
+          WHEN friends.user_id = :user_id THEN friends.friend_user_id
+          WHEN friends.friend_user_id = :user_id THEN friends.user_id
+        END AS friend_user_id
+        FROM friends
+        WHERE (friends.user_id = :user_id OR friends.friend_user_id = :user_id) AND friends.friend_status = 'accepted'
+      ))
       GROUP BY post.post_id, users.user_id
-      ORDER BY post.date DESC`,
+      ORDER BY post.date DESC
+      `,
       {
         replacements: { user_id: req.params.user_id },
         type: sequelize.QueryTypes.SELECT,
@@ -561,7 +563,6 @@ app.get("/friendpost/:user_id", async function (req, res) {
 app.post("/newlike", async function (req, res) {
   const userId = req.body.user_id;
   const postId = req.body.post_id;
-
   try {
     // Verificar si ya existe un like con status = 0
     const existingLike = await sequelize.query(
