@@ -7,7 +7,7 @@ import ColumnaPost from "../components/UserFeed/ColumnaPost";
 function App() {
   return (
     <>
-      <div className="row mt-3 m-3">
+      <div className="row mt-3">
         <div className="col-lg-3 mb-4">
           <ColumnaUsuario />
         </div>

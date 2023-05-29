@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-
 function NavBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsCollapsed(window.innerWidth <= 992);
+      setIsCollapsed(window.innerWidth <= 1000);
       setShowSearchBar(window.innerWidth <= 630);
     };
 
@@ -17,6 +17,11 @@ function NavBar() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, []);
+
+  useEffect(() => {
+    const adminValue = localStorage.getItem("is_admin");
+    setIsAdmin(adminValue === "1");
   }, []);
 
   const handleLogout = () => {
@@ -58,6 +63,11 @@ function NavBar() {
           <NavLink to="/perfil" className="nav-link" aria-current="page">
             Mi Perfil
           </NavLink>
+          {isAdmin && (
+            <NavLink to="/admin" className="nav-link" aria-current="page">
+              Admin
+            </NavLink>
+          )}
           <NavLink
             to="/"
             className="nav-link"

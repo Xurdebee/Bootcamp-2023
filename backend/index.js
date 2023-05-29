@@ -32,7 +32,7 @@ app.post("/login", async function (req, res) {
     const { email, password } = req.body;
 
     const response = await sequelize.query(
-      "SELECT * FROM users WHERE email=? AND password=?",
+      "SELECT user_id, is_admin FROM users WHERE email=? AND password=?",
       {
         type: sequelize.QueryTypes.SELECT,
         replacements: [email, password],
@@ -45,7 +45,13 @@ app.post("/login", async function (req, res) {
         "secret_key"
       );
       console.log("Token:", token);
-      res.json({ user_id: response[0].user_id, token: token }).end();
+      res
+        .json({
+          user_id: response[0].user_id,
+          token: token,
+          is_admin: response[0].is_admin,
+        })
+        .end();
     } else {
       res
         .status(401)
@@ -222,6 +228,55 @@ app.put("/updateregister/:user_id", async (req, res) => {
   }
 });
 
+// Datos del usuario user_id, se envian desde el front, carga desde el user_id logeado
+app.get("/user/:user_id", async function (req, res) {
+  try {
+    const user = await sequelize.query(
+      `
+      SELECT
+          users.*,
+          COALESCE(posts.number_posts, 0) AS number_posts,
+          COALESCE(posts.number_likes, 0) AS number_likes,
+          friends.number_friends
+      FROM users
+      LEFT JOIN (
+          SELECT
+              users.user_id,
+              COALESCE(COUNT(DISTINCT post.post_id), 0) AS number_posts,
+              COALESCE(COUNT(DISTINCT CASE WHEN post_likes.like_status = 1 THEN post_likes.like_id END), 0) AS number_likes
+          FROM
+              users
+              LEFT JOIN post ON users.user_id = post.user_id
+              LEFT JOIN post_likes ON post.post_id = post_likes.post_id
+          WHERE
+              users.user_id = :user_id
+          GROUP BY
+              users.user_id
+      ) AS posts ON users.user_id = posts.user_id
+      LEFT JOIN (
+          SELECT COUNT(*) AS number_friends
+          FROM users
+          INNER JOIN friends ON (friends.friend_user_id = users.user_id OR friends.user_id = users.user_id)
+          WHERE (friends.user_id = :user_id OR friends.friend_user_id = :user_id)
+              AND friends.friend_status = 'accepted'
+              AND users.user_id <> :user_id
+      ) AS friends ON 1=1
+      WHERE
+          users.user_id = :user_id;
+      `,
+      {
+        replacements: { user_id: req.params.user_id },
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+    console.log(user);
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 // Traer campos del usuario logueado a su perfil
 app.get("/usersmyprofile/:user_id", async (req, res) => {
   const user_id = req.params.user_id;
@@ -267,6 +322,22 @@ app.get("/usersothersprofiles/:user_id", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error al obtener el usuario." });
+  }
+});
+
+// Todos los datos de usuarios registrados
+app.get("/allusers", async function (req, res) {
+  try {
+    const users = await sequelize.query(
+      "SELECT * FROM users",
+      {
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error interno del servidor");
   }
 });
 
@@ -432,57 +503,6 @@ app.put("/unfriend", async (req, res) => {
     res
       .status(500)
       .json({ message: "Ha ocurrido un error al dejar de ser amigos." });
-  }
-});
-
-// Datos del usuario user_id, se envian desde el front, carga desde el user_id logeado
-app.get("/user/:user_id", async function (req, res) {
-  try {
-    const user = await sequelize.query(
-      `
-      SELECT
-    users.*,
-    COALESCE(posts.number_posts, 0) AS number_posts,
-    COALESCE(posts.number_likes, 0) AS number_likes,
-    friends.number_friends
-FROM users
-LEFT JOIN (
-    SELECT
-        users.user_id,
-        COALESCE(COUNT(DISTINCT post.post_id), 0) AS number_posts,
-        COALESCE(COUNT(DISTINCT CASE WHEN post_likes.like_status = 1 THEN post_likes.like_id END), 0) AS number_likes
-    FROM
-        users
-        LEFT JOIN post ON users.user_id = post.user_id
-        LEFT JOIN post_likes ON post.post_id = post_likes.post_id
-    WHERE
-        users.user_id = :user_id
-    GROUP BY
-        users.user_id
-) AS posts ON users.user_id = posts.user_id
-LEFT JOIN (
-    SELECT COUNT(*) AS number_friends
-    FROM users
-    INNER JOIN friends ON (friends.friend_user_id = users.user_id OR friends.user_id = users.user_id)
-    WHERE (friends.user_id = :user_id OR friends.friend_user_id = :user_id)
-        AND friends.friend_status = 'accepted'
-        AND users.user_id <> :user_id
-) AS friends ON 1=1
-WHERE
-    users.user_id = :user_id;
-
-
-      `,
-      {
-        replacements: { user_id: req.params.user_id },
-        type: sequelize.QueryTypes.SELECT,
-      }
-    );
-    console.log(user);
-    res.json(user);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -659,25 +679,24 @@ app.post("/newpost", async function (req, res) {
 });
 
 //Realizar una búsqueda por una coincidiencia parcial del alias
-  
-app.get('/users/:alias', async (req, res) => {
+
+app.get("/users/:alias", async (req, res) => {
   try {
     const alias = req.params.alias;
-    console.log('Valor del alias:', alias); 
+    console.log("Valor del alias:", alias);
 
     const query = `SELECT * FROM users WHERE alias LIKE '${alias}%'`;
-    console.log(query)
-    const result = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+    console.log(query);
+    const result = await sequelize.query(query, {
+      type: sequelize.QueryTypes.SELECT,
+    });
 
     res.json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al ejecutar la consulta' });
+    res.status(500).json({ error: "Error al ejecutar la consulta" });
   }
 });
-
-
-
 
 //Inicio del servidor
 app.listen(3000, function () {
