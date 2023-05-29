@@ -41,7 +41,6 @@ function PerfilUsuario() {
     linkedIn,
     education,
     extra_knowledge,
-    image,
   } = user;
 
   const imagePath = `/users/user_${user_id}.jpg`; // Construir la ruta de la imagen
