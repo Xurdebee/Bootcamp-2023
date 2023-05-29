@@ -7,9 +7,9 @@ function PostAmigos({ updatePosts }) {
 
   const handleButtonClick = (postId, userLikeStatus) => {
     const newLikeStatus = userLikeStatus === 0 ? 1 : 0;
-    const url = userLikeStatus === 0 ? "/newlike" : "/unlike";
+    const url = userLikeStatus === 0 ? "newlike" : "unlike";
 
-    fetch(`http://localhost:3000$${url}`, {
+    fetch(`http://localhost:3000/${url}`, {
       method: userLikeStatus === 0 ? "POST" : "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -25,16 +25,15 @@ function PostAmigos({ updatePosts }) {
         if (data.success) {
           // Actualizar el estado de los posts después de dar like/unlike
           setPosts((prevPosts) =>
-            prevPosts.map((post) => {
-              if (post.post_id === postId) {
-                return {
-                  ...post,
-                  user_like_status: newLikeStatus,
-                  like_count: data.like_count,
-                };
-              }
-              return post;
-            })
+            prevPosts.map((post) =>
+              post.post_id === postId
+                ? {
+                    ...post,
+                    user_like_status: newLikeStatus,
+                    like_count: data.like_count,
+                  }
+                : post
+            )
           );
         } else {
           console.log(data.message);
@@ -80,7 +79,9 @@ function PostAmigos({ updatePosts }) {
               </a>
               <p className="mb-0 small text-truncate">{friendPost.alias}</p>
             </div>
-            <div className="ms-auto align-self-center">Hace {friendPost.timeAgo}</div>
+            <div className="ms-auto align-self-center">
+              Hace {friendPost.timeAgo}
+            </div>
           </div>
 
           <div className="nav w-100">
@@ -91,7 +92,10 @@ function PostAmigos({ updatePosts }) {
                 <button
                   className="btn btn-outline-danger border-0"
                   onClick={() =>
-                    handleButtonClick(friendPost.post_id, friendPost.user_like_status)
+                    handleButtonClick(
+                      friendPost.post_id,
+                      friendPost.user_like_status
+                    )
                   }
                 >
                   {friendPost.user_like_status === 1 ? (
