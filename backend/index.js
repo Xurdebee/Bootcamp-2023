@@ -441,35 +441,36 @@ app.get("/user/:user_id", async function (req, res) {
     const user = await sequelize.query(
       `
       SELECT
-          users.*,
-          COALESCE(posts.number_posts, 0) AS number_posts,
-          COALESCE(posts.number_likes, 0) AS number_likes,
-          friends.number_friends
-      FROM users
-      LEFT JOIN (
-          SELECT
-              users.user_id,
-              COALESCE(COUNT(DISTINCT post.post_id), 0) AS number_posts,
-              COALESCE(COUNT(DISTINCT post_likes.like_id), 0) AS number_likes
-          FROM
-              users
-              LEFT JOIN post ON users.user_id = post.user_id
-              LEFT JOIN post_likes ON post.post_id = post_likes.post_id
-          WHERE
-              users.user_id = :user_id
-          GROUP BY
-              users.user_id
-      ) AS posts ON users.user_id = posts.user_id
-      LEFT JOIN (
-          SELECT COUNT(*) AS number_friends
-          FROM users
-          INNER JOIN friends ON (friends.friend_user_id = users.user_id OR friends.user_id = users.user_id)
-          WHERE (friends.user_id = :user_id OR friends.friend_user_id = :user_id)
-              AND friends.friend_status = 'accepted'
-              AND users.user_id <> :user_id
-      ) AS friends ON 1=1
-      WHERE
-          users.user_id = :user_id
+    users.*,
+    COALESCE(posts.number_posts, 0) AS number_posts,
+    COALESCE(posts.number_likes, 0) AS number_likes,
+    friends.number_friends
+FROM users
+LEFT JOIN (
+    SELECT
+        users.user_id,
+        COALESCE(COUNT(DISTINCT post.post_id), 0) AS number_posts,
+        COALESCE(COUNT(DISTINCT CASE WHEN post_likes.like_status = 1 THEN post_likes.like_id END), 0) AS number_likes
+    FROM
+        users
+        LEFT JOIN post ON users.user_id = post.user_id
+        LEFT JOIN post_likes ON post.post_id = post_likes.post_id
+    WHERE
+        users.user_id = :user_id
+    GROUP BY
+        users.user_id
+) AS posts ON users.user_id = posts.user_id
+LEFT JOIN (
+    SELECT COUNT(*) AS number_friends
+    FROM users
+    INNER JOIN friends ON (friends.friend_user_id = users.user_id OR friends.user_id = users.user_id)
+    WHERE (friends.user_id = :user_id OR friends.friend_user_id = :user_id)
+        AND friends.friend_status = 'accepted'
+        AND users.user_id <> :user_id
+) AS friends ON 1=1
+WHERE
+    users.user_id = :user_id;
+
 
       `,
       {
