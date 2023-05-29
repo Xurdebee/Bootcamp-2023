@@ -8,7 +8,6 @@ import React, { useState } from "react";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -16,10 +15,6 @@ function LoginForm() {
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-  };
-
-  const handleRememberMeChange = (event) => {
-    setRememberMe(event.target.checked);
   };
 
   const handleLogin = () => {
@@ -47,11 +42,12 @@ function LoginForm() {
           }
         })
         .then((data) => {
-          const { user_id, token } = data;
+          const { user_id, token, is_admin } = data;
 
           // Almacenar el token en el almacenamiento local
           localStorage.setItem("token", token);
-
+          // Almacenar si el usuario es admin en el almacenamiento local
+          localStorage.setItem("is_admin", is_admin);
           // Almacenar el user_id en el almacenamiento local
           localStorage.setItem("user_id", user_id);
           alert("Inicio de sesión exitoso");
