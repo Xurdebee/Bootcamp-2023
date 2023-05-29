@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { HeartFill, Heart } from "react-bootstrap-icons";
 
 function PostAmigos({ updatePosts }) {
-  const [posts, setPosts] = useState([]);
+  const [post, setPosts] = useState([]);
   const user_id = localStorage.getItem("user_id");
 
   const handleButtonClick = (postId, userLikeStatus) => {
     const newLikeStatus = userLikeStatus === 0 ? 1 : 0;
-    const url = userLikeStatus === 0 ? "/newlike" : "/unlike";
+    const url = userLikeStatus === 0 ? "newlike" : "unlike";
 
-    fetch(`http://localhost:3000${url}`, {
+    fetch(`http://localhost:3000/${url}`, {
       method: userLikeStatus === 0 ? "POST" : "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -25,16 +25,15 @@ function PostAmigos({ updatePosts }) {
         if (data.success) {
           // Actualizar el estado de los posts después de dar like/unlike
           setPosts((prevPosts) =>
-            prevPosts.map((post) => {
-              if (post.post_id === postId) {
-                return {
-                  ...post,
-                  user_like_status: newLikeStatus,
-                  like_count: data.like_count,
-                };
-              }
-              return post;
-            })
+            prevPosts.map((post) =>
+              post.post_id === postId
+                ? {
+                    ...post,
+                    user_like_status: newLikeStatus,
+                    like_count: data.like_count,
+                  }
+                : post
+            )
           );
         } else {
           console.log(data.message);
@@ -46,10 +45,10 @@ function PostAmigos({ updatePosts }) {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/friendPost/${user_id}`)
+    fetch(`http://localhost:3000/friendpost/${user_id}`)
       .then((response) => response.json())
-      .then((data) => {
-        setPosts(data);
+      .then((friend_post) => {
+        setPosts(friend_post);
       })
       .catch((error) => {
         console.log(error);
@@ -58,43 +57,48 @@ function PostAmigos({ updatePosts }) {
 
   return (
     <>
-      {posts.map((post) => (
+      {post.map((friendPost) => (
         <div
           className="bg-light p-2 rounded-3 border border-1 mb-3"
-          key={post.post_id}
+          key={friendPost.post_id}
         >
           <div className="mb-3 d-flex">
             <div className="me-2">
-              <a href={`/user/${post.user_id}`}>
+              <a href={`/user/${friendPost.user_id}`}>
                 <img
                   className="rounded-circle"
-                  src={post.image}
+                  src={friendPost.image}
                   height="50"
                   alt=""
                 />
               </a>
             </div>
             <div className="overflow-hidden">
-              <a className="h6 mb-0" href={`/user/${post.user_id}`}>
-                {post.name} {post.surname}
+              <a className="h6 mb-0" href={`/user/${friendPost.user_id}`}>
+                {friendPost.name} {friendPost.surname}
               </a>
-              <p className="mb-0 small text-truncate">{post.alias}</p>
+              <p className="mb-0 small text-truncate">{friendPost.alias}</p>
             </div>
-            <div className="ms-auto align-self-center">Hace {post.timeAgo}</div>
+            <div className="ms-auto align-self-center">
+              Hace {friendPost.timeAgo}
+            </div>
           </div>
 
           <div className="nav w-100">
-            <p className="form-control">{post.body}</p>
+            <p className="form-control">{friendPost.body}</p>
 
             <div className="hstack gap-3">
               <div>
                 <button
                   className="btn btn-outline-danger border-0"
                   onClick={() =>
-                    handleButtonClick(post.post_id, post.user_like_status)
+                    handleButtonClick(
+                      friendPost.post_id,
+                      friendPost.user_like_status
+                    )
                   }
                 >
-                  {post.user_like_status === 1 ? (
+                  {friendPost.user_like_status === 1 ? (
                     <HeartFill width="24" height="24" />
                   ) : (
                     <Heart width="24" height="24" />
@@ -102,11 +106,11 @@ function PostAmigos({ updatePosts }) {
                 </button>
                 <div>
                   <p
-                    id={`total_likes${post.post_id}`}
+                    id={`total_likes${friendPost.post_id}`}
                     className="ms-1 text-center small"
                   >
-                    {parseInt(post.like_count)}{" "}
-                    {parseInt(post.like_count) === 1 ? "like" : "likes"}
+                    {parseInt(friendPost.like_count)}{" "}
+                    {parseInt(friendPost.like_count) === 1 ? "like" : "likes"}
                   </p>
                 </div>
               </div>

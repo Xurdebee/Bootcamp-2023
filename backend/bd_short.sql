@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-05-2023 a las 11:45:29
+-- Tiempo de generación: 26-05-2023 a las 12:31:08
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -47,21 +47,21 @@ CREATE TABLE `friends` (
   `friend_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `friend_user_id` bigint(20) NOT NULL,
-  `friendship` tinyint(1) NOT NULL,
-  `friend_time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `friend_status` int(11) NOT NULL
+  `friend_status` varchar(20) NOT NULL,
+  `friend_time` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `friends`
 --
 
-INSERT INTO `friends` (`friend_id`, `user_id`, `friend_user_id`, `friendship`, `friend_time`, `friend_status`) VALUES
-(1, 1, 2, 0, '2023-05-07 12:01:27', 0),
-(2, 1, 3, 1, '2023-05-07 12:01:27', 0),
-(3, 1, 4, 1, '2023-05-07 12:47:23', 0),
-(4, 1, 5, 1, '2023-05-07 12:48:06', 0),
-(5, 1, 11, 0, '2023-05-24 12:19:37', 0);
+INSERT INTO `friends` (`friend_id`, `user_id`, `friend_user_id`, `friend_status`, `friend_time`) VALUES
+(1, 1, 2, 'rejected', '2023-05-07 12:01:27'),
+(2, 1, 3, 'accepted', '2023-05-07 12:01:27'),
+(3, 1, 4, 'accepted', '2023-05-07 12:47:23'),
+(4, 1, 5, 'accepted', '2023-05-07 12:48:06'),
+(5, 1, 11, 'rejected', '2023-05-24 12:19:37'),
+(6, 2, 1, 'pending', '2023-05-26 10:29:45');
 
 -- --------------------------------------------------------
 
@@ -157,8 +157,7 @@ INSERT INTO `users` (`user_id`, `alias`, `name`, `surname`, `email`, `password`,
 (17, 'Carlitos', 'Carlos', 'Alcántara Fernández', 'carlitos@gmail.com', 1597, '1990-03-04', 'España', 'Sagrillas', 'linkedin.com/in/carlosalcantara', 'FP Imagen y sonido', 'Inglés B2 y Alemán A2', 'users/user_17.jpg'),
 (18, 'Danna', 'Daniela', 'López Aguilar', 'danna@gmail.com', 1598, '2000-03-07', 'México', 'Monterrey', 'linkedin.com/in/Dannalopez', 'Grado en Historia', 'Historia del Arte: Del Arte Prehistórico al Renacimiento', 'users/user_18.jpg'),
 (19, 'Miacolucci', 'Mia', 'Colucci ', 'miacolucci@gmail.com', 1599, '1999-01-01', 'México', 'México DF', 'linkedin.com/in/MiaColucci', 'Finanzas ', 'Auditoría de Cuentas', 'users/user_19.jpg'),
-(20, 'Dulcemaria', 'Dulce María', 'Espinosa Saviñón', 'dulcemaria@gmail.com', 1560, '1978-06-09', 'México', 'Ciudad de México ', 'linkedin.com/in/Dulcemaria', 'Postgrado en Arte contemporáneo', 'Arte y actividad: Estrategias interactivas para interactuar con el arte', 'users/user_20.jpg'),
-(21, 'Xurde', 'Xurde', 'Pellitero', 'xurdebrandulas@gmail.com', 123456, '1111-01-01', 'España', 'Gijón', '111', 'primaria', '111', 'users/default.jpg');
+(20, 'Dulcemaria', 'Dulce María', 'Espinosa Saviñón', 'dulcemaria@gmail.com', 1560, '1978-06-09', 'México', 'Ciudad de México ', 'linkedin.com/in/Dulcemaria', 'Postgrado en Arte contemporáneo', 'Arte y actividad: Estrategias interactivas para interactuar con el arte', 'users/user_20.jpg');
 
 --
 -- Índices para tablas volcadas
@@ -217,7 +216,7 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT de la tabla `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `friend_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `friend_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `post`
@@ -235,7 +234,7 @@ ALTER TABLE `post_likes`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Restricciones para tablas volcadas

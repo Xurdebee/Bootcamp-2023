@@ -7,9 +7,13 @@ import Login from "../pages/WebLogin";
 import Registro from "../pages/WebRegistro";
 import MiPerfil from "../pages/WebMiPerfil";
 import PefilEditable from "../pages/WebPerfilEditable";
+import PerfilUsuario from "../pages/WebPerfilUsuario";
 import Feed from "../pages/WebFeed";
 import Amigos from "../pages/WebAmigos";
 import Sugeridos from "../pages/WebSugeridos";
+import Admin from "../pages/WebAdmin";
+import ListadoBusqueda from "../pages/WebBusqueda";
+import Peticiones from "../pages/WebPeticiones";
 
 const App = () => {
   return (
@@ -26,8 +30,13 @@ const App = () => {
                 <Route path="/feed" element={<Feed />} />
                 <Route path="/amigos" element={<Amigos />} />
                 <Route path="/sugeridos" element={<Sugeridos />} />
+                <Route path="/peticiones" element={<Peticiones />} />
+                <Route path="/admin" element={<Admin />} />
                 <Route path="/perfil" element={<MiPerfil />} />
                 <Route path="/perfileditable" element={<PefilEditable />} />
+                <Route path="/user/:user_id" element={<PerfilUsuario />} />
+                <Route path="/busqueda" element={<ListadoBusqueda />} />
+                
                 {/* <Route path="/*"/ element={Error}> */}
               </Routes>
               <Footer />

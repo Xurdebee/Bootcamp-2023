@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function PerfilEditable() {
 
-  const [profile, setProfile] = useState({
+  const [user, setUser] = useState({
     alias: "",
     name: "",
     surname: "",
@@ -17,14 +17,13 @@ function PerfilEditable() {
     extra_knowledge: "",
     image: "",
   });
-
-  useEffect(() => {
-    const user_id = localStorage.getItem("user_id");
-    fetch(`http://localhost:3000/usersmyprofile/${user_id}`)
+  const user_id = localStorage.getItem("user_id");
+  useEffect(() => { 
+    fetch(`http://localhost:3000/user/${user_id}`)
       .then((response) => response.json())
-      .then((data) => {
-        setProfile(data);
-
+      .then((user) => {
+        setUser(user[0]);
+        console.log(user);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -33,8 +32,8 @@ function PerfilEditable() {
 
   const handleChange = (event) => {
 
-    setProfile({
-      ...profile,
+    setUser({
+      ...user,
 
       [event.target.name]: event.target.value,
     });
@@ -58,13 +57,13 @@ function PerfilEditable() {
     event.preventDefault();
 
     const user_id = localStorage.getItem("user_id");
-    fetch(`http://localhost:3000/usersmyprofile/${user_id}`, {
+    fetch(`http://localhost:3000/user/${user_id}`, {
 
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(profile),
+      body: JSON.stringify(user),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -77,7 +76,7 @@ function PerfilEditable() {
   };
 
   const handleReset = () => {
-    setProfile({
+    setUser({
       alias: "",
       name: "",
       surname: "",
