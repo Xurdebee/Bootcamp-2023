@@ -25,7 +25,7 @@ function NavBar() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
   };
 
   return (
