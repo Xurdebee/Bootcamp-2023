@@ -228,7 +228,7 @@ app.put("/updateregister/:user_id", async (req, res) => {
   }
 });
 
-// Datos del usuario user_id, se envian desde el front, carga desde el user_id logeado
+// Datos del usuario user_id, se envian desde el front, carga datos usuario enviado
 app.get("/user/:user_id", async function (req, res) {
   try {
     const user = await sequelize.query(
@@ -274,54 +274,6 @@ app.get("/user/:user_id", async function (req, res) {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// Traer campos del usuario logueado a su perfil
-app.get("/usersmyprofile/:user_id", async (req, res) => {
-  const user_id = req.params.user_id;
-
-  try {
-    const user = await sequelize.query(
-      "SELECT * FROM users WHERE user_id = ?",
-      {
-        replacements: [user_id],
-        type: sequelize.QueryTypes.SELECT,
-      }
-    );
-
-    if (user.length === 0) {
-      res.status(404).json({ message: "Usuario no encontrado." });
-    } else {
-      res.json(user[0]);
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error al obtener el usuario." });
-  }
-});
-
-// Traer campos de un tercero a su perfil
-app.get("/usersothersprofiles/:user_id", async (req, res) => {
-  const user_id = req.params.user_id;
-
-  try {
-    const user = await sequelize.query(
-      "SELECT alias, name, surname, birthday, country, city, linkedIn, education, extra_knowledge FROM users WHERE user_id = ?",
-      {
-        replacements: [user_id],
-        type: sequelize.QueryTypes.SELECT,
-      }
-    );
-
-    if (user.length === 0) {
-      res.status(404).json({ message: "Usuario no encontrado." });
-    } else {
-      res.json(user[0]);
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error al obtener el usuario." });
   }
 });
 

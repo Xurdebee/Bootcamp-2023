@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import BloqueAdmin from "../components/PerfilAdmin/BloqueAdmin";
+import BloqueAdmin from "../components/ListaAdmin/BloqueAdmin";
 
 function App() {
   return (
