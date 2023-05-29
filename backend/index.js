@@ -630,8 +630,25 @@ app.post("/newpost", async function (req, res) {
   }
 });
 
-//Realizar una búsqueda por una coincidiencia parcial del alias
+//Crear un feedback
+app.post("/newfeedback/:user_id", async function (req, res) {
+  const { user_id, body } = req.body; // Obtener los datos del nuevo post del cuerpo de la solicitud
+  const { feedback_user_id} = req.params
+  try {
+    await sequelize.query("INSERT INTO feedback (user_id, feedback_user_id, feedback_text) VALUES (?, ?,?)", {
+      replacements: [user_id, feedback_user_id, body],
+      type: sequelize.QueryTypes.INSERT,
+    });
 
+    res.json({ message: "Feedback aportado correctamente" });
+    // Enviar una confirmación de éxito como respuesta
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error interno del servidor");
+  }
+});
+
+//Realizar una búsqueda por una coincidiencia parcial del alias
 app.get("/users/:alias", async (req, res) => {
   try {
     const alias = req.params.alias;
