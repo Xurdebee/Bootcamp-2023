@@ -270,39 +270,6 @@ app.get("/usersothersprofiles/:user_id", async (req, res) => {
   }
 });
 
-// Trae los datos necesarios para cargar la barra de usuario
-app.get("/user/:user_id", async function (req, res) {
-  try {
-    const user = await sequelize.query(
-      `
-      SELECT
-        users.*,
-        COALESCE(COUNT(DISTINCT post.post_id), 0) AS number_posts,
-        COALESCE(COUNT(DISTINCT post_likes.like_id), 0) AS number_likes,
-        COALESCE(COUNT(DISTINCT CASE WHEN friends.friend_status = 'accepted' THEN friends.friend_user_id END), 0) AS number_friends
-      FROM
-        users
-        LEFT JOIN post ON users.user_id = post.user_id
-        LEFT JOIN post_likes ON post.post_id = post_likes.post_id
-        LEFT JOIN friends ON (users.user_id = friends.user_id OR users.user_id = friends.friend_user_id)
-      WHERE
-        users.user_id = :user_id
-      GROUP BY
-        users.user_id
-      `,
-      {
-        replacements: { user_id: req.params.user_id },
-        type: sequelize.QueryTypes.SELECT,
-      }
-    );
-    console.log(user);
-    res.json(user);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
 // Las personas que son amigas del usuario registrado
 app.get("/friends/:user_id", async function (req, res) {
   try {
@@ -474,19 +441,36 @@ app.get("/user/:user_id", async function (req, res) {
     const user = await sequelize.query(
       `
       SELECT
-        users.*,
-        COALESCE(COUNT(DISTINCT post.post_id), 0) AS number_posts,
-        COALESCE(COUNT(DISTINCT post_likes.like_id), 0) AS number_likes,
-        COALESCE(COUNT(DISTINCT CASE WHEN friends.friend_status = 'accepted' THEN friends.friend_user_id END), 0) AS number_friends
-      FROM
-        users
-        LEFT JOIN post ON users.user_id = post.user_id
-        LEFT JOIN post_likes ON post.post_id = post_likes.post_id
-        LEFT JOIN friends ON (users.user_id = friends.user_id OR users.user_id = friends.friend_user_id)
+          users.*,
+          COALESCE(posts.number_posts, 0) AS number_posts,
+          COALESCE(posts.number_likes, 0) AS number_likes,
+          friends.number_friends
+      FROM users
+      LEFT JOIN (
+          SELECT
+              users.user_id,
+              COALESCE(COUNT(DISTINCT post.post_id), 0) AS number_posts,
+              COALESCE(COUNT(DISTINCT post_likes.like_id), 0) AS number_likes
+          FROM
+              users
+              LEFT JOIN post ON users.user_id = post.user_id
+              LEFT JOIN post_likes ON post.post_id = post_likes.post_id
+          WHERE
+              users.user_id = :user_id
+          GROUP BY
+              users.user_id
+      ) AS posts ON users.user_id = posts.user_id
+      LEFT JOIN (
+          SELECT COUNT(*) AS number_friends
+          FROM users
+          INNER JOIN friends ON (friends.friend_user_id = users.user_id OR friends.user_id = users.user_id)
+          WHERE (friends.user_id = :user_id OR friends.friend_user_id = :user_id)
+              AND friends.friend_status = 'accepted'
+              AND users.user_id <> :user_id
+      ) AS friends ON 1=1
       WHERE
-        users.user_id = :user_id
-      GROUP BY
-        users.user_id
+          users.user_id = :user_id
+
       `,
       {
         replacements: { user_id: req.params.user_id },
