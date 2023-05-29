@@ -14,6 +14,8 @@ function PerfilEditable() {
     city: "",
     linkedIn: "",
     education: "",
+    extra_knowledge: "",
+    image: "",
   });
 
   useEffect(() => {
@@ -36,6 +38,20 @@ function PerfilEditable() {
 
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      setProfile({
+        ...profile,
+        image: e.target.result,
+      });
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = (event) => {
@@ -72,6 +88,8 @@ function PerfilEditable() {
       city: "",
       linkedIn: "",
       education: "",
+      extra_knowledge: "",
+      image: "",
 
     });
   };
@@ -87,12 +105,21 @@ function PerfilEditable() {
     city,
     linkedIn,
     education,
+    extra_knowledge,
+    image,
   } = profile;
 
   return (
-    <div className="container formulario mb-2">
+    <div className="container">
       <div className="row">
-        <div className="col-md-6 offset-md-3">
+      <div className="col-md-3 d-flex justify-content-center">
+            <div style={{marginTop: "150px"}}>
+            <img src={image} alt="User" style={{width: "250px", height: "250px", border: '2px solid #007bff'}}/>
+            <input type="file" onChange={handleImageChange} accept="image/*" />
+          </div>
+          </div>
+        <div className="col-md-6 ">
+        <div className="mb-2">
           <h2 className="text-center text-bg-light text-muted p-4 mt-2">
             Mi perfil de usuario
           </h2>
@@ -104,7 +131,7 @@ function PerfilEditable() {
             <div id="mensaje-confirmacion" className="oculto"></div>
 
             <div className="form-group">
-              <label htmlFor="alias"> Alias</label>
+              <label htmlFor="alias"><b>Alias</b></label>
               <input
                 type="text"
                 className="form-control"
@@ -116,7 +143,7 @@ function PerfilEditable() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="name">Nombre</label>
+              <label htmlFor="name"><b>Nombre</b></label>
               <input
                 type="text"
                 className="form-control"
@@ -128,7 +155,7 @@ function PerfilEditable() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="surname">Apellidos</label>
+              <label htmlFor="surname"><b>Apellidos</b></label>
               <input
                 type="text"
                 className="form-control"
@@ -140,7 +167,7 @@ function PerfilEditable() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email"><b>Email</b></label>
               <input
                 type="email"
                 className="form-control"
@@ -152,7 +179,7 @@ function PerfilEditable() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Contraseña</label>
+              <label htmlFor="password"><b>Contraseña</b></label>
               <input
                 type="password"
                 className="form-control"
@@ -164,7 +191,7 @@ function PerfilEditable() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="birthday">Fecha de nacimiento</label>
+              <label htmlFor="birthday"><b>Fecha de nacimiento</b></label>
               <input
                 type="date"
                 className="form-control"
@@ -176,7 +203,7 @@ function PerfilEditable() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="country">País</label>
+              <label htmlFor="country"><b>País</b></label>
               <input
                 type="text"
                 className="form-control"
@@ -188,7 +215,7 @@ function PerfilEditable() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="city">Ciudad</label>
+              <label htmlFor="city"><b>Ciudad</b></label>
               <input
                 type="text"
                 className="form-control"
@@ -200,7 +227,7 @@ function PerfilEditable() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="linkedin">Perfil de LinkedIn</label>
+              <label htmlFor="linkedin"><b>Perfil de LinkedIn</b></label>
               <input
                 type="text"
                 className="form-control"
@@ -212,13 +239,25 @@ function PerfilEditable() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="education">Formación</label>
+              <label htmlFor="education"><b>Formación</b></label>
               <textarea
                 className="form-control"
                 id="education"
                 name="education"
                 rows="3"
                 value={education}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="extra_knowledge"><b>Conocimiento extra</b></label>
+              <textarea
+                className="form-control"
+                id="extra_knowledge"
+                name="extra_knowledge"
+                rows="3"
+                value={extra_knowledge}
                 onChange={handleChange}
               />
             </div>
@@ -235,6 +274,7 @@ function PerfilEditable() {
               </a>
             </div>
           </form>
+        </div>
         </div>
       </div>
     </div>
