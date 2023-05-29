@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function MiPerfil() {
-
   const [profile, setProfile] = useState({
     alias: "",
     name: "",
@@ -13,6 +12,8 @@ function MiPerfil() {
     city: "",
     linkedIn: "",
     education: "",
+    extra_knowledge: "",
+    image: "",
     feedback: "",
   });
 
@@ -20,60 +21,9 @@ function MiPerfil() {
     const user_id = localStorage.getItem("user_id");
     fetch(`http://localhost:3000/usersmyprofile/${user_id}`)
       .then((response) => response.json())
-      .then((data) => {
-        setProfile(data);
-
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+      .then((data) => setProfile(data))
+      .catch((error) => console.error("Error:", error));
   }, []);
-
-  const handleChange = (event) => {
-
-    setProfile({
-      ...profile,
-
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const user_id = localStorage.getItem("user_id");
-    fetch(`http://localhost:3000/usersmyprofile/${user_id}`, {
-
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(profile),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error al actualizar los datos del usuario:", error);
-
-      });
-  };
-
-  const handleReset = () => {
-    setProfile({
-      alias: "",
-      name: "",
-      surname: "",
-      email: "",
-      birthday: "",
-      country: "",
-      city: "",
-      linkedIn: "",
-      education: "",
-
-    });
-  };
 
   const {
     alias,
@@ -85,140 +35,44 @@ function MiPerfil() {
     city,
     linkedIn,
     education,
+    extra_knowledge,
+    image,
   } = profile;
 
-  return (
-    <div className="container formulario mb-2">
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
+  return  (
+    <div className="container">
+    <div className="row">
+      <div className="col-md-3 d-flex justify-content-center">
+            <div style={{marginTop: "150px"}}>
+            <img src={image} alt="User" style={{width: "250px", height: "250px", border: '2px solid #007bff'}}/>
+          </div>
+          </div>
+          <div className="col-md-6">
+          <div className="mb-2">
           <h2 className="text-center text-bg-light text-muted p-4 mt-2">
             Mi perfil de usuario
           </h2>
-          <form
-            className="form-registro p-3"
-            onSubmit={handleSubmit}
-            onReset={handleReset}
-          >
-            <div id="mensaje-confirmacion" className="oculto"></div>
-
-            <div className="form-group">
-              <label htmlFor="alias"> Alias</label>
-              <input
-                type="text"
-                className="form-control"
-                id="alias"
-                name="alias"
-                value={alias}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="name">Nombre</label>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                name="name"
-                value={name}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="surname">Apellidos</label>
-              <input
-                type="text"
-                className="form-control"
-                id="surname"
-                name="surname"
-                value={surname}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                name="email"
-                value={email}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="birthday">Fecha de nacimiento</label>
-              <input
-                type="date"
-                className="form-control"
-                id="birthday"
-                name="birthday"
-                value={birthday}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="country">País</label>
-              <input
-                type="text"
-                className="form-control"
-                id="country"
-                name="country"
-                value={country}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="city">Ciudad</label>
-              <input
-                type="text"
-                className="form-control"
-                id="city"
-                name="city"
-                value={city}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="linkedin">Perfil de LinkedIn</label>
-              <input
-                type="text"
-                className="form-control"
-                id="linkedin"
-                name="linkedIn"
-                value={linkedIn}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="education">Formación</label>
-              <textarea
-                className="form-control"
-                id="education"
-                name="education"
-                rows="3"
-                value={education}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="btn-container d-flex justify-content-evenly mb-1">
-              <button type="reset" className="btn btn-secondary m-2" href="/perfileditable">
-                Editar
-              </button>
-            </div>
-          </form>
-        </div>
+          <div id="mensaje-confirmacion" className="oculto"></div>
+          <p><b>Alias:</b> {alias}</p>
+          <p><b>Nombre:</b> {name}</p>
+          <p><b>Apellidos:</b> {surname}</p>
+          <p><b>Email:</b> {email}</p>
+          <p><b>Fecha de nacimiento:</b> {birthday}</p>
+          <p><b>País:</b> {country}</p>
+          <p><b>Ciudad:</b> {city}</p>
+          <p><b>Perfil de LinkedIn:</b> {linkedIn}</p>
+          <p><b>Formación:</b> {education}</p>
+          <p><b>Conocimientos Extras:</b> {extra_knowledge}</p>
+          <a href="/perfileditable" className="btn btn-secondary m-2">
+            Editar
+          </a>
+      </div>
+      </div>
+      <div className="col-md-3">
+        {/* componente feedback */}
       </div>
     </div>
-  );
+  </div>
+);
 }
-
 export default MiPerfil;

@@ -658,6 +658,27 @@ app.post("/newpost", async function (req, res) {
   }
 });
 
+//Realizar una búsqueda por una coincidiencia parcial del alias
+  
+app.get('/users/:alias', async (req, res) => {
+  try {
+    const alias = req.params.alias;
+    console.log('Valor del alias:', alias); 
+
+    const query = `SELECT * FROM users WHERE alias LIKE '${alias}%'`;
+    console.log(query)
+    const result = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al ejecutar la consulta' });
+  }
+});
+
+
+
+
 //Inicio del servidor
 app.listen(3000, function () {
   console.log("Sistema funcionando en el puerto 3000");
