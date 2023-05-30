@@ -630,15 +630,16 @@ app.post("/newpost", async function (req, res) {
   }
 });
 
-//Traer feedbacks
-app.get("/feedbacks", async function (req, res) {
-  const {user_id, feedback_user_id} = req.body;
-
+// Traer feedbacks
+app.get("/feedbacks/:feedback_user_id", async function (req, res) {
   try {
     const feedback = await sequelize.query(
-      "SELECT * FROM feedback WHERE feedback_user_id= ? VALUES (?,?)",
+      `SELECT feedback.*, users.name, users.surname, users.alias
+      FROM feedback
+      JOIN users ON feedback.user_id = users.user_id
+      WHERE feedback.feedback_user_id = :feedback_user_id`,
       {
-        replacements: [user_id, feedback_user_id],
+        replacements: { feedback_user_id: req.params.feedback_user_id },
         type: sequelize.QueryTypes.SELECT,
       }
     );
@@ -648,6 +649,7 @@ app.get("/feedbacks", async function (req, res) {
     res.status(500).send("Error interno del servidor");
   }
 });
+
 
 //Crear un feedback
 app.post("/newfeedback", async function (req, res) {

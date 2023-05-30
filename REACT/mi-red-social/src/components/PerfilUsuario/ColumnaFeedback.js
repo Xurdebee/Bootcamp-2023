@@ -19,7 +19,7 @@ function ColumnaFeedback() {
         	<NuevoFeedback user_id={user_id} feedback_user_id={feedback_user_id}  />
         </article>
         <article>
-          <ListaFeedback/>
+          <ListaFeedback feedback_user_id={feedback_user_id} />
         </article>
       </div>
     </Container>
