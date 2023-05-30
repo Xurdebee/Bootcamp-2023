@@ -36,7 +36,7 @@ function NavBar() {
       sticky="top"
       collapseOnSelect={isCollapsed}
     >
-      <Navbar.Brand href="./feed">
+      <Navbar.Brand href="/feed">
         <img
           className="logo mx-3"
           src="/logo_horizontal.png"
