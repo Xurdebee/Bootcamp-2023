@@ -5,6 +5,8 @@ function NavBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+//Para el buscador
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,6 +29,14 @@ function NavBar() {
   const handleLogout = () => {
     localStorage.clear();
   };
+//Para el buscador
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (searchValue) {
+      // Redirigir a la página de búsqueda con el valor introducido
+      window.location.href = `/busqueda?alias=${searchValue}`;
+    }
+  };
 
   return (
     <Navbar
@@ -44,8 +54,14 @@ function NavBar() {
         />
       </Navbar.Brand>
       {!showSearchBar && (
-        <Form className="d-flex">
-          <FormControl type="search" placeholder="Search" aria-label="Search" />
+        <Form className="d-flex" onSubmit={handleSubmit}>
+          <FormControl
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            value={searchValue}
+            onChange={(event) => setSearchValue(event.target.value)}
+          />
           <Button variant="outline-primary" type="submit">
             Search
           </Button>
@@ -77,8 +93,17 @@ function NavBar() {
             Desconectarse
           </NavLink>
         </Nav>
-        <Form className={`d-flex d-lg-none ${showSearchBar ? "" : "d-none"}`}>
-          <FormControl type="search" placeholder="Search" aria-label="Search" />
+        <Form
+          className={`d-flex d-lg-none ${showSearchBar ? "" : "d-none"}`}
+          onSubmit={handleSubmit}
+        >
+          <FormControl
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            value={searchValue}
+            onChange={(event) => setSearchValue(event.target.value)}
+          />
           <Button variant="outline-primary" type="submit">
             Search
           </Button>
