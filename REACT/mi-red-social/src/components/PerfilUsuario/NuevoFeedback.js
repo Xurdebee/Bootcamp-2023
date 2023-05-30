@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const NuevoFeedback = ({ user_id, feedback_user_id, onNewFeedback, existingFeedback }) => {
+const NuevoFeedback = ({ user_id, feedback_user_id, feedbackCreado }) => {
   const [user, setUser] = useState({});
   const [body, setBody] = useState("");
 
@@ -24,13 +24,6 @@ const NuevoFeedback = ({ user_id, feedback_user_id, onNewFeedback, existingFeedb
       return;
     }
 
-    // Mostrar los datos a enviar en la consola
-    console.log("Datos a enviar:", {
-      user_id: user_id,
-      feedback_user_id: feedback_user_id,
-      feedback_text: body,
-    });
-
     // Realizar la solicitud POST al endpoint /newfeedback
     fetch("http://localhost:3000/newfeedback", {
       method: "POST",
@@ -47,7 +40,7 @@ const NuevoFeedback = ({ user_id, feedback_user_id, onNewFeedback, existingFeedb
       .then((data) => {
         console.log(data);
         // Llamar a la función onNewFeedback para recargar los feedbacks
-        onNewFeedback();
+        feedbackCreado();
       })
       .catch((error) => {
         console.log(error);

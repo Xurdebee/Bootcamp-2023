@@ -189,7 +189,7 @@ function RegistroForm() {
                 <option value="Primaria">Primaria</option>
                 <option value="Secundaria">Secundaria</option>
                 <option value="Bachillerato">Bachillerato</option>
-                <option value="Bachillerato">Formación Profesional</option>
+                <option value="Formacion Profesional">Formación Profesional</option>
                 <option value="Universidad">Universidad</option>
               </select>
             </div>
