@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-const NuevoFeedback = ({ user_id, feedback_user_id }) => {
+const NuevoFeedback = ({ user_id, feedback_user_id, onNewFeedback, existingFeedback }) => {
   const [user, setUser] = useState({});
   const [body, setBody] = useState("");
-  
-//carga el usuario registrado para ver sus datos en el mensaje para enviar
+
+  // Carga el usuario registrado para ver sus datos en el mensaje para enviar
   useEffect(() => {
     fetch(`http://localhost:3000/user/${user_id}`)
       .then((response) => response.json())
@@ -25,12 +25,12 @@ const NuevoFeedback = ({ user_id, feedback_user_id }) => {
     }
 
     // Mostrar los datos a enviar en la consola
-  console.log("Datos a enviar:", {
-    user_id: user_id,
-    feedback_user_id: feedback_user_id,
-    feedback_text: body,
-  });
-  
+    console.log("Datos a enviar:", {
+      user_id: user_id,
+      feedback_user_id: feedback_user_id,
+      feedback_text: body,
+    });
+
     // Realizar la solicitud POST al endpoint /newfeedback
     fetch("http://localhost:3000/newfeedback", {
       method: "POST",
@@ -46,6 +46,8 @@ const NuevoFeedback = ({ user_id, feedback_user_id }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        // Llamar a la función onNewFeedback para recargar los feedbacks
+        onNewFeedback();
       })
       .catch((error) => {
         console.log(error);
@@ -75,7 +77,7 @@ const NuevoFeedback = ({ user_id, feedback_user_id }) => {
             <textarea
               data-autoresize=""
               className="form-control bg-white"
-              placeholder="Escribe tu opinión sobre el usuario"
+              placeholder="Escribe tu opinión sobre el usuario. Solo podrás introducir una opinión."
               style={{ height: "70px" }}
               value={body}
               onChange={(event) => setBody(event.target.value)}

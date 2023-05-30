@@ -668,6 +668,36 @@ app.post("/newfeedback", async function (req, res) {
   }
 });
 
+// Comprobar si tiene feedback
+app.get("/checkfeedback/:user_id/:feedback_user_id", async function (req, res) {
+  const { user_id, feedback_user_id } = req.params;
+
+  try {
+    const feedback = await sequelize.query(
+      `SELECT * FROM feedback
+      WHERE user_id = :user_id
+      AND feedback_user_id = :feedback_user_id`,
+      {
+        replacements: { user_id, feedback_user_id },
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+
+    if (feedback.length > 0) {
+      // El usuario ya ha dejado un comentario en el perfil del otro usuario
+      res.json({ hasFeedback: true });
+    } else {
+      // El usuario no ha dejado ningún comentario en el perfil del otro usuario
+      res.json({ hasFeedback: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error interno del servidor");
+  }
+});
+
+
+
 //Realizar una búsqueda por una coincidiencia parcial del alias
 app.get("/users/:alias", async (req, res) => {
   try {
