@@ -630,13 +630,31 @@ app.post("/newpost", async function (req, res) {
   }
 });
 
-//Crear un feedback
-app.post("/newfeedback/:user_id", async function (req, res) {
-  const { user_id, body } = req.body; // Obtener los datos del nuevo post del cuerpo de la solicitud
-  const { feedback_user_id} = req.params
+//Traer feedbacks
+app.get("/feedbacks", async function (req, res) {
+  const {user_id, feedback_user_id} = req.body;
+
   try {
-    await sequelize.query("INSERT INTO feedback (user_id, feedback_user_id, feedback_text) VALUES (?, ?,?)", {
-      replacements: [user_id, feedback_user_id, body],
+    const feedback = await sequelize.query(
+      "SELECT * FROM feedback WHERE feedback_user_id= ? VALUES (?,?)",
+      {
+        replacements: [user_id, feedback_user_id],
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+    res.json(feedback);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error interno del servidor");
+  }
+});
+
+//Crear un feedback
+app.post("/newfeedback", async function (req, res) {
+  const { user_id,feedback_user_id, feedback_text } = req.body; // Obtener los datos del nuevo post del cuerpo de la solicitud
+  try {
+    await sequelize.query("INSERT INTO feedback (user_id, feedback_user_id, feedback_text) VALUES (?, ?, ?)", {
+      replacements: [user_id, feedback_user_id, feedback_text],
       type: sequelize.QueryTypes.INSERT,
     });
 
