@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+
 function NavBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -35,10 +36,10 @@ function NavBar() {
       sticky="top"
       collapseOnSelect={isCollapsed}
     >
-      <Navbar.Brand href="./feed">
+      <Navbar.Brand href="/feed">
         <img
           className="logo mx-3"
-          src="logo_horizontal.png"
+          src="/logo_horizontal.png"
           alt=""
           height="40"
         />

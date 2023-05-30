@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-const NuevoFeedback = ({ user_id}) => {
+const NuevoFeedback = ({ user_id, feedback_user_id }) => {
   const [user, setUser] = useState({});
   const [body, setBody] = useState("");
-
+  
+//carga el usuario registrado para ver sus datos en el mensaje para enviar
   useEffect(() => {
-    fetch(`http://localhost:3000/feedback/${user_id}`)
+    fetch(`http://localhost:3000/user/${user_id}`)
       .then((response) => response.json())
       .then((data) => {
         setUser(data[0]);
-        console.log(data);
       })
       .catch((error) => {
         console.log(error);
@@ -24,7 +24,14 @@ const NuevoFeedback = ({ user_id}) => {
       return;
     }
 
-    // Realizar la solicitud POST al endpoint /newpost
+    // Mostrar los datos a enviar en la consola
+  console.log("Datos a enviar:", {
+    user_id: user_id,
+    feedback_user_id: feedback_user_id,
+    feedback_text: body,
+  });
+  
+    // Realizar la solicitud POST al endpoint /newfeedback
     fetch("http://localhost:3000/newfeedback", {
       method: "POST",
       headers: {
@@ -32,7 +39,8 @@ const NuevoFeedback = ({ user_id}) => {
       },
       body: JSON.stringify({
         user_id: user_id,
-        body: body,
+        feedback_user_id: feedback_user_id,
+        feedback_text: body,
       }),
     })
       .then((response) => response.json())
@@ -43,7 +51,7 @@ const NuevoFeedback = ({ user_id}) => {
         console.log(error);
       });
 
-    // Limpiar el contenido del textarea después de enviar el post
+    // Limpiar el contenido del textarea después de enviar el feedback
     setBody("");
   };
 
@@ -56,17 +64,7 @@ const NuevoFeedback = ({ user_id}) => {
         <div className="mb-0">
           <div className="mb-2 d-flex">
             <div className="me-2">
-              <a href="#!">
-                <img
-                  className="rounded-circle"
-                  src={user.image}
-                  height="50"
-                  alt=""
-                />
-              </a>
-            </div>
-            <div className="overflow-hidden">
-              <a className="h6 mb-0" href="#!">
+              <a className="h6 mb-0" href={`/user/${user.user_id}`}>
                 {user.name} {user.surname}
               </a>
               <p className="mb-0 small text-truncate">{user.alias}</p>

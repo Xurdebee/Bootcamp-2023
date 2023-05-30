@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useParams } from "react-router-dom";
 
-function PerfilUsuario() {
+function BloqueUsuario() {
   const [user, setUser] = useState({
     alias: "",
     name: "",
@@ -76,4 +76,4 @@ function PerfilUsuario() {
   </div>
 );
 }
-export default PerfilUsuario;
+export default BloqueUsuario;
