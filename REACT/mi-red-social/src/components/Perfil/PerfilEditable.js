@@ -28,7 +28,7 @@ function PerfilEditable() {
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
+  }, [user_id]);
 
   const handleChange = (event) => {
 
@@ -44,8 +44,8 @@ function PerfilEditable() {
     const reader = new FileReader();
 
     reader.onload = (e) => {
-      setProfile({
-        ...profile,
+      setUser({
+        ...user,
         image: e.target.result,
       });
     };
@@ -106,7 +106,7 @@ function PerfilEditable() {
     education,
     extra_knowledge,
     image,
-  } = profile;
+  } = user;
 
   return (
     <div className="container">
