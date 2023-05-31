@@ -634,7 +634,8 @@ app.get("/feedbacks/:feedback_user_id", async function (req, res) {
       `SELECT feedback.*, users.name, users.surname, users.alias
       FROM feedback
       JOIN users ON feedback.user_id = users.user_id
-      WHERE feedback.feedback_user_id = :feedback_user_id`,
+      WHERE feedback.feedback_user_id = :feedback_user_id
+      `,
       {
         replacements: { feedback_user_id: req.params.feedback_user_id },
         type: sequelize.QueryTypes.SELECT,
@@ -667,7 +668,7 @@ app.post("/newfeedback", async function (req, res) {
   }
 });
 
-// Comprobar si tiene feedback
+// Comprobar si ya has dejado una opinión al usuario que visitas
 app.get("/checkfeedback/:user_id/:feedback_user_id", async function (req, res) {
   const { user_id, feedback_user_id } = req.params;
 
@@ -695,6 +696,32 @@ app.get("/checkfeedback/:user_id/:feedback_user_id", async function (req, res) {
   }
 });
 
+// Mostrar/ocultar feedbacks
+app.put("/updatefeedback/:user_id/:feedback_user_id/:feedback_status_updated", async (req, res) => {
+  const { user_id, feedback_user_id, feedback_status_updated } = req.params;
+
+  try {
+    const updatedFeedback = await sequelize.query(
+      `UPDATE feedback
+      SET feedback_status = :feedback_status_updated
+      WHERE user_id = :user_id
+      AND feedback_user_id = :feedback_user_id`,
+      {
+        replacements: { user_id, feedback_user_id, feedback_status_updated },
+        type: sequelize.QueryTypes.UPDATE,
+      }
+    );
+
+    if (updatedFeedback < 0) {
+      return res.status(404).json({ error: "Feedback no existente" });
+    } else {
+      return res.status(200).json({ message: "Feedback Actualizado" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 
 //Realizar una búsqueda por una coincidiencia parcial del alias

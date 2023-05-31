@@ -41,7 +41,7 @@ function ColumnaFeedback() {
           <h5 className="card-title mb-2">Opiniones:</h5>
         </div>
         {!conFeedback && (
-          <article className="mx-3 mt-3">
+          <article className="m-3">
             <NuevoFeedback
               user_id={user_id}
               feedback_user_id={feedback_user_id}

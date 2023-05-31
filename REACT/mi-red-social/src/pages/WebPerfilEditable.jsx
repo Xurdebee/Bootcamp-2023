@@ -1,11 +1,13 @@
 import React from "react";
-import PerfilEditable from "../components/Perfil/PerfilEditable";
+import PerfilEditable from "../components/MiPerfil/PerfilEditable";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <>
-      <PerfilEditable />
+      <div className="mb-4 mt-3">
+        <PerfilEditable />
+      </div>
     </>
   );
 }

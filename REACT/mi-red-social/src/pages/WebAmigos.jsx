@@ -1,14 +1,14 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import ColumnaUsuario from "../components/ColumnaUsuario/ColumnaUsuario";
-import BloqueAmigos from "../components/Amigos/BloqueAmigos";
+import ColumnaMiUsuario from "../components/ColumnaMiUsuario/ColumnaMiUsuario";
+import BloqueAmigos from "../components/UsuariosAmigos/BloqueAmigos";
 
 function App() {
   return (
     <>
-      <div className="row mt-3 m-3">
+      <div className="row mt-3">
         <div className="col-lg-3 mb-4">
-          <ColumnaUsuario />
+          <ColumnaMiUsuario />
         </div>
         <div className="col-lg-9 mb-4">
           <BloqueAmigos />

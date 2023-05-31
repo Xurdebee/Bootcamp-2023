@@ -76,8 +76,6 @@ function RegistroForm() {
             onSubmit={handleSubmit}
             onReset={handleReset}
           >
-            <div id="mensaje-confirmacion" className="oculto"></div>
-
             <div className="form-group ">
               <label htmlFor="alias"> Alias</label>
               <input
