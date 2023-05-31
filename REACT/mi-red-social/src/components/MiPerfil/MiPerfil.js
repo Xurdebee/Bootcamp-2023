@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
-function BloqueUsuario() {
+function MiPerfil() {
   const [user, setUser] = useState({
     alias: "",
     name: "",
@@ -15,9 +14,11 @@ function BloqueUsuario() {
     linkedIn: "",
     education: "",
     extra_knowledge: "",
+    image: "",
+    feedback: "",
   });
 
-  const { user_id } = useParams();
+  const user_id = localStorage.getItem("user_id");
 
   useEffect(() => {
     fetch(`http://localhost:3000/user/${user_id}`)
@@ -26,9 +27,7 @@ function BloqueUsuario() {
         setUser(user[0]);
         console.log(user);
       })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+      .catch((error) => console.error("Error:", error));
   }, [user_id]);
 
   const {
@@ -42,22 +41,23 @@ function BloqueUsuario() {
     linkedIn,
     education,
     extra_knowledge,
+    image,
   } = user;
 
-  const imagePath = `/users/user_${user_id}.jpg`; // Construir la ruta de la imagen
-
-  return  (
-    <Container>
-      <div className="bg-light p-2 rounded-3 border-1 border">
-        <div className="row">
-          <div className="col-md-6 text-center mb-3">
-            <div className="m-3">
-              <img src={imagePath} alt="User" 
-                style={{ maxHeight: '80%', maxWidth: '80%' }}
-                className= "rounded-4"
-              />
-            </div>
-            <div className="hstack gap-2 gap-xl-3 justify-content-center">
+  return (
+  <Container>
+    <div className="bg-light p-2 rounded-3 border-1 borde">
+      <div className="row">
+        <div className="col-md-6 text-center mb-3">
+          <div className="m-3">
+            <img
+              src={image}
+              alt="User" 
+              style={{ maxHeight: '80%', maxWidth: '80%' }}
+              className= "rounded-4"
+            />
+          </div>
+          <div className="hstack gap-2 gap-xl-3 justify-content-center">
                 <div>
                   <h6 className="mb-0">
                     <strong>{user.number_posts}</strong>
@@ -81,9 +81,9 @@ function BloqueUsuario() {
                 </div>
               </div>
           </div>
-          <div className="col-md-6">
-            <div className="mb-2">
-              <b>Alias:</b>
+        <div className="col-md-6">
+          <div className="mb-2">
+            <b>Alias:</b>
               <p>{alias}</p>
               <b>Nombre:</b>
               <p>{name}</p>
@@ -103,12 +103,16 @@ function BloqueUsuario() {
               <p>{education}</p>
               <b>Conocimientos Extras:</b>
               <p>{extra_knowledge}</p>
-            </div>
+            <a href="/perfileditable" className="btn btn-secondary m-2">
+              Editar
+            </a>
           </div>
         </div>
+        <div className="col-md-3">{/* componente feedback */}</div>
       </div>
-    </Container>
+    </div>
+  </Container>
   );
 }
 
-export default BloqueUsuario;
+export default MiPerfil;

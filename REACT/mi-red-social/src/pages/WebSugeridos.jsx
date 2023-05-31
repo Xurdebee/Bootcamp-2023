@@ -1,14 +1,14 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import ColumnaUsuario from "../components/ColumnaUsuario/ColumnaUsuario";
-import BloqueSugeridos from "../components/Sugeridos/BloqueSugeridos";
+import ColumnaMiUsuario from "../components/ColumnaMiUsuario/ColumnaMiUsuario";
+import BloqueSugeridos from "../components/UsuariosSugeridos/BloqueSugeridos";
 
 function App() {
   return (
     <>
-      <div className="row mt-3 m-3">
+      <div className="row mt-3">
         <div className="col-lg-3 mb-4">
-          <ColumnaUsuario />
+          <ColumnaMiUsuario />
         </div>
         <div className="col-lg-9 mb-4">
           <BloqueSugeridos />

@@ -4,6 +4,7 @@ import { Container } from "react-bootstrap";
 
 const ColumnaAmigos = () => {
   const user_id = localStorage.getItem("user_id");
+  
   return (
     <Container>
       <div className="bg-light p-2 rounded-3 border-1 border">

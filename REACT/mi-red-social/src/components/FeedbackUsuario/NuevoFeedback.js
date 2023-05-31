@@ -71,7 +71,7 @@ const NuevoFeedback = ({ user_id, feedback_user_id, feedbackCreado }) => {
               data-autoresize=""
               className="form-control bg-white"
               placeholder="Escribe tu opinión sobre el usuario. Solo podrás introducir una opinión y no podrás editarla después."
-              style={{ height: "70px" }}
+              style={{ height: "100px" }}
               value={body}
               onChange={(event) => setBody(event.target.value)}
             ></textarea>

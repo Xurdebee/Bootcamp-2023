@@ -1,6 +1,6 @@
 import React from "react";
 import MiPerfil from "../components/MiPerfil/MiPerfil";
-import ColumnaFeedback from "../components/FeedbackMiPerfil/ColumnaFeedback";
+import ColumnaFeedback from "../components/FeedbackMiPerfil/ColumnaEditableFeedback";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 

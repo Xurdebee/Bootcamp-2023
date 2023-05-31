@@ -6,6 +6,7 @@ import Footer from "../components/Footer/Footer";
 import Login from "../pages/WebLogin";
 import Registro from "../pages/WebRegistro";
 import MiPerfil from "../pages/WebMiPerfil";
+import GestionarFeedbacks from "../pages/WebFeedbackEditable";
 import PefilEditable from "../pages/WebPerfilEditable";
 import PerfilUsuario from "../pages/WebPerfilUsuario";
 import Feed from "../pages/WebFeed";
@@ -33,6 +34,7 @@ const App = () => {
                 <Route path="/peticiones" element={<Peticiones />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/perfil" element={<MiPerfil />} />
+                <Route path="/gestionarFeedbacks" element={<GestionarFeedbacks />} />
                 <Route path="/perfileditable" element={<PefilEditable />} />
                 <Route path="/user/:user_id" element={<PerfilUsuario />} />
                 <Route path="/busqueda" element={<ListadoBusqueda />} />

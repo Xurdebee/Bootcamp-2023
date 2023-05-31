@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import BloqueUsuario from "../components/PerfilUsuario/BloqueUsuario";
-import ColumnaFeedback from "../components/PerfilUsuario/ColumnaFeedback";
+import ColumnaFeedback from "../components/FeedbackUsuario/ColumnaFeedback";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
