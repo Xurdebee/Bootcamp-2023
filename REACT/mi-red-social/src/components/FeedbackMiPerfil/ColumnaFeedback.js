@@ -3,7 +3,7 @@ import ListaFeedback from "./ListaFeedback";
 import { Container } from "react-bootstrap";
 
 function ColumnaFeedback() {
-  const user_id = localStorage.getItem("user_id");
+  const feedback_user_id = localStorage.getItem("user_id");
 
 
   return (
@@ -14,11 +14,11 @@ function ColumnaFeedback() {
         </div>
         <article>
           <ListaFeedback
-            feedback_user_id={user_id}
+            feedback_user_id={feedback_user_id}
           />
         </article>
         <div className="d-grid mt-3">
-          <a href="/gestionarFeedbacks" className="btn btn-sm btn-outline-primary">
+          <a href="/gestionar-feedbacks" className="btn btn-sm btn-outline-primary">
             Gestionar opiniones
           </a>
         </div>

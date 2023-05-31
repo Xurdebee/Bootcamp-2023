@@ -34,8 +34,8 @@ const App = () => {
                 <Route path="/peticiones" element={<Peticiones />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/perfil" element={<MiPerfil />} />
-                <Route path="/gestionarFeedbacks" element={<GestionarFeedbacks />} />
-                <Route path="/perfileditable" element={<PefilEditable />} />
+                <Route path="/gestionar-feedbacks" element={<GestionarFeedbacks />} />
+                <Route path="/perfil-editable" element={<PefilEditable />} />
                 <Route path="/user/:user_id" element={<PerfilUsuario />} />
                 <Route path="/busqueda" element={<ListadoBusqueda />} />
                 
