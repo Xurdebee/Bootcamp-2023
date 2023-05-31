@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-05-2023 a las 12:31:08
+-- Tiempo de generación: 31-05-2023 a las 22:23:22
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -33,8 +33,9 @@ CREATE TABLE `feedback` (
   `feedback_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `feedback_user_id` bigint(20) NOT NULL,
+  `feedback_text` text NOT NULL,
   `feedback_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `feedback_status` tinyint(1) NOT NULL
+  `feedback_status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -56,12 +57,10 @@ CREATE TABLE `friends` (
 --
 
 INSERT INTO `friends` (`friend_id`, `user_id`, `friend_user_id`, `friend_status`, `friend_time`) VALUES
-(1, 1, 2, 'rejected', '2023-05-07 12:01:27'),
-(2, 1, 3, 'accepted', '2023-05-07 12:01:27'),
+(1, 2, 1, 'accepted', '2023-05-07 12:01:27'),
+(2, 3, 1, 'accepted', '2023-05-07 12:01:27'),
 (3, 1, 4, 'accepted', '2023-05-07 12:47:23'),
-(4, 1, 5, 'accepted', '2023-05-07 12:48:06'),
-(5, 1, 11, 'rejected', '2023-05-24 12:19:37'),
-(6, 2, 1, 'pending', '2023-05-26 10:29:45');
+(4, 5, 1, 'rejected', '2023-05-07 12:48:06');
 
 -- --------------------------------------------------------
 
@@ -105,7 +104,7 @@ CREATE TABLE `post_likes` (
 --
 
 INSERT INTO `post_likes` (`like_id`, `post_id`, `user_id`, `like_status`) VALUES
-(1, 3, 1, 0),
+(1, 3, 1, 1),
 (2, 4, 2, 1),
 (3, 4, 3, 1),
 (4, 5, 2, 1),
@@ -123,41 +122,43 @@ CREATE TABLE `users` (
   `name` varchar(25) NOT NULL,
   `surname` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `password` int(150) NOT NULL,
+  `password` varchar(150) NOT NULL,
   `birthday` date NOT NULL,
   `country` varchar(50) NOT NULL,
   `city` varchar(50) NOT NULL,
   `linkedIn` varchar(150) NOT NULL,
   `education` varchar(50) NOT NULL,
   `extra_knowledge` varchar(150) NOT NULL,
-  `image` varchar(100) NOT NULL DEFAULT 'users/default.png'
+  `image` varchar(100) NOT NULL DEFAULT 'users/default.png',
+  `is_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`user_id`, `alias`, `name`, `surname`, `email`, `password`, `birthday`, `country`, `city`, `linkedIn`, `education`, `extra_knowledge`, `image`) VALUES
-(1, 'Exterminadora de aliens', 'Ellen', 'Ripley', 'alien@gmail.com', 1234, '2092-01-07', 'Estados Unidos', 'New York', 'linkedin.com/in/ripley', 'Fuerzas armadas', 'Inglés B2', 'users/user_1.jpg'),
-(2, 'TechGeek92', 'Juan', 'Pérez', 'agonzalez@gmail.com', 12341, '1985-08-10', 'México', 'Ciudad de México', 'linkedin.com/in/alejandrogonzalez', ' Licenciatura en Administración de Empresas', 'Inglés B2 y Francés A2', 'users/user_2.jpg'),
-(3, 'TechGeek', 'Sofía', 'García', 'sofia.garcia@hotmail.com', 12342, '1992-03-22', 'España', 'Barcelona', 'linkedin.com/in/sofiagarcia', 'Grado en Ingeniería Informática', 'Google Developer Expert', 'users/user_3.jpg'),
-(4, 'TheArtist', 'Camilo', 'Rodríguez', 'camilorodriguez@gmail.com', 12343, '1998-11-02', 'Argentina', 'Buenos Aires', 'linkedin.com/in/camilarodriguez', 'Licenciatura en Bellas Artes', 'Certificado de Bellas Artes (CFA) New York Academy of Art', 'users/user_4.jpg'),
-(5, 'TheAthlete', 'Juan', 'López', 'juan.lopez@hotmail.com', 12344, '1996-06-14', 'Colombia', 'Bogotá', 'linkedin.com/in/juanlopez', 'Licenciatura en Educación Física', 'Certificado de Profesionalidad oficial de Instrucción en Yoga', 'users/user_5.jpg'),
-(6, 'TheWriter', 'Diego', 'Sánchez', 'diegosanchez@yahoo.com', 12345, '1987-12-05', 'México', 'Guadalajara', 'linkedin.com/in/diegosanchez', 'Licenciatura en Letras Hispánicas', 'Curso monográfico El Quijote', 'users/user_6.jpg'),
-(7, 'TheDoctor', 'Ana', 'Pérez', 'anaperez@gmail.com', 12346, '1983-04-11', 'España', 'Madrid', 'linkedin.com/in/anaperez', 'Licenciatura en Medicina', 'Máster Integración del Conocimiento Médico y aplicación a la resolución de problemas clínicos', 'users/user_7.jpg'),
-(8, 'TheDesigner', 'Francisco', 'Reyes', 'franciscoreyes@yahoo.com', 12347, '1994-07-27', 'Argentina', 'Córdoba', 'linkedin.com/in/franciscoreyes', 'Licenciatura en Diseño Gráfico', 'Dreamweaver, Photoshop, Flash y Premiere', 'users/user_8.jpg'),
-(9, 'TheTeacher', 'Gabriela', 'Morales', 'gabrielamorales@hotmail.com', 12348, '1991-02-14', 'México', 'Monterrey', 'linkedin.com/in/gabrielamorales', 'Licenciatura en Pedagogía', 'Certificación ISTE', 'users/user_9.jpg'),
-(10, 'TheConsultant', 'Alejandro', 'García', 'alejandrogarcia@gmail.com', 12349, '1989-09-03', 'Colombia', 'Medellín', 'linkedin.com/in/alejandrogarcia', 'Maestría en Administración', 'Business Administration Certificate Portage College', 'users/user_10.jpg'),
-(11, 'Carlamar', 'Carla María', 'Rodríguez Pérez', 'carlamar@gmail.com', 1591, '1968-10-01', 'España', 'Burgos', 'linkedin.com/in/Carlamar', 'Grado en Ciencias de la Salud', 'Cursos de primeros auxilios ALACC Health College Australia', 'users/user_11.jpg'),
-(12, 'Maripili', 'María del Pilar', 'Díaz Díaz', 'maripili@gmail.com', 1592, '2000-02-15', 'España', 'Madrid', 'linkedin.com/in/maripili', 'Bachillerato científico-tecnológico', 'Inglés B1', 'users/user_12.jpg'),
-(13, 'leoromero', 'Leo', 'Romero Sánchez', 'leoromero@gmail.com', 1593, '1965-09-01', 'Argentina', 'Buenos Aires', 'linkedin.com/in/leoromero', 'Psicología ', 'Experto en Mindfullness', 'users/user_13.jpg'),
-(14, 'Antonito', 'Antonio José', 'Baeza Méndez', 'tonibaeza@gmail.com', 1594, '1973-05-03', 'España', 'Sevilla', 'linkedin.com/in/tonibaeza', 'Administración y gestión de empresas', 'Dirección de RRHH', 'users/user_14.jpg'),
-(15, 'Cristianbilbao', 'Cristian', 'Bilbao', 'cristianb@gmail.com', 1595, '1998-03-09', 'España', 'Palencia', 'linkedin.com/in/CristianBilbao', 'Ciencias de la salud', 'Estudios para pruebas diagnósticas y factores pronósticos', 'users/user_15.jpg'),
-(16, 'Farukbb', 'Faruk', 'Ben Barek', 'farukbb@gmail.com', 1596, '1999-04-01', 'España', 'Ceuta', 'inkedin.com/in/farukbb', 'Económicas', 'Econometría y estadística', 'users/user_16.jpg'),
-(17, 'Carlitos', 'Carlos', 'Alcántara Fernández', 'carlitos@gmail.com', 1597, '1990-03-04', 'España', 'Sagrillas', 'linkedin.com/in/carlosalcantara', 'FP Imagen y sonido', 'Inglés B2 y Alemán A2', 'users/user_17.jpg'),
-(18, 'Danna', 'Daniela', 'López Aguilar', 'danna@gmail.com', 1598, '2000-03-07', 'México', 'Monterrey', 'linkedin.com/in/Dannalopez', 'Grado en Historia', 'Historia del Arte: Del Arte Prehistórico al Renacimiento', 'users/user_18.jpg'),
-(19, 'Miacolucci', 'Mia', 'Colucci ', 'miacolucci@gmail.com', 1599, '1999-01-01', 'México', 'México DF', 'linkedin.com/in/MiaColucci', 'Finanzas ', 'Auditoría de Cuentas', 'users/user_19.jpg'),
-(20, 'Dulcemaria', 'Dulce María', 'Espinosa Saviñón', 'dulcemaria@gmail.com', 1560, '1978-06-09', 'México', 'Ciudad de México ', 'linkedin.com/in/Dulcemaria', 'Postgrado en Arte contemporáneo', 'Arte y actividad: Estrategias interactivas para interactuar con el arte', 'users/user_20.jpg');
+INSERT INTO `users` (`user_id`, `alias`, `name`, `surname`, `email`, `password`, `birthday`, `country`, `city`, `linkedIn`, `education`, `extra_knowledge`, `image`, `is_admin`) VALUES
+(0, 'Admin', 'Admin', 'Admin', 'admin@gmail.com', 'adminAdmin', '2025-05-29', 'España', 'Gijón', '', 'Universidad', '', 'users/default.jpg', 1),
+(1, 'Exterminadora de aliens', 'Ellen', 'Ripley', 'alien@gmail.com', '1234', '2092-01-07', 'Estados Unidos', 'New York', 'linkedin.com/in/ripley', 'Fuerzas armadas', 'Inglés B2', 'users/user_1.jpg', 0),
+(2, 'TechGeek92', 'Juan', 'Pérez', 'agonzalez@gmail.com', '12341', '1985-08-10', 'México', 'Ciudad de México', 'linkedin.com/in/alejandrogonzalez', ' Licenciatura en Administración de Empresas', 'Inglés B2 y Francés A2', 'users/user_2.jpg', 0),
+(3, 'TechGeek', 'Sofía', 'García', 'sofia.garcia@hotmail.com', '12342', '1992-03-22', 'España', 'Barcelona', 'linkedin.com/in/sofiagarcia', 'Grado en Ingeniería Informática', 'Google Developer Expert', 'users/user_3.jpg', 0),
+(4, 'TheArtist', 'Camilo', 'Rodríguez', 'camilorodriguez@gmail.com', '12343', '1998-11-02', 'Argentina', 'Buenos Aires', 'linkedin.com/in/camilarodriguez', 'Licenciatura en Bellas Artes', 'Certificado de Bellas Artes (CFA) New York Academy of Art', 'users/user_4.jpg', 0),
+(5, 'TheAthlete', 'Juan', 'López', 'juan.lopez@hotmail.com', '12344', '1996-06-14', 'Colombia', 'Bogotá', 'linkedin.com/in/juanlopez', 'Licenciatura en Educación Física', 'Certificado de Profesionalidad oficial de Instrucción en Yoga', 'users/user_5.jpg', 0),
+(6, 'TheWriter', 'Diego', 'Sánchez', 'diegosanchez@yahoo.com', '12345', '1987-12-05', 'México', 'Guadalajara', 'linkedin.com/in/diegosanchez', 'Licenciatura en Letras Hispánicas', 'Curso monográfico El Quijote', 'users/user_6.jpg', 0),
+(7, 'TheDoctor', 'Ana', 'Pérez', 'anaperez@gmail.com', '12346', '1983-04-11', 'España', 'Madrid', 'linkedin.com/in/anaperez', 'Licenciatura en Medicina', 'Máster Integración del Conocimiento Médico y aplicación a la resolución de problemas clínicos', 'users/user_7.jpg', 0),
+(8, 'TheDesigner', 'Francisco', 'Reyes', 'franciscoreyes@yahoo.com', '12347', '1994-07-27', 'Argentina', 'Córdoba', 'linkedin.com/in/franciscoreyes', 'Licenciatura en Diseño Gráfico', 'Dreamweaver, Photoshop, Flash y Premiere', 'users/user_8.jpg', 0),
+(9, 'TheTeacher', 'Gabriela', 'Morales', 'gabrielamorales@hotmail.com', '12348', '1991-02-14', 'México', 'Monterrey', 'linkedin.com/in/gabrielamorales', 'Licenciatura en Pedagogía', 'Certificación ISTE', 'users/user_9.jpg', 0),
+(10, 'TheConsultant', 'Alejandro', 'García', 'alejandrogarcia@gmail.com', '12349', '1989-09-03', 'Colombia', 'Medellín', 'linkedin.com/in/alejandrogarcia', 'Maestría en Administración', 'Business Administration Certificate Portage College', 'users/user_10.jpg', 0),
+(11, 'Carlamar', 'Carla María', 'Rodríguez Pérez', 'carlamar@gmail.com', '1591', '1968-10-01', 'España', 'Burgos', 'linkedin.com/in/Carlamar', 'Grado en Ciencias de la Salud', 'Cursos de primeros auxilios ALACC Health College Australia', 'users/user_11.jpg', 0),
+(12, 'Maripili', 'María del Pilar', 'Díaz Díaz', 'maripili@gmail.com', '1592', '2000-02-15', 'España', 'Madrid', 'linkedin.com/in/maripili', 'Bachillerato científico-tecnológico', 'Inglés B1', 'users/user_12.jpg', 0),
+(13, 'leoromero', 'Leo', 'Romero Sánchez', 'leoromero@gmail.com', '1593', '1965-09-01', 'Argentina', 'Buenos Aires', 'linkedin.com/in/leoromero', 'Psicología ', 'Experto en Mindfullness', 'users/user_13.jpg', 0),
+(14, 'Antonito', 'Antonio José', 'Baeza Méndez', 'tonibaeza@gmail.com', '1594', '1973-05-03', 'España', 'Sevilla', 'linkedin.com/in/tonibaeza', 'Administración y gestión de empresas', 'Dirección de RRHH', 'users/user_14.jpg', 0),
+(15, 'Cristianbilbao', 'Cristian', 'Bilbao', 'cristianb@gmail.com', '1595', '1998-03-09', 'España', 'Palencia', 'linkedin.com/in/CristianBilbao', 'Ciencias de la salud', 'Estudios para pruebas diagnósticas y factores pronósticos', 'users/user_15.jpg', 0),
+(16, 'Farukbb', 'Faruk', 'Ben Barek', 'farukbb@gmail.com', '1596', '1999-04-01', 'España', 'Ceuta', 'inkedin.com/in/farukbb', 'Económicas', 'Econometría y estadística', 'users/user_16.jpg', 0),
+(17, 'Carlitos', 'Carlos', 'Alcántara Fernández', 'carlitos@gmail.com', '1597', '1990-03-04', 'España', 'Sagrillas', 'linkedin.com/in/carlosalcantara', 'FP Imagen y sonido', 'Inglés B2 y Alemán A2', 'users/user_17.jpg', 0),
+(18, 'Danna', 'Daniela', 'López Aguilar', 'danna@gmail.com', '1598', '2000-03-07', 'México', 'Monterrey', 'linkedin.com/in/Dannalopez', 'Grado en Historia', 'Historia del Arte: Del Arte Prehistórico al Renacimiento', 'users/user_18.jpg', 0),
+(19, 'Miacolucci', 'Mia', 'Colucci ', 'miacolucci@gmail.com', '1599', '1999-01-01', 'México', 'México DF', 'linkedin.com/in/MiaColucci', 'Finanzas ', 'Auditoría de Cuentas', 'users/user_19.jpg', 0),
+(20, 'Dulcemaria', 'Dulce María', 'Espinosa Saviñón', 'dulcemaria@gmail.com', '1560', '1978-06-09', 'México', 'Ciudad de México ', 'linkedin.com/in/Dulcemaria', 'Postgrado en Arte contemporáneo', 'Arte y actividad: Estrategias interactivas para interactuar con el arte', 'users/user_20.jpg', 0);
 
 --
 -- Índices para tablas volcadas
@@ -216,7 +217,7 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT de la tabla `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `friend_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `friend_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `post`
