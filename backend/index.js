@@ -698,50 +698,62 @@ app.get("/checkfeedback/:user_id/:feedback_user_id", async function (req, res) {
 
 // Mostrar/ocultar feedbacks
 app.put("/updatefeedback/:user_id/:feedback_user_id/:feedback_status_updated", async (req, res) => {
-  const { user_id, feedback_user_id, feedback_status_updated } = req.params;
+    const { user_id, feedback_user_id, feedback_status_updated } = req.params;
+
+    try {
+      const updatedFeedback = await sequelize.query(
+        `UPDATE feedback
+        SET feedback_status = ?
+        WHERE user_id = ?
+        AND feedback_user_id = ?`,
+        {
+          replacements: [feedback_status_updated, user_id, feedback_user_id],
+          type: sequelize.QueryTypes.UPDATE,
+        }
+      );
+
+      if (updatedFeedback < 0) {
+        return res.status(404).json({ error: "Feedback no existente" });
+      } else {
+        return res.status(200).json({ message: "Feedback Actualizado" });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  }
+);
+
+//Realizar una búsqueda por una coincidiencia parcial del texto
+app.get("/search/:searchValue", async function (req, res) {
+  const { searchValue } = req.params;
+  console.log(searchValue);
 
   try {
-    const updatedFeedback = await sequelize.query(
-      `UPDATE feedback
-      SET feedback_status = :feedback_status_updated
-      WHERE user_id = :user_id
-      AND feedback_user_id = :feedback_user_id`,
+    const user = await sequelize.query(
+      `
+      SELECT DISTINCT *
+      FROM users
+      WHERE alias LIKE '%${searchValue}%' OR name LIKE '%${searchValue}%' OR surname LIKE '%${searchValue}%'
+      `,
       {
-        replacements: { user_id, feedback_user_id, feedback_status_updated },
-        type: sequelize.QueryTypes.UPDATE,
+        type: sequelize.QueryTypes.SELECT,
       }
     );
 
-    if (updatedFeedback < 0) {
-      return res.status(404).json({ error: "Feedback no existente" });
-    } else {
-      return res.status(200).json({ message: "Feedback Actualizado" });
-    }
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-
-//Realizar una búsqueda por una coincidiencia parcial del alias
-app.get("/users/:alias", async (req, res) => {
-  try {
-    const alias = req.params.alias;
-    console.log("Valor del alias:", alias);
-
-    const query = `SELECT * FROM users WHERE alias LIKE '${alias}%'`;
-    console.log(query);
-    const result = await sequelize.query(query, {
-      type: sequelize.QueryTypes.SELECT,
-    });
-
-    res.json(result);
+    res.json(user);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al ejecutar la consulta" });
   }
 });
+
+
+
+
+
+
+
 
 //Inicio del servidor
 app.listen(3000, function () {
