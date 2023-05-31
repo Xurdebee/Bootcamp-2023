@@ -1,89 +1,13 @@
-/*import React, { useState } from 'react';
-
-const ListadoBusqueda = () => {
-  const [alias, setAlias] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [error, setError] = useState('');
-
-  const handleInputChange = (event) => {
-    setAlias(event.target.value);
-  };
-
-  const handleSearch = async () => {
-    console.log("hola")
-    console.log(alias)
-    
-
-    try {
-      const response = await fetch(`http://localhost:3000/users/${alias}`);
-      const data = await response.json();
-      console.log(data); // Mostrar la respuesta JSON en la consola
-
-      if (data.length > 0) {
-        setSearchResults(data);
-        setError('');
-      } else {
-        setSearchResults([]);
-        setError('0 coincidencias');
-      }
-    } catch (error) {
-      console.error(error);
-      setError('Error al ejecutar la consulta: ' + error.message);
-    }
-  };
-
-  return (
-    <div>
-      <input
-        type="text"
-        value={alias}
-        onChange={handleInputChange}
-        placeholder="Introduce un alias"
-      />
-      <button onClick={handleSearch}>Buscar</button>
-
-      {error && <p>{error}</p>}
-
-      {searchResults.length > 0 && (
-        <ul>
-          {searchResults.map((user) => (
-            <li key={user.id}>
-              <div className="text-center mb-5">
-                
-                <a href={`/user/${user.user_id}`}> 
-                  <img
-                    className="rounded-circle"
-                    src={user.image}
-                    width="50"
-                    alt=""
-                  />
-                </a>
-                <div>
-                  <a className="h6 mb-0" href={`/user/${user.user_id}`}>
-                  {user.name} {user.surname} 
-                  </a>
-                  <p className="mb-2 small text-truncate">{user.alias}</p>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
-
-export default ListadoBusqueda;*/
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 
 const ListadoBusqueda = () => {
   const [searchResults, setSearchResults] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const alias = urlParams.get('alias');
+    const alias = urlParams.get("alias");
 
     const fetchData = async () => {
       try {
@@ -92,14 +16,14 @@ const ListadoBusqueda = () => {
 
         if (data.length > 0) {
           setSearchResults(data);
-          setError('');
+          setError("");
         } else {
           setSearchResults([]);
-          setError('0 coincidencias');
+          setError("Hay 0 coincidencias con los datos introducidos");
         }
       } catch (error) {
         console.error(error);
-        setError('Error al ejecutar la consulta: ' + error.message);
+        setError("Error al ejecutar la consulta: " + error.message);
       }
     };
 
@@ -109,13 +33,15 @@ const ListadoBusqueda = () => {
   }, []);
 
   return (
-    <div>
+    <Container>
+      <div className="bg-light p-2 rounded-3 border-1 border">
+        <div className="text-center mb-3">
       {error && <p>{error}</p>}
 
       {searchResults.length > 0 && (
-        <ul>
+        <Row>
           {searchResults.map((user) => (
-            <li key={user.id}>
+            <Col key={user.id} xs={6} sm={4} md={3} lg={3} xxl={2}>
               <div className="text-center mb-5">
                 {/*  Sustituir en href por URL del perfil del usuario */}
                 <a href={`/user/${user.user_id}`}>
@@ -133,21 +59,14 @@ const ListadoBusqueda = () => {
                   <p className="mb-2 small text-truncate">{user.alias}</p>
                 </div>
               </div>
-            </li>
+            </Col>
           ))}
-        </ul>
+        </Row>
       )}
-    </div>
+      </div>
+      </div>
+    </Container>
   );
 };
 
 export default ListadoBusqueda;
-
-
-
-
-
-
-
-
-
