@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Container } from "react-bootstrap";
 
 //CAMBIOS EN LA ADAPTACIÓN
 //se ha utilizado el estado del componente para almacenar los valores de email, password y rememberMe.
@@ -73,74 +74,64 @@ function LoginForm() {
   };
 
   return (
-    <div className="vh-100 d-flex justify-content-center align-items-center">
-      <div className="container">
-        <div className="row d-flex justify-content-center">
-          <div className="col-12 col-md-8 col-lg-6">
-            <div className="card bg-light shadow-lg">
-              <div className="card-body p-5">
-                <form className="mb-3 mt-md-0">
-                  <div className="logo_login mb-4 ">
-                    <img
-                      className="row d-flex justify-content-center img-fluid"
-                      src="logo_horizontal.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="email" className="form-label ">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      placeholder="nombre@example.com"
-                      value={email}
-                      onChange={handleEmailChange}
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="password" className="form-label">
-                      Contraseña
-                    </label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="password"
-                      placeholder="*******"
-                      value={password}
-                      onChange={handlePasswordChange}
-                      required
-                    />
-                  </div>
-                 
-                  <div className="d-grid">
-                    <button
-                      id="boton-login"
-                      className="btn btn-outline-primary"
-                      type="button"
-                      onClick={handleLogin}
-                    >
-                      Login
-                    </button>
-                    </div>
-                </form>
-                <div>
-                  <p className="mb-0 text-center">
-                    ¿No tienes cuenta?
-                    <a href="/registro" className="text-primary fw-bold">
-                      ¡Registrate!
-                    </a>
-                  </p>
-                </div>
-              </div>
+    <Container>
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="card bg-light shadow-lg">
+          <div className="row d-flex m-3">
+            <div className="col-md-6 d-flex justify-content-center align-items-center p-5">
+              <img className="img-fluid" src="logo_horizontal.png" alt="logo" />
             </div>
+            <form className="col-md-6 justify-content-center">
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  placeholder="nombre@ejemplo.com"
+                  value={email}
+                  onChange={handleEmailChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label">
+                  Contraseña
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  placeholder="*******"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  required
+                />
+              </div>
+
+              <div className="d-grid mb-3">
+                <button
+                  id="boton-login"
+                  className="btn btn-outline-primary"
+                  type="button"
+                  onClick={handleLogin}
+                >
+                  Login
+                </button>
+              </div>
+              <p className="mb-3">
+                ¿No tienes cuenta?
+                <a href="/registro" className="text-primary fw-bold">
+                  ¡Registrate!
+                </a>
+              </p>
+            </form>
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 
