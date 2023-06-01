@@ -4,7 +4,7 @@ const ListaFeedback = ({ feedback_user_id, reloadFeedback }) => {
   const [feedbacks, setFeedbacks] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/feedbacks/${feedback_user_id}`)
+    fetch(`http://localhost:3000/api/feedback/feedbacks/${feedback_user_id}`)
       .then((response) => response.json())
       .then((feedback) => {
         setFeedbacks(feedback);

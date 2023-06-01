@@ -21,7 +21,7 @@ function MiPerfil() {
   const user_id = localStorage.getItem("user_id");
 
   useEffect(() => {
-    fetch(`http://localhost:3000/user/${user_id}`)
+    fetch(`http://localhost:3000/api/users/user/${user_id}`)
       .then((response) => response.json())
       .then((user) => {
         setUser(user[0]);
@@ -103,7 +103,7 @@ function MiPerfil() {
               <p>{education}</p>
               <b>Conocimientos Extras:</b>
               <p>{extra_knowledge}</p>
-            <a href="/perfileditable" className="btn btn-secondary m-2">
+            <a href="/perfil-editable" className="btn btn-secondary m-2">
               Editar
             </a>
           </div>

@@ -5,7 +5,7 @@ const NuevoPost = ({ user_id, updatePostAmigos }) => {
   const [body, setBody] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:3000/user/${user_id}`)
+    fetch(`http://localhost:3000/api/users/user/${user_id}`)
       .then((response) => response.json())
       .then((data) => {
         setUser(data[0]);
@@ -25,7 +25,7 @@ const NuevoPost = ({ user_id, updatePostAmigos }) => {
     }
 
     // Realizar la solicitud POST al endpoint /newpost
-    fetch("http://localhost:3000/newpost", {
+    fetch("http://localhost:3000/api/posts/newpost", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -12,7 +12,7 @@ function ColumnaFeedback() {
 
   useEffect(() => {
     // Comprobar si el usuario logueado ha dejado un comentario en el perfil del usuario visitado
-    fetch(`http://localhost:3000/checkfeedback/${user_id}/${feedback_user_id}`)
+    fetch(`http://localhost:3000/api/feedback/checkfeedback/${user_id}/${feedback_user_id}`)
       .then((response) => {
         if (response.ok) {
           return response.json();

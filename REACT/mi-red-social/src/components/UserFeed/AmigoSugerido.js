@@ -4,7 +4,7 @@ function AmigoSugerido({ user_id }) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/suggested/${user_id}`)
+    fetch(`http://localhost:3000/api/users/suggested/${user_id}`)
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
@@ -16,7 +16,7 @@ function AmigoSugerido({ user_id }) {
 
   const friendUser = (new_id) => {
     const localStorageUserId = localStorage.getItem("user_id");
-    fetch("http://localhost:3000/newfriend", {
+    fetch("http://localhost:3000/api/users/newfriend", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +27,7 @@ function AmigoSugerido({ user_id }) {
         console.log("friend realizado con éxito");
 
         // Actualizar la lista de usuarios sugeridos después de hacer el seguimiento
-        fetch(`http://localhost:3000/suggested/${user_id}`)
+        fetch(`http://localhost:3000/api/users/suggested/${user_id}`)
           .then((response) => response.json())
           .then((data) => {
             setUsers(data);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-05-2023 a las 22:23:22
+-- Tiempo de generación: 01-06-2023 a las 21:50:16
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -38,6 +38,18 @@ CREATE TABLE `feedback` (
   `feedback_status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `feedback`
+--
+
+INSERT INTO `feedback` (`feedback_id`, `user_id`, `feedback_user_id`, `feedback_text`, `feedback_date`, `feedback_status`) VALUES
+(1, 2, 1, 'No nos dirige la palabra los días que pierde el Real  Madrid, pero por lo demás programa bien', '2023-06-01 08:58:59', 1),
+(2, 1, 2, 'Tiene mal gusto eligiendo equipos de fútbol, pero se le da bien prestar código para validaciones', '2023-06-01 09:00:10', 1),
+(3, 3, 1, 'Pone en su CV que es developer Senior, pero se le nota que es Junior, aunque solo sea por el hecho de que tiene 3 semanas de experiencia laboral en tecnológicas', '2023-06-01 09:01:49', 1),
+(4, 1, 3, 'Se pasa el día revisando los perfiles laborales de los demás, en vez de codear. Por lo demás, muy buen developer', '2023-06-01 09:02:58', 1),
+(5, 4, 1, 'Tenía un problema mi perro de lombrices, y consiguió arreglar el problema con un middleware. Eso dice mucho de su flexividad laboral.', '2023-06-01 09:04:22', 1),
+(6, 1, 4, 'Le gustan los perros, trabajar en equipo, y delegar tareas que van más allá de lo posimposible porque confía en que puedes con ello', '2023-06-01 09:06:11', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -48,7 +60,7 @@ CREATE TABLE `friends` (
   `friend_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `friend_user_id` bigint(20) NOT NULL,
-  `friend_status` varchar(20) NOT NULL,
+  `friend_status` varchar(20) NOT NULL DEFAULT 'pending',
   `friend_time` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -60,7 +72,13 @@ INSERT INTO `friends` (`friend_id`, `user_id`, `friend_user_id`, `friend_status`
 (1, 2, 1, 'accepted', '2023-05-07 12:01:27'),
 (2, 3, 1, 'accepted', '2023-05-07 12:01:27'),
 (3, 1, 4, 'accepted', '2023-05-07 12:47:23'),
-(4, 5, 1, 'rejected', '2023-05-07 12:48:06');
+(4, 5, 1, 'rejected', '2023-05-07 12:48:06'),
+(5, 9, 1, 'pending', '2023-06-01 19:45:25'),
+(6, 12, 1, 'pending', '2023-06-01 19:45:25'),
+(7, 3, 0, 'pending', '2023-06-01 19:47:59'),
+(8, 0, 4, 'pending', '2023-06-01 19:47:59'),
+(9, 0, 1, 'pending', '2023-06-01 19:48:02'),
+(10, 11, 0, 'pending', '2023-06-01 19:48:02');
 
 -- --------------------------------------------------------
 
@@ -84,7 +102,13 @@ INSERT INTO `post` (`post_id`, `user_id`, `date`, `body`) VALUES
 (2, 3, '2023-04-26 13:45:01', 'Muy pronto todo backend de todo proyecto se hará con javascript... y lo sabéis'),
 (3, 4, '2023-04-26 13:47:02', 'Dentro de nada me voy a comprar una 4090 para jugar al Fornite con Ray Tracing'),
 (4, 5, '2023-04-26 13:48:43', 'No sé como aguantaría sin que me despidieran si no me dejaran usar Canva'),
-(5, 1, '2023-05-23 07:49:09', '\"¡Enfrentando a la amenaza alienígena una vez más! 💪💥 #Alien #Ripley #Survivor\"');
+(5, 1, '2023-05-23 07:49:09', '\"¡Enfrentando a la amenaza alienígena una vez más! 💪💥 #Alien #Ripley #Survivor\"'),
+(6, 14, '2023-06-01 08:49:05', 'Lo que más me gusta de la informática es lo repetitiva que es: larga vida a C y las bases de datos pares clave-valor'),
+(7, 11, '2023-06-01 08:50:34', 'Los desarrolladores de frontend son gente que por naturaleza generan trastorno obsesivo compulsivo'),
+(8, 18, '2023-06-01 08:51:40', 'Yo solo salgo con hombres que sepan cocinar y programar en java, es lo que hay'),
+(9, 1, '2023-06-01 08:52:17', 'Aliens es una película sobrevalorada'),
+(10, 5, '2023-06-01 08:54:10', '\"El mundo sería más duro sin los valores judeodristianos y los motores de búsqueda\" esa era la respuesta correcta en la repesca de Bases de datos'),
+(11, 6, '2023-06-01 08:55:26', 'Quien no conoce a Python a cualquier santo le programa');
 
 -- --------------------------------------------------------
 
@@ -129,7 +153,7 @@ CREATE TABLE `users` (
   `linkedIn` varchar(150) NOT NULL,
   `education` varchar(50) NOT NULL,
   `extra_knowledge` varchar(150) NOT NULL,
-  `image` varchar(100) NOT NULL DEFAULT 'users/default.png',
+  `image` varchar(100) NOT NULL DEFAULT 'users/default.jpg',
   `is_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -211,19 +235,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `feedback_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `feedback_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `friend_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `friend_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `post_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `post_likes`

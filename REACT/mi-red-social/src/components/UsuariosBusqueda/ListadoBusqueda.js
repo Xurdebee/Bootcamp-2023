@@ -8,7 +8,7 @@ const ListadoBusqueda = () => {
     const searchParams = new URLSearchParams(window.location.search);
     const searchValue = searchParams.get("value");
 
-    fetch(`http://localhost:3000/search/${searchValue}`)
+    fetch(`http://localhost:3000/api/users/search/${searchValue}`)
       .then((response) => response.json())
       .then((user) => {
         setSearchResults(user);

@@ -17,7 +17,7 @@ function RegistroForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/newregister", {
+      const response = await fetch("http://localhost:3000/api/auth/newregister", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

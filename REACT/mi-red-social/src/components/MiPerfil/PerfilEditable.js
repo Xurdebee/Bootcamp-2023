@@ -21,7 +21,7 @@ function PerfilEditable() {
   const user_id = localStorage.getItem("user_id");
 
   useEffect(() => {
-    fetch(`http://localhost:3000/user/${user_id}`)
+    fetch(`http://localhost:3000/api/users/user/${user_id}`)
       .then((response) => response.json())
       .then((user) => {
         setUser(user[0]);
@@ -58,7 +58,7 @@ function PerfilEditable() {
     event.preventDefault();
 
     const user_id = localStorage.getItem("user_id");
-    fetch(`http://localhost:3000/user/${user_id}`, {
+    fetch(`http://localhost:3000/api/auth/updateregister/${user_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -68,6 +68,7 @@ function PerfilEditable() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        window.location.href = "/perfil";
       })
       .catch((error) => {
         console.error("Error al actualizar los datos del usuario:", error);

@@ -9,7 +9,7 @@ function Usuarios() {
   const [usersPerPage] = useState(10);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/allusers`)
+    fetch(`http://localhost:3000/api/users/allusers`)
       .then((response) => response.json())
       .then((users) => {
         setUsers(users);

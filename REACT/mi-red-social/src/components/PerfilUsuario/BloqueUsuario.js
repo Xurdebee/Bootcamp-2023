@@ -20,7 +20,7 @@ function BloqueUsuario() {
   const { user_id } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:3000/user/${user_id}`)
+    fetch(`http://localhost:3000/api/users/user/${user_id}`)
       .then((response) => response.json())
       .then((user) => {
         setUser(user[0]);

@@ -9,7 +9,7 @@ function PostAmigos({ updatePosts }) {
     const newLikeStatus = userLikeStatus === 0 ? 1 : 0;
     const url = userLikeStatus === 0 ? "newlike" : "unlike";
 
-    fetch(`http://localhost:3000/${url}`, {
+    fetch(`http://localhost:3000/api/posts/${url}`, {
       method: userLikeStatus === 0 ? "POST" : "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ function PostAmigos({ updatePosts }) {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/friendpost/${user_id}`)
+    fetch(`http://localhost:3000/api/posts/friendpost/${user_id}`)
       .then((response) => response.json())
       .then((friend_post) => {
         setPosts(friend_post);
