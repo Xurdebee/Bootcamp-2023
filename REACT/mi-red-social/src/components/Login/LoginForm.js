@@ -28,7 +28,7 @@ function LoginForm() {
     if (email === "" || password === "") {
       alert("Por favor, ingrese email y contraseña.");
     } else {
-      fetch("http://localhost:3000/login", {
+      fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

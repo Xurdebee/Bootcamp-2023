@@ -8,7 +8,7 @@ const ListaFeedback = ({ feedback_user_id }) => {
   const [updatedFeedback, setUpdatedFeedback] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:3000/feedbacks/${feedback_user_id}`)
+    fetch(`http://localhost:3000/api/feedback/feedbacks/${feedback_user_id}`)
       .then((response) => response.json())
       .then((feedback) => {
         setFeedbacks(feedback);
@@ -25,12 +25,24 @@ const ListaFeedback = ({ feedback_user_id }) => {
   const updateFeedbackStatus = (user_id, feedback_user_id, feedback_status) => {
     const feedback_status_updated = feedback_status === 1 ? 0 : 1;
 
-    fetch(`http://localhost:3000/updatefeedback/${user_id}/${feedback_user_id}/${feedback_status_updated}`, {
+    fetch(`http://localhost:3000/api/feedback/updatefeedback/${user_id}/${feedback_user_id}/${feedback_status_updated}`, {
       method: "PUT",
     })
       .then((response) => response.json())
       .then((data) => {
         setUpdatedFeedback(data.message); // Actualiza el estado updatedFeedback con el mensaje de éxito
+        fetchFeedbacks(); // Carga todos los feedbacks nuevamente para refrescar la lista
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const fetchFeedbacks = () => {
+    fetch(`http://localhost:3000/api/feedback/feedbacks/${feedback_user_id}`)
+      .then((response) => response.json())
+      .then((feedback) => {
+        setFeedbacks(feedback);
       })
       .catch((error) => {
         console.log(error);
@@ -45,7 +57,7 @@ const ListaFeedback = ({ feedback_user_id }) => {
     );
   }
 
-  const allFeedbacksAreHidden = feedbacks.every(feedback => feedback.feedback_status === 0);
+  const allFeedbacksAreHidden = feedbacks.every((feedback) => feedback.feedback_status === 0);
 
   if (allFeedbacksAreHidden && location.pathname !== "/gestionar-feedbacks") {
     return (
@@ -60,10 +72,7 @@ const ListaFeedback = ({ feedback_user_id }) => {
       {feedbacks
         .filter((feedback) => showButtons || feedback.feedback_status === 1) // Muestra todos los feedbacks si showButtons es verdadero, o los feedbacks con feedback_status igual a 1
         .map((feedback) => (
-          <div
-            className="bg-light p-2 rounded-3 border border-1 m-3"
-            key={feedback.feedback_id}
-          >
+          <div className="bg-light p-2 rounded-3 border border-1 m-3" key={feedback.feedback_id}>
             <div className="overflow-hidden">
               <a className="h6 mb-0" href={`/user/${feedback.user_id}`}>
                 {feedback.name} {feedback.surname}
@@ -74,16 +83,18 @@ const ListaFeedback = ({ feedback_user_id }) => {
             {showButtons && (
               <div className="text-center mt-2">
                 <button
-                  id={`boton_${feedback.user_id}`}
-                  className={`btn ${feedback.feedback_status === 1 ? "btn-success" : "btn-outline-success"} me-2`}
+                  id={`boton_mostrar_${feedback.user_id}`}
+                  className={`btn ${feedback.feedback_status === 0 ? "btn-success" : "btn-outline-success"} me-2`}
                   onClick={() => updateFeedbackStatus(feedback.user_id, feedback.feedback_user_id, feedback.feedback_status)}
+                  disabled={feedback.feedback_status === 1} // Deshabilita el botón "Mostrar" cuando feedback_status es igual a 0
                 >
                   Mostrar
                 </button>
                 <button
-                  id={`boton_${feedback.user_id}`}
-                  className={`btn ${feedback.feedback_status === 0 ? "btn-danger" : "btn-outline-danger"}`}
+                  id={`boton_ocultar_${feedback.user_id}`}
+                  className={`btn ${feedback.feedback_status === 1 ? "btn-danger" : "btn-outline-danger"}`}
                   onClick={() => updateFeedbackStatus(feedback.user_id, feedback.feedback_user_id, feedback.feedback_status)}
+                  disabled={feedback.feedback_status === 0} // Deshabilita el botón "Ocultar" cuando feedback_status es igual a 1
                 >
                   Ocultar
                 </button>

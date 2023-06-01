@@ -5,7 +5,7 @@ function AmigoPendiente({ user_id }) {
   const [users, setPendings] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/pending/${user_id}`)
+    fetch(`http://localhost:3000/api/users/pending/${user_id}`)
       .then((response) => response.json())
       .then((user) => {
         setPendings(user);
@@ -17,7 +17,7 @@ function AmigoPendiente({ user_id }) {
 
   const acceptFriend = (new_id) => {
     const localStorageUserId = localStorage.getItem("user_id");
-    fetch("http://localhost:3000/acceptfriend", {
+    fetch("http://localhost:3000/api/users/acceptfriend", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +28,7 @@ function AmigoPendiente({ user_id }) {
         console.log("Amistad aceptada");
 
         // Actualizar la lista de usuarios sugeridos después de hacer el seguimiento
-        fetch(`http://localhost:3000/pending/${user_id}`)
+        fetch(`http://localhost:3000/api/users/pending/${user_id}`)
           .then((response) => response.json())
           .then((user) => {
             setPendings(user);
@@ -44,7 +44,7 @@ function AmigoPendiente({ user_id }) {
 
   const rejectFriend = (new_id) => {
     const localStorageUserId = localStorage.getItem("user_id");
-    fetch("http://localhost:3000/unfriend", {
+    fetch("http://localhost:3000/api/users/unfriend", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ function AmigoPendiente({ user_id }) {
         console.log("Amistad rechazada");
 
         // Actualizar la lista de usuarios sugeridos después de hacer el seguimiento
-        fetch(`http://localhost:3000/pending/${user_id}`)
+        fetch(`http://localhost:3000/api/users/pending/${user_id}`)
           .then((response) => response.json())
           .then((user) => {
             setPendings(user);

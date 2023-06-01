@@ -5,7 +5,7 @@ const AmigoUsuario = ({ user_id }) => {
   const [users, setFriends] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/friends/${user_id}`)
+    fetch(`http://localhost:3000/api/users/friends/${user_id}`)
       .then((response) => response.json())
       .then((friend) => {
         setFriends(friend);
@@ -18,7 +18,7 @@ const AmigoUsuario = ({ user_id }) => {
   const unfriendUser = (new_id) => {
     const localStorageUserId = localStorage.getItem("user_id");
 
-    fetch(`http://localhost:3000/unfriend`, {
+    fetch(`http://localhost:3000/api/users/unfriend`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const AmigoUsuario = ({ user_id }) => {
         console.log("Amigo eliminado con exito");
 
         // Actualizar la lista de usuarios
-        fetch(`http://localhost:3000/friends/${user_id}`)
+        fetch(`http://localhost:3000/api/users/friends/${user_id}`)
           .then((response) => response.json())
           .then((friend) => {
             setFriends(friend);

@@ -25,7 +25,7 @@ const NuevoFeedback = ({ user_id, feedback_user_id, feedbackCreado }) => {
     }
 
     // Realizar la solicitud POST al endpoint /newfeedback
-    fetch("http://localhost:3000/newfeedback", {
+    fetch("http://localhost:3000/api/feedback/newfeedback", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
