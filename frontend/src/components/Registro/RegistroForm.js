@@ -67,7 +67,7 @@ function RegistroForm() {
 
   return (
     <Container className=" mt-4">
-<div className={`d-flex justify-content-center align-items-center ${window.innerHeight > 985 ? 'vh-100' : ''}`}>
+      <div className={`d-flex justify-content-center align-items-center ${window.innerHeight > 985 ? 'vh-100' : ''}`}>
         <div className="card bg-light shadow-lg">
           <div className="row d-flex m-3">
             <div className="col-md-6 d-flex justify-content-center align-items-center p-5">
